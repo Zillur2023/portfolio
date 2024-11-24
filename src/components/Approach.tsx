@@ -10,8 +10,8 @@ import { BorderMagicBtn } from "./BorderMagicBtn";
 export function Approach() {
   return (
     <section className="w-full py-10 bg-white dark:bg-black">
-      <h1 className=" text-center text-4xl font-bold text-white">
-        My <span className=" text-purple-400">approach</span>
+      <h1 className=" heading">
+        My <span className=" text-purple">approach</span>
       </h1>
     {/* remove bg-white dark:bg-black */}
     <div className="my-20 flex flex-col lg:flex-row items-center justify-center w-full gap-4">
