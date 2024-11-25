@@ -4,9 +4,9 @@ import { FaLocationArrow } from "react-icons/fa6";
 import { PinContainer } from "./ui/PinContainer ";
 import { projects } from "@/data";
 
-const RecentProjects = () => {
+const Projects = () => {
   return (
-    <div className="py-20">
+    <div className="py-10">
       <h1 className="heading">
         A small selection of{" "}
         <span className="text-purple">recent projects</span>
@@ -35,7 +35,7 @@ const RecentProjects = () => {
                 />
               </div>
 
-              <h1 className="font-bold lg:text-2xl md:text-xl text-base line-clamp-1">
+              <h1 className="font-semibold lg:text-2xl md:text-xl text-base line-clamp-1">
                 {item.title}
               </h1>
 
@@ -79,4 +79,4 @@ const RecentProjects = () => {
   );
 };
 
-export default RecentProjects;
+export default Projects;

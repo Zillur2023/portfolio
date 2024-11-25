@@ -3,7 +3,7 @@ import React from "react";
 
 import { AnimatePresence, motion } from "framer-motion";
 import { CanvasRevealEffect } from "./ui/CanvasRevealEffect";
-import { BorderMagicBtn } from "./BorderMagicBtn";
+import BorderMagicBtn from "./BorderMagicBtn";
 // import { CanvasRevealEffect } from "@/components/ui/canvas-reveal-effect";
     // <div className="py-20 flex flex-col lg:flex-row items-center justify-center bg-white dark:bg-black w-full gap-4 mx-auto px-8">
 
@@ -19,7 +19,7 @@ export function Approach() {
       <Card
         title="Planning & Strategy"
         description="We'll work together to define your project's goals, audience, and key features. Topics like design preferences, functionality, and timelines will shape a clear roadmap."
-        icon={<BorderMagicBtn text={"Stage  1"} />}
+        icon={<BorderMagicBtn btnText={"Stage  1"} />}
       >
         <CanvasRevealEffect
           animationSpeed={5.1}
@@ -29,7 +29,7 @@ export function Approach() {
       <Card
         title="Development & Progress Updates"
         description="Once aligned, I’ll begin building the foundation. Through frequent updates, I’ll showcase progress from wireframes to working features ensuring we stay on track."
-        icon={<BorderMagicBtn text={"Stage 2"} />}
+        icon={<BorderMagicBtn btnText={"Stage 2"} />}
       >
         <CanvasRevealEffect
           animationSpeed={3}
@@ -46,7 +46,7 @@ export function Approach() {
       <Card
         title="Launch & Ongoing Support"
         description="With everything finalized, your project goes live! Post-launch, I’ll provide support, addressing any updates, optimizations, or future needs to keep things running smoothly."
-        icon={<BorderMagicBtn text={"Stage  3"} />}
+        icon={<BorderMagicBtn btnText={"Stage  3"} />}
       >
         <CanvasRevealEffect
           animationSpeed={3}
