@@ -1,5 +1,6 @@
 'use client'
 import { Approach } from "@/components/Approach";
+import { Blog } from "@/components/Blog";
 import ContactMe from "@/components/ContactMe";
 import { FloatingDock } from "@/components/FloatingDock";
 import Hero from "@/components/Hero";
@@ -14,6 +15,7 @@ export default function Home() {
       <div className=" pl-20 ml-10 text-center"><FloatingDock icon={<img src={"/next.svg"} alt="icon5" className="h-full w-full text-neutral-500 dark:text-neutral-300" />}  /></div>
       <Approach /> 
       <ContactMe/>
+      <Blog/>
     </div>
   </main>
   );

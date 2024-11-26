@@ -53,7 +53,7 @@ const Projects = () => {
 
                  
               <div className="flex items-center justify-between mt-7 mb-3">
-                <div className="flex -space-x-5">
+                <div className="flex -space-x-1">
                   {item.iconLists.map((icon, index) => (
                     <div
                       key={index}
