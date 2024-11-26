@@ -128,11 +128,10 @@ const FloatingDockDesktop: React.FC<TFloatingDockDesktopProps> = ( {
 
 const IconContainer: React.FC<TIconContainerProps> = ({
     mouseX,
-    title = "NEXT JS",
+    title,
     icon,
     href,
   }) => {
-   console.log({title})
   let ref = useRef<HTMLDivElement>(null);
 
   let distance = useTransform(mouseX, (val) => {
@@ -174,7 +173,6 @@ const IconContainer: React.FC<TIconContainerProps> = ({
   });
 
   const [hovered, setHovered] = useState(false);
-  console.log({hovered})
 
   const renderContent = () => ( 
     
