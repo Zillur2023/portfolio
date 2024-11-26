@@ -3,6 +3,8 @@
 import { FaLocationArrow } from "react-icons/fa6";
 import { PinContainer } from "./ui/PinContainer ";
 import { projects } from "@/data";
+import { FloatingDock } from "./FloatingDock";
+import { FloatingDockUi } from "./ui/FloatingDockUi";
 
 const Projects = () => {
   return (
@@ -49,19 +51,24 @@ const Projects = () => {
                 {item.des}
               </p>
 
+                 
               <div className="flex items-center justify-between mt-7 mb-3">
-                <div className="flex items-center">
+                <div className="flex -space-x-5">
                   {item.iconLists.map((icon, index) => (
                     <div
                       key={index}
-                      className="border border-white/[.2] rounded-full bg-black lg:w-10 lg:h-10 w-8 h-8 flex justify-center items-center"
-                      style={{
-                        transform: `translateX(-${5 * index + 2}px)`,
-                      }}
+                      className=" border border-white/[.2] rounded-full bg-black lg:w-10 lg:h-10 w-8 h-8 flex justify-center items-center"
+                      // style={{
+                      //   transform: `translateX(-${5 * index + 2}px)`,
+                      // }}
                     >
-                      <img src={icon} alt="icon5" className="p-2" />
+                      {/* <img src={icon} alt="icon5" className="p-2" /> */}
+                      <FloatingDock icon={<img src={icon} alt="icon5" className="h-full w-full text-neutral-500 dark:text-neutral-300" />} />
+                   
+    
                     </div>
                   ))}
+                     
                 </div>
 
                 <div className="flex justify-center items-center">
