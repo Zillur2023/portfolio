@@ -4,7 +4,6 @@ import { FaLocationArrow } from "react-icons/fa6";
 import { PinContainer } from "./ui/PinContainer ";
 import { projects } from "@/data";
 import { FloatingDock } from "./FloatingDock";
-import { FloatingDockUi } from "./ui/FloatingDockUi";
 
 const Projects = () => {
   return (

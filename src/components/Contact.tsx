@@ -6,36 +6,37 @@ import { Textarea } from "./ui/Textarea";
 import { cn } from "@/lib/utils";
 import createGlobe from "cobe";
 import { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
-import { IconBrandYoutubeFilled } from "@tabler/icons-react";
+import { GlobeDemo } from "./GlobeDemo";
+
 
 export function Contact() {
   const features = [
   
     {
-      title: "Watch our AI on YouTube",
+      title: "",
       description:
-        "Whether its you or Tyler Durden, you can get to know about our product on YouTube",
+        "",
       skeleton: <ContactForm />,
       className:
-        "col-span-1 lg:col-span-3 lg:border-r  dark:border-neutral-800",
+        "col-span-1 lg:col-span-3 lg:border-r  dark:border-neutral-800 ",
     },
     {
-      title: "Deploy in seconds",
+      title: "",
       description:
-        "With our blazing fast, state of the art, cutting edge, we are so back cloud servies (read AWS) - you can deploy your model in seconds.",
-      skeleton: <SkeletonFour />,
+        "",
+      skeleton: <Skeleton />,
+      // skeleton: <GlobeDemo />,
       className: "col-span-1 lg:col-span-3 border-b lg:border-none",
     },
   ];
   return (
-    <div className="relative z-20 py-10 lg:py-40 max-w-7xl mx-auto">
+    <div className="relative z-20 py-0 lg:py-0 max-w-7xl mx-auto ">
            <div className="relative ">
-        <div className="grid grid-cols-1 lg:grid-cols-6 mt-12 xl:border rounded-md dark:border-neutral-800">
+        <div className="grid grid-cols-1 lg:grid-cols-6 mt-5 xl:border rounded-md dark:border-neutral-800">
           {features.map((feature) => (
             <FeatureCard key={feature.title} className={feature.className}>
-              {/* <FeatureTitle>{feature.title}</FeatureTitle> */}
-              {/* <FeatureDescription>{feature.description}</FeatureDescription> */}
+              <FeatureTitle>{feature.title}</FeatureTitle>
+              <FeatureDescription>{feature.description}</FeatureDescription>
               <div className=" h-full w-full">{feature.skeleton}</div>
             </FeatureCard>
           ))}
@@ -61,7 +62,7 @@ const FeatureCard = ({
 
 const FeatureTitle = ({ children }: { children?: React.ReactNode }) => {
   return (
-    <p className=" max-w-5xl mx-auto text-left tracking-tight text-black dark:text-white text-xl md:text-2xl md:leading-snug">
+    <p className=" max-w-5xl mx-auto text-center tracking-tight text-black dark:text-white text-xl md:text-2xl md:leading-snug">
       {children}
     </p>
   );
@@ -71,9 +72,9 @@ const FeatureDescription = ({ children }: { children?: React.ReactNode }) => {
   return (
     <p
       className={cn(
-        "text-sm md:text-base  max-w-4xl text-left mx-auto",
+        "text-sm md:text-base  max-w-4xl text-center mx-auto",
         "text-neutral-500 text-center font-normal dark:text-neutral-300",
-        "text-left max-w-sm mx-0 md:text-sm my-2"
+        "text-center max-w-sm mx-0 md:text-sm my-2"
       )}
     >
       {children}
@@ -104,10 +105,11 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 };
   return (
     <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
-      <h2 className="font-bold text-xl text-neutral-800 dark:text-neutral-200">
+      <h2 className="font-bold text-xl text-center text-neutral-800 dark:text-neutral-200">
+        Email me
       </h2>
-      <p className="text-neutral-600 text-sm max-w-sm mt-2 dark:text-neutral-300">
-       
+      <p className="text-neutral-600 text-sm  max-w-sm mt-2 dark:text-neutral-300">
+      If you'd like to work with me, let's discuss, and feel free to message me!
       </p>
 
       <form className="my-8" onSubmit={handleSubmit}>
@@ -120,7 +122,7 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
          
         </div>
         <LabelInputContainer className="mb-4">
-          <Label htmlFor="email">Email Address</Label>
+          <Label htmlFor="email">Email </Label>
           <Input id="email" placeholder="Enter your email" type="email" name="email" value={formData.email} required
                 onChange={handleInputChange}/>
         </LabelInputContainer>
@@ -130,7 +132,7 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
           <Textarea
   placeholder="Enter your message here..." 
 //   className="custom-class" 
-   rows={3}  
+   rows={4}  
   name="message"
    value={formData.message}
    required
@@ -177,7 +179,7 @@ const LabelInputContainer = ({
 };
 
 
-export const SkeletonFour = () => {
+export const Skeleton = () => {
   return (
     <div className="h-60 md:h-60  flex flex-col items-center relative bg-transparent dark:bg-transparent mt-10">
       <Globe className="absolute -right-10 md:-right-10 -bottom-80 md:-bottom-72" />

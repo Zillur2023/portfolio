@@ -1,7 +1,7 @@
 'use client'
 import { Approach } from "@/components/Approach";
 import { Blog } from "@/components/Blog";
-import { Contact } from "@/components/Contact";
+import { Contact, ContactForm } from "@/components/Contact";
 import { FloatingDock } from "@/components/FloatingDock";
 import Hero from "@/components/Hero";
 import Projects from "@/components/Projects";

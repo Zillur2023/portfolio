@@ -48,6 +48,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
             className
           )}
           ref={ref}
+          style={{ height: "auto" }}
           {...props}
         />
       </motion.div>
