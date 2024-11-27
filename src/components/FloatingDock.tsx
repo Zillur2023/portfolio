@@ -32,9 +32,9 @@ export function FloatingDock({icon}:{icon: React.ReactNode;}) {
   ];
   return (
     // <div className="flex items-center justify-center h-[35rem] w-full">
-    <div className="flex items-center justify-center h-5 w-5">
+    <div className="flex items-center justify-center ">
       <FloatingDockUi
-        mobileClassName="translate-y-20" // only for demo, remove for production
+        // mobileClassName="translate-y-20" // only for demo, remove for production
         items={Items}
       />
     </div>

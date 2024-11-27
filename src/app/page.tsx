@@ -2,10 +2,10 @@
 import { Approach } from "@/components/Approach";
 import { Blog } from "@/components/Blog";
 import { Contact } from "@/components/Contact";
-import ContactMe from "@/components/ContactMe";
 import { FloatingDock } from "@/components/FloatingDock";
 import Hero from "@/components/Hero";
 import Projects from "@/components/Projects";
+import { Technology } from "@/components/Technology";
 
 export default function Home() {
   return (
@@ -15,8 +15,8 @@ export default function Home() {
       <Projects/>
       <div className=" pl-20 ml-10 text-center"><FloatingDock icon={<img src={"/next.svg"} alt="icon5" className="h-full w-full text-neutral-500 dark:text-neutral-300" />}  /></div>
       <Approach /> 
-      <ContactMe/>
       <Contact/>
+      <Technology/>
       <Blog/>
     </div>
   </main>

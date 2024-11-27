@@ -47,7 +47,7 @@ import { TItem } from "../FloatingDock";
   return (
     <>
       <FloatingDockDesktop items={items} className={desktopClassName} />
-      <FloatingDockMobile items={items} className={mobileClassName} />
+      {/* <FloatingDockMobile items={items} className={mobileClassName} /> */}
     </>
   );
 };
@@ -87,7 +87,7 @@ import { TItem } from "../FloatingDock";
                   key={item.title}
                   className="h-10 w-10 rounded-full bg-gray-50 dark:bg-neutral-900 flex items-center justify-center"
                 >
-                  <div className="h-4 w-4">{item.icon}</div>
+                  <div className="h-full w-full">{item.icon}</div>
                 </Link>
               </motion.div>
             ))}
@@ -98,7 +98,7 @@ import { TItem } from "../FloatingDock";
         onClick={() => setOpen(!open)}
         className="h-10 w-10 rounded-full bg-gray-50 dark:bg-neutral-800 flex items-center justify-center"
       >
-        <IconLayoutNavbarCollapse className="h-5 w-5 text-neutral-500 dark:text-neutral-400" />
+        <IconLayoutNavbarCollapse className="h-full w-full text-neutral-500 dark:text-neutral-400" />
       </button>
     </div>
   );
@@ -149,6 +149,11 @@ const IconContainer: React.FC<TIconContainerProps> = ({
     [-150, 0, 150],
     [20, 40, 20]
   );
+  // let widthTransform = useTransform(distance, [-300, 0, 300], [80, 160, 80]);
+  // let heightTransform = useTransform(distance, [-300, 0, 300], [80, 160, 80]);
+  
+  // let widthTransformIcon = useTransform(distance, [-300, 0, 300], [40, 80, 40]);
+  // let heightTransformIcon = useTransform(distance, [-300, 0, 300], [40, 80, 40]);
 
   let width = useSpring(widthTransform, {
     mass: 0.1,
@@ -199,7 +204,7 @@ const IconContainer: React.FC<TIconContainerProps> = ({
     </AnimatePresence>
     <motion.div
       style={{ width: widthIcon, height: heightIcon }}
-      className="flex items-center justify-center"
+      // className="flex items-center justify-center"
     >
       {icon}
     </motion.div>
