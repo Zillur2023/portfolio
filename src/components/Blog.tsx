@@ -4,14 +4,16 @@ import React from "react";
 import {
   IconClipboardCopy,
 } from "@tabler/icons-react";
-import { BentoGrid, BentoGridItem } from "./ui/BentoGrid";
 import Link from "next/link";
+import { BentoGridItemUi, BentoGridUi } from "./ui/BentoGridUi";
 
 export function Blog() {
   return (
-    <BentoGrid className="max-w-4xl mx-auto">
+   <div>
+      <h1 className="heading">Blogs</h1>
+     <BentoGridUi >
       {items.map((item, i) => (
-        <BentoGridItem
+        <BentoGridItemUi
           key={i}
           title={item.title}
           description={item.description}
@@ -22,7 +24,8 @@ export function Blog() {
           className={" flex flex-col"}
         />
       ))}
-    </BentoGrid>
+    </BentoGridUi>
+   </div>
   );
 }
 const Skeleton = () => (

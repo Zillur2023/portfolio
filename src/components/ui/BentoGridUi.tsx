@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 
-export const BentoGrid = ({
+export const BentoGridUi = ({
   className,
   children,
 }: {
@@ -19,7 +19,7 @@ export const BentoGrid = ({
   );
 };
 
-export const BentoGridItem = ({
+export const BentoGridItemUi = ({
   className,
   title,
   description,

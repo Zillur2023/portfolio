@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 import { cn } from "@/lib/utils";
 
-export const PinContainer = ({
+export const PinContainerUi = ({
   children,
   title,
   href,

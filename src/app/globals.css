@@ -80,6 +80,6 @@
 
 @layer utilities {
   .heading {
-    @apply font-bold text-3xl md:text-4xl text-center;
+    @apply font-bold text-3xl md:text-4xl text-center text-black dark:text-white mb-10;
   }
 }

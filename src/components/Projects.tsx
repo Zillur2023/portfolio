@@ -1,24 +1,23 @@
 "use client";
 
 import { FaLocationArrow } from "react-icons/fa6";
-import { PinContainer } from "./ui/PinContainer ";
 import { projects } from "@/data";
 import { FloatingDock } from "./FloatingDock";
+import { PinContainerUi } from "./ui/PinContainerUi";
 
 const Projects = () => {
   return (
-    <div className="py-10">
+    <div className="">
       <h1 className="heading">
-        A small selection of{" "}
-        <span className="text-purple">recent projects</span>
+        Projects
       </h1>
-      <div className="flex flex-wrap items-center justify-center gap-16 mt-10">
+      <div className="flex flex-wrap items-center justify-between  ">
         {projects.map((item) => (
           <div
             className="lg:min-h-[32.5rem] h-[25rem] flex items-center justify-center sm:w-96 w-[80vw]"
             key={item.id}
           >
-            <PinContainer
+            <PinContainerUi
               title="/ui.aceternity.com"
               href="https://twitter.com/mannupaaji"
             >
@@ -77,7 +76,7 @@ const Projects = () => {
                   <FaLocationArrow className="ms-3" color="#CBACF9" />
                 </div>
               </div>
-            </PinContainer>
+            </PinContainerUi>
           </div>
         ))}
       </div>

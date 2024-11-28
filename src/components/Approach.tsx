@@ -2,26 +2,26 @@
 import React from "react";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { CanvasRevealEffect } from "./ui/CanvasRevealEffect";
 import BorderMagicBtn from "./BorderMagicBtn";
+import { CanvasRevealEffectUi } from "./ui/CanvasRevealEffectUi";
 // import { CanvasRevealEffect } from "@/components/ui/canvas-reveal-effect";
     // <div className="py-20 flex flex-col lg:flex-row items-center justify-center bg-white dark:bg-black w-full gap-4 mx-auto px-8">
 
 export function Approach() {
   return (
-    <section className="w-full py-10 bg-white dark:bg-black">
+    <section >
       <h1 className=" heading">
         My <span className=" text-purple">approach</span>
       </h1>
     {/* remove bg-white dark:bg-black */}
-    <div className="my-20 flex flex-col lg:flex-row items-center justify-center w-full gap-4">
+    <div className="flex flex-col lg:flex-row items-center justify-center w-full gap-4">
 
       <Card
         title="Planning & Strategy"
         description="We'll work together to define your project's goals, audience, and key features. Topics like design preferences, functionality, and timelines will shape a clear roadmap."
         icon={<BorderMagicBtn btnText={"Stage  1"} />}
       >
-        <CanvasRevealEffect
+        <CanvasRevealEffectUi
           animationSpeed={5.1}
           containerClassName="bg-emerald-900"
         />
@@ -31,7 +31,7 @@ export function Approach() {
         description="Once aligned, I’ll begin building the foundation. Through frequent updates, I’ll showcase progress from wireframes to working features ensuring we stay on track."
         icon={<BorderMagicBtn btnText={"Stage 2"} />}
       >
-        <CanvasRevealEffect
+        <CanvasRevealEffectUi
           animationSpeed={3}
           containerClassName="bg-black"
           colors={[
@@ -48,7 +48,7 @@ export function Approach() {
         description="With everything finalized, your project goes live! Post-launch, I’ll provide support, addressing any updates, optimizations, or future needs to keep things running smoothly."
         icon={<BorderMagicBtn btnText={"Stage  3"} />}
       >
-        <CanvasRevealEffect
+        <CanvasRevealEffectUi
           animationSpeed={3}
           containerClassName="bg-sky-600"
           colors={[[125, 211, 252]]}

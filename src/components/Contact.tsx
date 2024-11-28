@@ -6,7 +6,6 @@ import { Textarea } from "./ui/Textarea";
 import { cn } from "@/lib/utils";
 import createGlobe from "cobe";
 import { useEffect, useRef } from "react";
-import { GlobeDemo } from "./GlobeDemo";
 
 
 export function Contact() {
@@ -25,12 +24,12 @@ export function Contact() {
       description:
         "",
       skeleton: <Skeleton />,
-      // skeleton: <GlobeDemo />,
       className: "col-span-1 lg:col-span-3 border-b lg:border-none",
     },
   ];
   return (
-    <div className="relative z-20 py-0 lg:py-0 max-w-7xl mx-auto ">
+   <div>
+     <div className="relative z-20 py-0 lg:py-0 max-w-7xl mx-auto ">
            <div className="relative ">
         <div className="grid grid-cols-1 lg:grid-cols-6 mt-5 xl:border rounded-md dark:border-neutral-800">
           {features.map((feature) => (
@@ -43,6 +42,7 @@ export function Contact() {
         </div>
       </div>
     </div>
+   </div>
   );
 }
 
