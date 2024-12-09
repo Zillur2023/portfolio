@@ -2,8 +2,8 @@
 import React from "react";
 
 import { AnimatePresence, motion } from "framer-motion";
-import BorderMagicBtn from "./BorderMagicBtn";
-import { CanvasRevealEffectUi } from "./ui/CanvasRevealEffectUi";
+import BorderMagicBtn from "./ui/BorderMagicBtn";
+import { CanvasRevealEffect } from "./ui/CanvasRevealEffect";
 // import { CanvasRevealEffect } from "@/components/ui/canvas-reveal-effect";
     // <div className="py-20 flex flex-col lg:flex-row items-center justify-center bg-white dark:bg-black w-full gap-4 mx-auto px-8">
 
@@ -21,7 +21,7 @@ export function Approach() {
         description="We'll work together to define your project's goals, audience, and key features. Topics like design preferences, functionality, and timelines will shape a clear roadmap."
         icon={<BorderMagicBtn btnText={"Stage  1"} />}
       >
-        <CanvasRevealEffectUi
+        <CanvasRevealEffect
           animationSpeed={5.1}
           containerClassName="bg-emerald-900"
         />

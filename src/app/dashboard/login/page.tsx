@@ -7,9 +7,11 @@ import { cn } from "@/lib/utils";
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import { useUser } from '@/lib/UserProvider';
 
 const LoginPage = () => {
   const router = useRouter()
+  const {setIsLoading: userLoading} = useUser()
     const [formData, setFormData] = useState({ email: '', password: '' });
     console.log({formData})
   
@@ -27,6 +29,7 @@ const LoginPage = () => {
       const res = await axios.post("/api/dashboard/login", formData)
       console.log({res})
       if(res?.data?.success) {
+        userLoading(true);
          toast.success(res?.data?.message, {id: toastId});
         router.push("/dashboard");
       }

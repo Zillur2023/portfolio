@@ -5,13 +5,13 @@ import {
   IconClipboardCopy,
 } from "@tabler/icons-react";
 import Link from "next/link";
-import { BentoGridItemUi, BentoGridUi } from "./ui/BentoGridUi";
+import { BentoGrid, BentoGridItemUi,  } from "./ui/BentoGrid";
 
 export function Blog() {
   return (
    <div>
       <h1 className="heading">Blogs</h1>
-     <BentoGridUi >
+     <BentoGrid >
       {items.map((item, i) => (
         <BentoGridItemUi
           key={i}
@@ -24,7 +24,7 @@ export function Blog() {
           className={" flex flex-col"}
         />
       ))}
-    </BentoGridUi>
+    </BentoGrid>
    </div>
   );
 }

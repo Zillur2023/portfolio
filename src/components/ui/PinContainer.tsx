@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 import { cn } from "@/lib/utils";
 
-export const PinContainerUi = ({
+export const PinContainer = ({
   children,
   title,
   href,
@@ -31,7 +31,8 @@ export const PinContainerUi = ({
   return (
     <div
       className={cn(
-        "relative group/pin z-50  cursor-pointer",
+        // "relative group/pin z-50  cursor-pointer",
+        "relative group/pin z-50 ",
         containerClassName
       )}
       onMouseEnter={onMouseEnter}

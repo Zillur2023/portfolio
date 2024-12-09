@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { toast } from 'sonner';
 import axios from "axios"
 import { useRouter } from 'next/navigation';
-import { FileUploadUi } from '@/components/ui/FileUploadUi';
+import { FileUpload } from '@/components/ui/FileUpload';
 
 
 const SignupPage = () => {
@@ -86,7 +86,7 @@ const SignupPage = () => {
       </LabelInputContainer>
       <LabelInputContainer className="mb-4">
         <Label htmlFor="image">Image </Label>
-        <FileUploadUi onChange={handleFileUpload} />
+        <FileUpload onChange={handleFileUpload} />
       </LabelInputContainer>
             <button
         className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"

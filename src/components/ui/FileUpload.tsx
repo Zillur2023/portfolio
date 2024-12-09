@@ -25,7 +25,7 @@ const secondaryVariant = {
   },
 };
 
-export const FileUploadUi = ({
+export const FileUpload = ({
   onChange,
 }: {
   onChange?: (files: File[]) => void;
