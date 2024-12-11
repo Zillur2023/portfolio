@@ -14,27 +14,35 @@ const transition = {
 };
 
 export const MenuItem = ({
-  setActive,
+  // setActive,
   active,
   item,
+  title,
+  className = false,
   children,
 }: {
   // setActive: (item: React.ReactNode) => void;
   // active: React.ReactNode | null;
   // item: React.ReactNode;
   // children?: React.ReactNode;
-  setActive: (item: string) => void;
+  // setActive: (item: string) => void;
   active: string | null;
   item: string;
+  title?:string | React.ReactNode;
+  className?: boolean;
   children?: React.ReactNode;
 }) => {
   return (
-    <div onMouseEnter={() => setActive(item)} className="relative ">
+    <div
+    //  onMouseEnter={() => setActive(item)} 
+    //  className="relative ">
+     className={className ? "" : "relative"}>
       <motion.p
         transition={{ duration: 0.3 }}
         className="cursor-pointer text-black hover:opacity-[0.9] dark:text-white"
       >
-        {item}
+        {/* {item} */}
+        {title}
       </motion.p>
       {active !== null && (
         <motion.div
@@ -43,7 +51,11 @@ export const MenuItem = ({
           transition={transition}
         >
           {active === item && (
-            <div className="absolute top-[calc(100%_+_1.2rem)] left-1/2 transform -translate-x-1/2 pt-4">
+            <div 
+            // className="absolute top-[calc(100%_+_1.2rem)] left-1/2 transform -translate-x-1/2 pt-1"
+            // className="absolute top-[calc(100%_+_1.2rem)] left-[-10px] transform -translate-x-1/2 pt-1"
+            className={className ? "" : "absolute top-[calc(100%_+_1.2rem)] left-[-10px] transform -translate-x-1/2 pt-1"}
+            >
               <motion.div
                 transition={transition}
                 layoutId="active" // layoutId ensures smooth animation
@@ -68,7 +80,7 @@ export const Menu = ({
   setActive,
   children,
 }: {
-  setActive: (item: string | null) => void;
+  setActive: (item: React.ReactNode | null) => void;
   children: React.ReactNode;
 }) => {
   return (

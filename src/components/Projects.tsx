@@ -12,6 +12,12 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { FileUpload } from "./ui/FileUpload";
+import { Input } from "./ui/Input";
+import Modal from "./ui/Modal";
+import { BottomGradient, Label, LabelInputContainer } from "./ui/Label";
+import { toast } from "sonner";
+import axios from "axios";
+import { Textarea } from "./ui/Textarea";
 
 const transition = {
   type: "spring",
@@ -26,10 +32,49 @@ const transition = {
 
 const Projects = () => {
   const { user } = useUser()
-  console.log({user})
-  // const [active, setActive] = useState<React.ReactNode | null>(null);
   const [active, setActive] = useState<string | null>(null);
   const [files, setFiles] = useState<File[]>([]);
+  const [isModalOpen, setModalOpen] = useState(false)
+  const [formData, setFormData] = useState({ title: '', description: '', });
+
+
+const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const { name, value } = e.target;
+  setFormData({ ...formData, [name]: value });
+};
+
+const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  // console.log("e.prevntDefault", userData)
+  // Handle form submission logic (e.g., send data to backend)
+  const formData = new FormData()
+  formData.append("userData", JSON.stringify(formData))
+  formData.append("image", files?.[0])
+  // formData.append("image", proImage)
+
+  const toastId = toast.loading("loading...")
+
+  try {
+    const res = await axios.post("/api/dashboard/signup", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    // const res = await axios.post("/api/dashboard/signup", userData)
+    console.log("signuppage result",res)
+  
+    if (res?.data?.success) {
+      toast.success(res?.data?.message, {id: toastId})
+      // router.push("/dashboard/login")
+    } 
+  } catch (error) {
+    
+  }
+}; 
+
+  // const toggleModal = () => {
+  //   setModalOpen((prev) => !prev) // Toggle modal open/close
+  // }
 
   const handleFileUpload = (files: File[]) => {
     setFiles(files);
@@ -66,44 +111,18 @@ const Projects = () => {
                   // className={cn("fixed top-10 inset-x-0 max-w-2xl mx-auto z-50", className)}
                   // className={cn("absolute top-3 right-3 z-50 text-2xl text-gray-300 cursor-pointer", className)}
                 >               
-      <motion.div
-        transition={{ duration: 0.3 }}
-        className=" relative cursor-pointer text-black hover:opacity-[0.9] dark:text-white"
-      >
-        {<CiMenuKebab />}
-      </motion.div>
-      {active !== null && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.85, y: 10 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={transition}
-        >
-          {active === item?.id && (
-            <div className="absolute top-[calc(100%_+_1.2rem)] left-1/2  transform -translate-x-1/2 pt-0">
-             {/* <div className="absolute top-[calc(100%_+_1.2rem)] left-1/2 transform -translate-x-1/2 pt-4"> */}
-              <motion.div
-                transition={transition}
-                layoutId="active" // layoutId ensures smooth animation
-                className="bg-white dark:bg-black backdrop-blur-sm rounded-2xl overflow-hidden border border-black/[0.2] dark:border-white/[0.2] shadow-xl"
-              >
-                <motion.div
-                  layout // layout ensures smooth animation
-                  className="w-max h-full p-4"
-                >
-                 <div className=" flex flex-col space-y-4 text-sm">
-                 {/* <Link href={""}  className="text-neutral-700 dark:text-neutral-200 hover:text-black ">Update</Link> */}
-                 <motion.div>
-                  <FileUpload onChange={handleFileUpload} />
-                 </motion.div>
-                 <Link href={""}  className="text-neutral-700 px-2 py-1 rounded-md dark:text-neutral-200 hover:bg-red-500 hover:text-black ">Delete</Link>
-                 
-                 </div>
-                </motion.div>
-              </motion.div>
-            </div>
-          )}
-        </motion.div>
-      )}
+ 
+      <MenuItem active={active} item={item?.id} title={<CiMenuKebab />}>
+      {/* <MenuItem active={active} item={item?.id} title={"Edit"} className={true}>
+         <Input/>
+         </MenuItem>   */}
+         <div className="flex flex-col space-y-4 text-sm">
+          <button onClick={() => setModalOpen(true)} className="text-neutral-700 px-2 py-1 rounded-md dark:text-neutral-200 bg-blue-500 hover:text-black">
+            Edit
+          </button>
+         <Link href={""}  className="text-neutral-700 px-2 py-1 rounded-md dark:text-neutral-200 bg-red-500 hover:text-black ">Delete</Link>
+         </div>
+      </MenuItem>
                 </div>
                 <div
                   className="relative w-full h-full overflow-hidden lg:rounded-3xl"
@@ -163,6 +182,35 @@ const Projects = () => {
           </div>
         ))}
       </div>
+        {/* Modal outside MenuItem */}
+        {isModalOpen && (
+        <Modal onClose={() =>setModalOpen(false)}>
+          <form className="my-8" onSubmit={handleSubmit}>
+
+           <LabelInputContainer>
+            <Label htmlFor="title">Title</Label>
+            <Input id="title" placeholder="Enter your title" type="text" name="title" value={formData.title} required
+                onChange={handleInputChange}  />
+          </LabelInputContainer>
+           <LabelInputContainer className="mb-4">
+            <Label htmlFor="description">Description</Label>
+            <Textarea id="description" placeholder="Enter your description" rows={4} name="description" value={formData.description} required
+                onChange={handleInputChange}  />
+          </LabelInputContainer>
+          <LabelInputContainer className="mb-4">
+        <Label htmlFor="image">Image </Label>
+        <FileUpload onChange={handleFileUpload} />
+      </LabelInputContainer>
+            <button
+        className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+        type="submit"
+      >
+        Send &rarr;
+        <BottomGradient />
+      </button>
+                </form>
+        </Modal>
+      )}
     </div>
   );
 };

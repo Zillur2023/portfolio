@@ -31,7 +31,7 @@ export function Approach() {
         description="Once aligned, I’ll begin building the foundation. Through frequent updates, I’ll showcase progress from wireframes to working features ensuring we stay on track."
         icon={<BorderMagicBtn btnText={"Stage 2"} />}
       >
-        <CanvasRevealEffectUi
+        <CanvasRevealEffect
           animationSpeed={3}
           containerClassName="bg-black"
           colors={[
@@ -48,7 +48,7 @@ export function Approach() {
         description="With everything finalized, your project goes live! Post-launch, I’ll provide support, addressing any updates, optimizations, or future needs to keep things running smoothly."
         icon={<BorderMagicBtn btnText={"Stage  3"} />}
       >
-        <CanvasRevealEffectUi
+        <CanvasRevealEffect
           animationSpeed={3}
           containerClassName="bg-sky-600"
           colors={[[125, 211, 252]]}
