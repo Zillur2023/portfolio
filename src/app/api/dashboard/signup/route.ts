@@ -40,15 +40,15 @@ export async function POST(request){
 
     
 
-    const savedUser = await User.create({...userData,image:imageName})
-    // const savedUser = await User.create(userData)
+    const result = await User.create({...userData,image:path})
+    // const result = await User.create(userData)
 
-    console.log({savedUser})
+    console.log({result})
 
       return NextResponse.json({
           message: "User created successfully",
           success: true,
-          // savedUser
+          // result
       })
 
   } catch (error: any) {

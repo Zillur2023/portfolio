@@ -33,7 +33,7 @@ const Modal: React.FC<ModalProps> = ({ children, trigger, onClose }) => {
           >
             <motion.div
             // style={{ width:300px, height }}
-              className="bg-white dark:bg-black px-5 rounded shadow-lg w-96 h-[450px] relative"
+              className="bg-white dark:bg-black px-5 rounded shadow-lg w-[400px] h-[450px] relative overflow-y-auto"
               onClick={(e) => e.stopPropagation()} // Prevent close when clicking inside
             >
               {children}

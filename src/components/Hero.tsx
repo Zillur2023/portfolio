@@ -16,19 +16,7 @@ const Hero = () => {
       </div>
     </div>
    </div>
-    // <div className="relative z-20 py-0 lg:py-0 max-w-7xl mx-auto ">
-    //        <div className="relative ">
-    //     <div className="grid grid-cols-1 lg:grid-cols-6 mt-5 xl:border rounded-md dark:border-neutral-800">
-    //       {features.map((feature) => (
-    //         <FeatureCard key={feature.title} className={feature.className}>
-    //           <FeatureTitle>{feature.title}</FeatureTitle>
-    //           <FeatureDescription>{feature.description}</FeatureDescription>
-    //           <div className=" h-full w-full">{feature.skeleton}</div>
-    //         </FeatureCard>
-    //       ))}
-    //     </div>
-    //   </div>
-    // </div>
+
   );
 };
 

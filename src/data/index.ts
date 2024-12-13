@@ -1,3 +1,5 @@
+
+
 export const navItems = [
   { name: "About", link: "#about" },
   { name: "Projects", link: "#projects" },
@@ -215,3 +217,31 @@ export const socialMedia = [
     img: "/link.svg",
   },
 ];
+ 
+// const iconLists = ["Next.js", "Tailwindcss", "Typescript", "Mongodb"],
+
+// const tecnology = [
+//   {
+//     name: "Next.js",
+//     icon: <Nextjs/>
+//   },
+
+//   {
+//     name: "Tailwindcss",
+//     icon: <Tailwindcss/>
+//   },
+
+//   {
+//     name: "Typescript",
+//     icon: <Typescript/>
+//   },
+
+//   {
+//     name: "Mongodb",
+//     icon: <Mongodb/>
+//   },
+//   {
+//     name: "React.js",
+//     icon: <Reactjs/>
+//   },
+// ]

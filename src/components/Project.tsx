@@ -1,14 +1,14 @@
 "use client";
 
 import { FaLocationArrow } from "react-icons/fa6";
-import { projects } from "@/data";
+// import { projects } from "@/data";
 import { FloatingDock } from "./FloatingDock";
 import { useUser } from "@/lib/UserProvider";
 import { PinContainer } from "./ui/PinContainer";
 import { CiMenuKebab } from "react-icons/ci";
 import { cn } from "@/lib/utils";
 import { HoveredLink, Menu, MenuItem } from "./ui/Menu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { FileUpload } from "./ui/FileUpload";
@@ -18,29 +18,66 @@ import { BottomGradient, Label, LabelInputContainer } from "./ui/Label";
 import { toast } from "sonner";
 import axios from "axios";
 import { Textarea } from "./ui/Textarea";
+import { FaReact, FaNodeJs  } from 'react-icons/fa';
+import { SiNextdotjs, SiVuedotjs, SiMongodb, SiCloudinary, SiFirebase, SiExpress } from 'react-icons/si';
 
-const transition = {
-  type: "spring",
-  mass: 0.5,
-  damping: 11.5,
-  stiffness: 100,
-  restDelta: 0.001,
-  restSpeed: 0.001,
+export const tecnologies = [
+  { name: "Next.js", icon: <SiNextdotjs className=" w-full h-full  " /> },
+  { name: "React.js", icon: <FaReact className=" w-full h-full  "/> },
+  { name: "Vue.js", icon: <SiVuedotjs className=" w-full h-full  "/> },
+  { name: "JavaScript", icon: <FaReact className=" w-full h-full  "/> }, 
+  { name: "Mongodb", icon: <SiMongodb className=" w-full h-full  "/> },
+  { name: "Cloudinary", icon: <SiCloudinary className=" w-full h-full  "/> },
+  { name: "Firebase", icon: <SiFirebase className=" w-full h-full  "/> },
+  { name: "Node.js", icon: <FaNodeJs className=" w-full h-full  "/> },
+  { name: "Express.js", icon: <SiExpress className=" w-full h-full  "/> }
+];
+
+
+
+const Project = () => {
+  const { user } = useUser()
+  const [projects, setProjects] = useState<any[]>([])
+  const [active, setActive] = useState<string | null>(null);
+  const [files, setFiles] = useState<File[]>([]);
+  const [isModalOpen, setModalOpen] = useState(false)
+  const [selectedTecnologies, setSelectedTecnologies] = useState<string[]>([]);
+
+  console.log({selectedTecnologies})
+  const [projectData, setProjectData] = useState({  title: '', description: '', tecnologies: selectedTecnologies });
+  console.log({projects})
+  console.log("project.length", projects?.[0]?.image)
+  console.log({projectData})
+ 
+const getProjects = async(projectId = null) => {
+  try {
+    const url = projectId ? `/api/dashboard/project?id=${projectId}` : `/api/dashboard/project`;
+    const res = await axios.get(url)
+    console.log({res})
+    // setProjects(projectId ? [data.projectData] : data.projectData);
+    setProjects(projectId ? [res?.data?.data] : res?.data?.data);
+  } catch (error) {
+    
+  }
+}
+
+const handleEdit = (project:any) => {
+  setProjectData({ title: project?.title, description: project?.description , tecnologies: project?.tecnologies});
 };
 
 
 
-const Projects = () => {
-  const { user } = useUser()
-  const [active, setActive] = useState<string | null>(null);
-  const [files, setFiles] = useState<File[]>([]);
-  const [isModalOpen, setModalOpen] = useState(false)
-  const [formData, setFormData] = useState({ title: '', description: '', });
-
-
 const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
   const { name, value } = e.target;
-  setFormData({ ...formData, [name]: value });
+  setProjectData({ ...projectData, [name]: value });
+};
+const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const value = e.target.value;
+  setSelectedTecnologies((prevSelectedTecnologies) =>
+    e.target.checked
+      ? [...prevSelectedTecnologies, value] // Add if checked
+      : prevSelectedTecnologies.filter((tec) => tec !== value) // Remove if unchecked
+  );
 };
 
 const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
@@ -48,14 +85,14 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
   // console.log("e.prevntDefault", userData)
   // Handle form submission logic (e.g., send data to backend)
   const formData = new FormData()
-  formData.append("userData", JSON.stringify(formData))
+  formData.append("projectData", JSON.stringify(projectData))
   formData.append("image", files?.[0])
   // formData.append("image", proImage)
 
   const toastId = toast.loading("loading...")
 
   try {
-    const res = await axios.post("/api/dashboard/signup", formData, {
+    const res = await axios.post("/api/dashboard/project", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -65,6 +102,8 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
   
     if (res?.data?.success) {
       toast.success(res?.data?.message, {id: toastId})
+      getProjects(); // Re-fetch projects
+
       // router.push("/dashboard/login")
     } 
   } catch (error) {
@@ -83,6 +122,15 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     
   };
 
+  useEffect(() => {
+    getProjects()
+    setProjectData((prevData) => ({
+      ...prevData,
+      tecnologies: selectedTecnologies, // Update tecnologies when selectedTecnologies changes
+    }));
+  }, [selectedTecnologies])
+ 
+
 
   return (
     <div className="">
@@ -90,10 +138,11 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         Projects
       </h1>
       <div className="flex flex-wrap items-center justify-between  ">
-        {projects.map((item) => (
+     {  projects?.length ? (
+        projects?.map((item:any) => (
           <div
             className="lg:min-h-[32.5rem] h-[25rem] flex items-center justify-center sm:w-96 w-[80vw]"
-            key={item.id}
+            key={item?._id}
           >
             <PinContainer
               title="/ui.aceternity.com"
@@ -104,7 +153,7 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
               className="relative flex items-center justify-center sm:w-96 w-[80vw] overflow-hidden h-[20vh] lg:h-[30vh] mb-10">
         <div 
                   
-                   onMouseEnter={() => setActive(item?.id)}
+                   onMouseEnter={() => setActive(item?._id)}
                   // onClick={() => setActive(null)}
                   //  onClick={() => setActive(item?.id)}
                   className=" absolute top-3 right-3 z-20 text-2xl text-gray-300 cursor-pointer"
@@ -112,12 +161,12 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
                   // className={cn("absolute top-3 right-3 z-50 text-2xl text-gray-300 cursor-pointer", className)}
                 >               
  
-      <MenuItem active={active} item={item?.id} title={<CiMenuKebab />}>
+      <MenuItem active={active} item={item?._id} title={<CiMenuKebab />}>
       {/* <MenuItem active={active} item={item?.id} title={"Edit"} className={true}>
          <Input/>
          </MenuItem>   */}
          <div className="flex flex-col space-y-4 text-sm">
-          <button onClick={() => setModalOpen(true)} className="text-neutral-700 px-2 py-1 rounded-md dark:text-neutral-200 bg-blue-500 hover:text-black">
+          <button onClick={() => {setModalOpen(true); handleEdit(item)}} className="text-neutral-700 px-2 py-1 rounded-md dark:text-neutral-200 bg-blue-500 hover:text-black">
             Edit
           </button>
          <Link href={""}  className="text-neutral-700 px-2 py-1 rounded-md dark:text-neutral-200 bg-red-500 hover:text-black ">Delete</Link>
@@ -131,14 +180,15 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
                   <img src="/bg.png" alt="bgimg" />
                 </div>
                 <img
-                  src={item.img}
+                  src={item?.image}
                   alt="cover"
                   className="z-10 absolute bottom-0"
                 />
               </div>
+              <SiNextdotjs />
 
               <h1 className="font-semibold lg:text-2xl md:text-xl text-base line-clamp-1">
-                {item.title}
+                {item?.title}
               </h1>
 
               <p
@@ -148,13 +198,14 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
                   margin: "1vh 0",
                 }}
               >
-                {item.des}
+                {item?.description}
               </p>
 
                  
               <div className="flex items-center justify-between mt-7 mb-3">
                 <div className="flex -space-x-3">
-                  {item.iconLists.map((icon, index) => (
+                  {/* {item.iconLists.map((icon, index) => ( */}
+                  {/* {item?.tecnologies?.map((icon, index) => (
                     <div
                       key={index}
                       className="flex justify-center items-center"
@@ -163,11 +214,25 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
                       // }}
                     >
                       {/* <img src={icon} alt="icon5" className="p-2" /> */}
-                      <FloatingDock icon={<img src={icon} alt="icon5" className=" w-full h-full  " />} />
+                      {/* <FloatingDock icon={<img src={icon} alt="icon5" className=" w-full h-full  " />} /> */}
                    
     
-                    </div>
-                  ))}
+                    {/* </div> */}
+                  {/* ))} */} 
+                    {item?.tecnologies?.map((tecName, index) => {
+    // Find the matching technology from the `tecnologies` array
+    const tech = tecnologies.find(tec => tec.name === tecName);
+    console.log({tech})
+    console.log("tech.icon",tech?.icon)
+
+    return (
+      tech && (
+        <div key={index} className="flex justify-center items-center">
+          <FloatingDock icon={tech?.icon} />
+        </div>
+      )
+    );
+  })}
                      
                 </div>
 
@@ -180,24 +245,40 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
               </div>
             </PinContainer>
           </div>
-        ))}
+        ))) : ("") }
+        <button onClick={() => setModalOpen(true)} className="text-neutral-700 px-2 py-1 rounded-md dark:text-neutral-200 bg-blue-500 hover:text-black">
+            Create Project
+          </button>
       </div>
         {/* Modal outside MenuItem */}
         {isModalOpen && (
         <Modal onClose={() =>setModalOpen(false)}>
           <form className="my-8" onSubmit={handleSubmit}>
 
-           <LabelInputContainer>
+           <LabelInputContainer className="mb-2">
             <Label htmlFor="title">Title</Label>
-            <Input id="title" placeholder="Enter your title" type="text" name="title" value={formData.title} required
+            <Input id="title" placeholder="Enter your title" type="text" name="title" value={projectData.title} required
                 onChange={handleInputChange}  />
           </LabelInputContainer>
-           <LabelInputContainer className="mb-4">
+           <LabelInputContainer className="mb-2">
             <Label htmlFor="description">Description</Label>
-            <Textarea id="description" placeholder="Enter your description" rows={4} name="description" value={formData.description} required
+            <Textarea id="description" placeholder="Enter your description" rows={3} name="description" value={projectData.description} required
                 onChange={handleInputChange}  />
           </LabelInputContainer>
-          <LabelInputContainer className="mb-4">
+           <LabelInputContainer className="mb-2">
+            <Label htmlFor="tecnologies">Tecnologies</Label>
+            <div className=" grid grid-cols-3">
+            { tecnologies?.map((tec) => (
+              
+              <div key={tec.name} >
+                <input type="checkbox" name="tecnologies" value={tec.name} checked={selectedTecnologies.includes(tec.name)} 
+                  onChange={handleCheckboxChange}  />
+              <label className=" text-sm font-normal"> {tec.name} </label>
+              </div>
+              )) }
+            </div>
+          </LabelInputContainer>
+          <LabelInputContainer className="mb-2">
         <Label htmlFor="image">Image </Label>
         <FileUpload onChange={handleFileUpload} />
       </LabelInputContainer>
@@ -205,7 +286,7 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
         type="submit"
       >
-        Send &rarr;
+        Update &rarr;
         <BottomGradient />
       </button>
                 </form>
@@ -215,4 +296,4 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
   );
 };
 
-export default Projects;
+export default Project;
