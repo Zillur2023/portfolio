@@ -52,8 +52,7 @@ export async function POST(request: Request) {
     let imageUrl: string | undefined;
     let imagePath: string | undefined;
 
-    // Process the image if it exists
-    if (image) {
+    if (image instanceof File && image.name) {
       const imageName = await getValidImageExtension(image.name);
       const byteData = await image.arrayBuffer();
       const buffer = Buffer.from(byteData);
@@ -67,14 +66,19 @@ export async function POST(request: Request) {
       // Update project if ID is provided
       result = await Project.findByIdAndUpdate(
         projectId,
-        { ...projectData, ... { image: imagePath } },
+        { 
+          ...projectData, 
+          ...(imageUrl && { image: imagePath }), 
+          // image: imagePath ? imagePath : undefined, 
+         },
         { new: true } // Return the updated document
       );
     } else {
       // Create new project
       result = await Project.create({
         ...projectData,
-        image: imagePath,
+        // image: imagePath,
+        // ...(imageUrl && { image: imagePath }),
       });
     }
 

@@ -7,15 +7,15 @@ export type TItem = {
     href?: string; 
   };
 
-export function FloatingDock({icon}:{icon: React.ReactNode;}) {
+export function FloatingDock({ title,icon }:{ title: string, icon: React.ReactNode }) {
   const Items: TItem[]  = [
     {
-      title: "NEST JS NEXT",
+      title: title,
     //   icon: (
     //     <IconHome className="h-full w-full text-neutral-500 dark:text-neutral-300" />
     //   ),
     icon: icon,
-      href: "/go to college",
+      // href: "/go to college",
     },
 
 

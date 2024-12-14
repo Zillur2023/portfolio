@@ -1,15 +1,11 @@
 "use client";
 
 import { FaLocationArrow } from "react-icons/fa6";
-// import { projects } from "@/data";
 import { FloatingDock } from "./FloatingDock";
 import { useUser } from "@/lib/UserProvider";
 import { PinContainer } from "./ui/PinContainer";
 import { CiMenuKebab } from "react-icons/ci";
-import { cn } from "@/lib/utils";
-import { HoveredLink, Menu, MenuItem } from "./ui/Menu";
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { FileUpload } from "./ui/FileUpload";
 import { Input } from "./ui/Input";
@@ -18,8 +14,10 @@ import { BottomGradient, Label, LabelInputContainer } from "./ui/Label";
 import { toast } from "sonner";
 import axios from "axios";
 import { Textarea } from "./ui/Textarea";
-import { FaReact, FaNodeJs  } from 'react-icons/fa';
+import { FaReact, FaNodeJs, FaGithub  } from 'react-icons/fa';
 import { SiNextdotjs, SiVuedotjs, SiMongodb, SiCloudinary, SiFirebase, SiExpress } from 'react-icons/si';
+import { IProject } from "@/models/project";
+import { Menu } from "./ui/Menu";
 
 export const tecnologies = [
   { name: "Next.js", icon: <SiNextdotjs className=" w-full h-full  " /> },
@@ -34,26 +32,27 @@ export const tecnologies = [
 ];
 
 
-
 const Project = () => {
   const { user } = useUser()
-  const [projects, setProjects] = useState<any[]>([])
+  const [projects, setProjects] = useState<IProject[]>([])
   const [active, setActive] = useState<string | null>(null);
+  const [id, setId] = useState<string | null>(null);
   const [files, setFiles] = useState<File[]>([]);
   const [isModalOpen, setModalOpen] = useState(false)
   const [selectedTecnologies, setSelectedTecnologies] = useState<string[]>([]);
+  console.log({active})
 
-  console.log({selectedTecnologies})
-  const [projectData, setProjectData] = useState({  title: '', description: '', tecnologies: selectedTecnologies });
-  console.log({projects})
-  console.log("project.length", projects?.[0]?.image)
-  console.log({projectData})
+  // console.log({selectedTecnologies})
+  const [projectData, setProjectData] = useState<IProject>({ title: '', description: '', tecnologies: selectedTecnologies, githubLink: '', liveLink: ''});
+  // console.log({projects})
+  // console.log("project.length", projects?.[0]?.image)
+  // console.log({projectData})
  
 const getProjects = async(projectId = null) => {
   try {
     const url = projectId ? `/api/dashboard/project?id=${projectId}` : `/api/dashboard/project`;
     const res = await axios.get(url)
-    console.log({res})
+    // console.log({res})
     // setProjects(projectId ? [data.projectData] : data.projectData);
     setProjects(projectId ? [res?.data?.data] : res?.data?.data);
   } catch (error) {
@@ -62,7 +61,11 @@ const getProjects = async(projectId = null) => {
 }
 
 const handleEdit = (project:any) => {
-  setProjectData({ title: project?.title, description: project?.description , tecnologies: project?.tecnologies});
+  console.log("handleEdit --project", project)
+  // setProjectData({_id: project?._id, title: project?.title, description: project?.description , tecnologies: project?.tecnologies, image:project?.image});
+  setProjectData({...project})
+  setSelectedTecnologies([...project?.tecnologies])
+  // setFiles([...project?.image])
 };
 
 
@@ -98,7 +101,7 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
       },
     })
     // const res = await axios.post("/api/dashboard/signup", userData)
-    console.log("signuppage result",res)
+    // console.log("signuppage result",res)
   
     if (res?.data?.success) {
       toast.success(res?.data?.message, {id: toastId})
@@ -139,40 +142,33 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
       </h1>
       <div className="flex flex-wrap items-center justify-between  ">
      {  projects?.length ? (
-        projects?.map((item:any) => (
+        projects?.map((item) => (
           <div
-            className="lg:min-h-[32.5rem] h-[25rem] flex items-center justify-center sm:w-96 w-[80vw]"
+            className="lg:min-h-[32.5rem] h-[25rem] flex items-center justify-center sm:w-96 w-96"
             key={item?._id}
           >
             <PinContainer
-              title="/ui.aceternity.com"
-              href="https://twitter.com/mannupaaji"
+              title={item?.liveLink}
+              href={item?.liveLink}
             >
+                        
+     <div 
+     onMouseLeave={() => setActive(null)}
+      className=" ">
+     <Menu active={active} setActive={setActive} item={String(item?._id)} title={<CiMenuKebab />}>
+        <div className="flex flex-col space-y-1 text-sm">
+         <button onClick={() => {setModalOpen(true); handleEdit(item); setId(String(item?._id))}} className="text-neutral-700 px-2 py-1 rounded-md dark:text-neutral-200 bg-blue-500 hover:bg-blue-600 hover:text-black">
+           Edit
+         </button>
+        <Link href={""}  className="text-neutral-700 px-2 py-1 rounded-md dark:text-neutral-200 bg-red-500 hover:bg-red-600 hover:text-black ">Delete</Link>
+        </div>
+     </Menu>
+     </div>
+               
               <div 
-              onMouseLeave={() => setActive(null)}
-              className="relative flex items-center justify-center sm:w-96 w-[80vw] overflow-hidden h-[20vh] lg:h-[30vh] mb-10">
-        <div 
-                  
-                   onMouseEnter={() => setActive(item?._id)}
-                  // onClick={() => setActive(null)}
-                  //  onClick={() => setActive(item?.id)}
-                  className=" absolute top-3 right-3 z-20 text-2xl text-gray-300 cursor-pointer"
-                  // className={cn("fixed top-10 inset-x-0 max-w-2xl mx-auto z-50", className)}
-                  // className={cn("absolute top-3 right-3 z-50 text-2xl text-gray-300 cursor-pointer", className)}
-                >               
- 
-      <MenuItem active={active} item={item?._id} title={<CiMenuKebab />}>
-      {/* <MenuItem active={active} item={item?.id} title={"Edit"} className={true}>
-         <Input/>
-         </MenuItem>   */}
-         <div className="flex flex-col space-y-4 text-sm">
-          <button onClick={() => {setModalOpen(true); handleEdit(item)}} className="text-neutral-700 px-2 py-1 rounded-md dark:text-neutral-200 bg-blue-500 hover:text-black">
-            Edit
-          </button>
-         <Link href={""}  className="text-neutral-700 px-2 py-1 rounded-md dark:text-neutral-200 bg-red-500 hover:text-black ">Delete</Link>
-         </div>
-      </MenuItem>
-                </div>
+              // onMouseLeave={() => setActive(null)}
+              className="relative flex items-center justify-center sm:w-96 w-96 overflow-hidden h-[20vh] lg:h-[30vh] mb-10">
+      
                 <div
                   className="relative w-full h-full overflow-hidden lg:rounded-3xl"
                   style={{ backgroundColor: "#13162D" }}
@@ -185,7 +181,6 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
                   className="z-10 absolute bottom-0"
                 />
               </div>
-              <SiNextdotjs />
 
               <h1 className="font-semibold lg:text-2xl md:text-xl text-base line-clamp-1">
                 {item?.title}
@@ -222,13 +217,13 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
                     {item?.tecnologies?.map((tecName, index) => {
     // Find the matching technology from the `tecnologies` array
     const tech = tecnologies.find(tec => tec.name === tecName);
-    console.log({tech})
-    console.log("tech.icon",tech?.icon)
+    // console.log({tech})
+    // console.log("tech.icon",tech?.icon)
 
     return (
       tech && (
         <div key={index} className="flex justify-center items-center">
-          <FloatingDock icon={tech?.icon} />
+          <FloatingDock icon={tech?.icon} title={tech.name} />
         </div>
       )
     );
@@ -236,20 +231,36 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
                      
                 </div>
 
-                <div className="flex justify-center items-center">
+                {/* <div className="flex justify-center items-center">
                   <p className="flex lg:text-xl md:text-xs text-sm text-purple">
                     Check Live Site
                   </p>
                   <FaLocationArrow className="ms-3" color="#CBACF9" />
-                </div>
+                </div> */}
+              <div className="flex items-center justify-between gap-2">
+              {item?.githubLink && (
+  <Link href={item.githubLink}>
+    <button className="text-neutral-700 px-3 py-1 rounded-md dark:text-neutral-200 bg-blue-500 hover:text-black">
+      <FaGithub size={25} />
+    </button>
+  </Link>
+)}
+{item?.liveLink && (
+  <Link href={item.liveLink}>
+    <button className="text-neutral-700 px-3 py-1 rounded-md dark:text-neutral-200 bg-blue-500 hover:text-black">
+      Live
+    </button>
+  </Link>
+)}
+              </div>
               </div>
             </PinContainer>
           </div>
         ))) : ("") }
-        <button onClick={() => setModalOpen(true)} className="text-neutral-700 px-2 py-1 rounded-md dark:text-neutral-200 bg-blue-500 hover:text-black">
+      </div>
+        <button onClick={() => {setModalOpen(true); setId(null); setSelectedTecnologies([]); setProjectData({ title: '', description: '', tecnologies: selectedTecnologies, githubLink: '', liveLink: ''})}} className="text-neutral-700 px-2 py-1 rounded-md dark:text-neutral-200 bg-blue-500 hover:text-black">
             Create Project
           </button>
-      </div>
         {/* Modal outside MenuItem */}
         {isModalOpen && (
         <Modal onClose={() =>setModalOpen(false)}>
@@ -258,6 +269,16 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
            <LabelInputContainer className="mb-2">
             <Label htmlFor="title">Title</Label>
             <Input id="title" placeholder="Enter your title" type="text" name="title" value={projectData.title} required
+                onChange={handleInputChange}  />
+          </LabelInputContainer>
+           <LabelInputContainer className="mb-2">
+            <Label htmlFor="githubLink">Github link</Label>
+            <Input id="githubLink" placeholder="Enter your github link" type="text" name="githubLink" value={projectData.githubLink} required
+                onChange={handleInputChange}  />
+          </LabelInputContainer>
+           <LabelInputContainer className="mb-2">
+            <Label htmlFor="liveLink">Live link</Label>
+            <Input id="liveLink" placeholder="Enter your live link" type="text" name="liveLink" value={projectData.liveLink} required
                 onChange={handleInputChange}  />
           </LabelInputContainer>
            <LabelInputContainer className="mb-2">
@@ -286,7 +307,8 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
         type="submit"
       >
-        Update &rarr;
+        {id ? <>Update &rarr;</> : <>Create &rarr;</>}
+        {/* Update &rarr; */}
         <BottomGradient />
       </button>
                 </form>
