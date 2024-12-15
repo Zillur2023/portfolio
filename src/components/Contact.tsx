@@ -29,9 +29,10 @@ export function Contact() {
   ];
   return (
    <div>
+    <h1 className="heading"> Contact me </h1>
      <div className="relative z-20 py-0 lg:py-0 max-w-7xl mx-auto ">
            <div className="relative ">
-        <div className="grid grid-cols-1 lg:grid-cols-6 mt-5 xl:border rounded-md dark:border-neutral-800">
+        <div className="grid grid-cols-1 lg:grid-cols-6  xl:border rounded-md dark:border-neutral-800">
           {features.map((feature) => (
             <FeatureCard key={feature.title} className={feature.className}>
               <FeatureTitle>{feature.title}</FeatureTitle>
@@ -104,7 +105,7 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
   // Handle form submission logic (e.g., send data to backend)
 };
   return (
-    <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
+    <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl px-4 md:px-8 shadow-input bg-white dark:bg-black">
       <h2 className="title text-center text-neutral-800 dark:text-neutral-200">
         Email me
       </h2>
@@ -155,7 +156,7 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
 export const Skeleton = () => {
   return (
-    <div className="h-60 md:h-60  flex flex-col items-center relative bg-transparent dark:bg-transparent mt-10">
+    <div className="h-60 md:h-60  flex flex-col items-center relative bg-transparent dark:bg-transparent ">
       <Globe className="absolute -right-10 md:-right-10 -bottom-80 md:-bottom-72" />
     </div>
   );

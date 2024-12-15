@@ -86,10 +86,11 @@ import { SiNextdotjs, SiVuedotjs, SiMongodb, SiCloudinary, SiFirebase, SiExpress
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6  ">
           {
        tecnologies?.map(item => (
-          <div key={item?.name} className=" flex justify-center items-center my-5 ">
+          <div key={item?.name} className="  h-32 w-32 flex justify-center items-center my-5 ">
           <motion.div
+          key={item?.name}
         variants={item?.variants}
-        className="h-full w-full rounded-2xl bg-white dark:bg-black   flex flex-col items-center justify-center"
+        className="h-full w-full rounded-2xl bg-white dark:bg-black  flex flex-col items-center justify-center"
       >
         {/* <Image
           src="https://pbs.twimg.com/profile_images/1417752099488636931/cs2R59eW_400x400.jpg"
@@ -98,7 +99,7 @@ import { SiNextdotjs, SiVuedotjs, SiMongodb, SiCloudinary, SiFirebase, SiExpress
           width="100"
           className="rounded-full h-10 w-10"
         /> */}
-        <div className=" w-16 h-16">
+        <div className=" h-24 w-24">
 
         {/* <img src={item?.src} alt="icon5" className="rounded-full h-full w-full " /> */}
         {item?.icon}
@@ -110,7 +111,7 @@ import { SiNextdotjs, SiVuedotjs, SiMongodb, SiCloudinary, SiFirebase, SiExpress
           {item?.text}
         </p> */}
       </motion.div>
-     </div>
+        </div> 
         ))
       }
             

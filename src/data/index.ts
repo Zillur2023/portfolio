@@ -1,5 +1,28 @@
 
 
+
+export const services = [
+  {
+    image: "/service1.svg",
+    title: "Frontend Development",
+    description:"I design and develop user-friendly interfaces that enhance user experience and drive conversions.",
+  },
+  {
+    image: "/service2.svg",
+    title: "Responsive Design",
+    description:" I create websites that look great and perform flawlessly on all devices, ensuring an optimal user experience.",
+  },
+  {
+    image: "/service3.svg",
+    title: "Performance Optimization",
+    description:" I optimize websites for speed and efficiency by reducing load times, enhancing responsiveness, and improving SEO.",
+  },
+  {
+    image: "/service4.svg",
+    title: "Maintenance and Support",
+    description:"I provide ongoing maintenance and updates to keep your applications secure, fast, and up-to-date with the latest technologies.",
+  },
+]
 export const navItems = [
   { name: "About", link: "#about" },
   { name: "Projects", link: "#projects" },

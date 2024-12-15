@@ -141,11 +141,11 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
       <h1 className="heading">
         Projects
       </h1>
-      <div className="flex flex-wrap items-center justify-between  ">
+      <div className=" grid grid-cols-1 md:grid-cols-2 place-items-center">
      {  projects?.length ? (
         projects?.map((item) => (
           <div
-            className="lg:min-h-[32.5rem] h-[25rem] flex items-center justify-center sm:w-96 w-96"
+            className=" flex items-center justify-center w-80 md:w-96"
             key={item?._id}
           >
             <PinContainer
@@ -171,7 +171,7 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
                
               <div 
               // onMouseLeave={() => setActive(null)}
-              className="relative flex items-center justify-center sm:w-96 w-96 overflow-hidden h-[20vh] lg:h-[30vh] mb-10">
+              className="relative flex items-center justify-center w-80 md:w-96 overflow-hidden h-[20vh] lg:h-[30vh] mb-10">
       
                 <div
                   className="relative w-full h-full overflow-hidden lg:rounded-3xl"
@@ -179,14 +179,19 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
                 >
                   <img src="/bg.png" alt="bgimg" />
                 </div>
-                <img
+                {/* <img
                   src={item?.image}
                   alt="cover"
                   className="z-10 absolute bottom-0"
-                />
+                /> */}
+                <div className="z-10 absolute bottom-0">
+
+                <FaGithub size={125} />
+                </div>
               </div>
 
-              <h1 className="title line-clamp-1">
+            <div className=" p-2">
+            <h1 className="title line-clamp-1">
                 {item?.title}
               </h1>
 
@@ -260,6 +265,7 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
 )}
               </div>
               </div>
+            </div>
             </PinContainer>
           </div>
         ))) : ("") }

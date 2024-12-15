@@ -5,6 +5,7 @@ import { Blog } from "@/components/Blog";
 import { Contact, ContactForm } from "@/components/Contact";
 import Hero from "@/components/Hero";
 import Project from "@/components/Project";
+import Service from "@/components/Service";
 import { Technology } from "@/components/Technology";
 
 export default function Home() {
@@ -25,11 +26,14 @@ export default function Home() {
       <Technology />
     </section>
     <section>
-      <Approach />
+      <Service />
     </section>
     <section>
-      <Blog />
+      <Approach />
     </section>
+    {/* <section>
+      <Blog />
+    </section> */}
     <section>
       <Contact />
     </section>

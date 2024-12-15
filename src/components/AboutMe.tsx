@@ -19,7 +19,7 @@ const AboutMe = () => {
            <div className="flex-1 flex justify-center items-center order-2 lg:order-2">
              <div>
              <h2 className=" text-3xl font-semibold">About Me</h2>
-                <p>I'm a frontend-focused MERN developer with expertise in Next.js, React, and TypeScript for building dynamic, responsive web apps. I use Redux for state management, Tailwind CSS for clean designs, and JavaScript for interactive features. On the backend, I work with Node.js, Express, Mongoose, and MongoDB, implementing secure authentication with JWT.</p>
+                <p>I&apos;m a frontend-focused MERN developer with expertise in Next.js, React, and TypeScript for building dynamic, responsive web apps. I use Redux for state management, Tailwind CSS for clean designs, and JavaScript for interactive features. On the backend, I work with Node.js, Express, Mongoose, and MongoDB, implementing secure authentication with JWT.</p>
                 <div className=" flex items-center justify-center gap-9 mt-8">
                   <button className=" bg-blue-500 px-2 py-1 rounded-md">Download Resume</button>
                   <span className=" ">
