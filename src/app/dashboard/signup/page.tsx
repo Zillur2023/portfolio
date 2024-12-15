@@ -8,11 +8,12 @@ import { toast } from 'sonner';
 import axios from "axios"
 import { useRouter } from 'next/navigation';
 import { FileUpload } from '@/components/ui/FileUpload';
+import { IUser } from '@/models/user';
 
 
 const SignupPage = () => {
   const router = useRouter()
-  const [userData, setUserData] = useState({ name: '', email: '', password: ''});
+  const [userData, setUserData] = useState<IUser>({ image: '', name: '', email: '', password: ''});
   const [files, setFiles] = useState<File[]>([]);
 
 
@@ -64,10 +65,15 @@ const SignupPage = () => {
       Email me
     </h2>
     <p className="text-neutral-600 text-sm  max-w-sm mt-2 dark:text-neutral-300">
-    If you'd like to work with me, let's discuss, and feel free to message me!
+    If you&apos;d like to work with me, let&apos;s discuss, and feel free to message me!
     </p>
 
     <form className="my-8" onSubmit={handleSubmit}>
+        <LabelInputContainer>
+          <Label htmlFor="image">Image</Label>
+          <Input id="image" placeholder="Enter your image" type="text" name="image" value={userData.image} required
+              onChange={handleInputChange}  />
+        </LabelInputContainer>
         <LabelInputContainer>
           <Label htmlFor="name">Name</Label>
           <Input id="name" placeholder="Enter your name" type="text" name="name" value={userData.name} required
@@ -84,10 +90,10 @@ const SignupPage = () => {
         <Input id="password" placeholder="Enter your password" type="text" name="password" value={userData.password} required
               onChange={handleInputChange}/>
       </LabelInputContainer>
-      <LabelInputContainer className="mb-4">
+      {/* <LabelInputContainer className="mb-4">
         <Label htmlFor="image">Image </Label>
         <FileUpload onChange={handleFileUpload} />
-      </LabelInputContainer>
+      </LabelInputContainer> */}
             <button
         className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
         type="submit"

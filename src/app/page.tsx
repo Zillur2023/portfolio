@@ -15,14 +15,17 @@ export default function Home() {
     <section>
       <Hero />
     </section>
-    <section>
-      <Approach />
-    </section>
+    {/* <section>
+      <AboutMe />
+    </section> */}
     <section>
       <Project />
     </section>
     <section>
       <Technology />
+    </section>
+    <section>
+      <Approach />
     </section>
     <section>
       <Blog />

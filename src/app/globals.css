@@ -82,4 +82,10 @@
   .heading {
     @apply font-bold text-3xl md:text-4xl text-center text-black dark:text-white mb-10;
   }
+  .title{
+    @apply font-semibold lg:text-2xl md:text-xl text-lg
+  }
+  .paragraph{
+    @apply font-normal  text-base 
+  }
 }

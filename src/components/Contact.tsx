@@ -105,11 +105,11 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 };
   return (
     <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
-      <h2 className="font-bold text-xl text-center text-neutral-800 dark:text-neutral-200">
+      <h2 className="title text-center text-neutral-800 dark:text-neutral-200">
         Email me
       </h2>
-      <p className="text-neutral-600 text-sm  max-w-sm mt-2 dark:text-neutral-300">
-      If you'd like to work with me, let's discuss, and feel free to message me!
+      <p className="text-neutral-600 paragraph max-w-sm mt-2 dark:text-neutral-300">
+      If you&apos;d like to work with me, let&apos;s discuss, and feel free to message me!
       </p>
 
       <form className="my-8" onSubmit={handleSubmit}>

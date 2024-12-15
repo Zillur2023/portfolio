@@ -51,11 +51,11 @@ export interface IUser {
     password: string;
     passwordChangedAt?: Date;
     image: string;
-    role: 'admin';
-    status: "in-progress" | "blocked";
-    isDeleted: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+    role?: 'admin';
+    status?: "in-progress" | "blocked";
+    isDeleted?: boolean;
+    createdAt?: Date;
+    updatedAt?: Date;
   }
   
   
