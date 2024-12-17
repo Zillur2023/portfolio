@@ -24,15 +24,15 @@ const Service = () => {
               borderRadius: `calc(1.75rem* 0.96)`,
             }}
             // remove bg-white dark:bg-slate-900
-            className=" flex items-center justify-between p-2  text-black dark:text-white border-neutral-200 dark:border-slate-800"
+            className="  p-2  text-black dark:text-white border-neutral-200 dark:border-slate-800"
           >
-            {/* <div className="flex md:flex-row flex-col lg:items-center p-3 py-6 md:p-5 lg:p-10 gap-2"> */}
+            <div className="flex flex-col lg:flex-row items-center justify-between">
               <img
                 src={card.image}
                 alt={card.image}
-                className="lg:w-32 md:w-20 w-32 p-4"
+                className=" w-32 p-4"
               />
-              <div className="">
+              <div className=" p-4 ">
                 <h1 className="text-start title">
                   {card.title}
                 </h1>
@@ -40,7 +40,7 @@ const Service = () => {
                   {card.description}
                 </p>
               </div>
-            {/* </div> */}
+            </div>
           </MovingBorder>
         ))}
       </div>

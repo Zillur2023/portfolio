@@ -190,7 +190,7 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
                 </div>
               </div>
 
-            <div className=" p-2">
+            <div className=" px-2">
             <h1 className="title line-clamp-1">
                 {item?.title}
               </h1>
