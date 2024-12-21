@@ -40,7 +40,7 @@ const getProjects = async(projectId = null) => {
   try {
     const url = projectId ? `/api/dashboard/project?id=${projectId}` : `/api/dashboard/project`;
     const res = await axios.get(url)
-    // console.log({res})
+    console.log({res})
     // setProjects(projectId ? [data.projectData] : data.projectData);
     setProjects(projectId ? [res?.data?.data] : res?.data?.data);
   } catch (error) {
