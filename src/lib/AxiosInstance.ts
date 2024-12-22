@@ -1,5 +1,5 @@
 import config from "@/config";
-import { getNewAccessToken } from "@/services/AuthService";
+import { getNewAccessToken } from "@/services/auth";
 import axios from "axios";
 import { cookies } from "next/headers";
 
@@ -35,7 +35,7 @@ axiosInstance.interceptors.response.use(
       const res = await getNewAccessToken();
       const accessToken = res.data.accessToken;
 
-      config.headers["Authorization"] = accessToken;
+      config.headers["Authorization"] = accessToken; 
       cookies().set("accessToken", accessToken);
 
       return axiosInstance(config);

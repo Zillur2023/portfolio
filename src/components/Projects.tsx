@@ -19,8 +19,9 @@ import { Menu } from "./ui/Menu";
 import { tecnologies } from "./Technology";
 import { FaGithub  } from 'react-icons/fa';
 import BorderMagicBtn from "./ui/BorderMagicBtn";
+import { useGetProjects } from "@/hooks/projects.hooks";
 
-const Project = () => {
+const Projects = () => {
   const { user } = useUser()
   const [projects, setProjects] = useState<IProject[]>([])
   const [active, setActive] = useState<string | null>(null);
@@ -35,6 +36,9 @@ const Project = () => {
   // console.log({projects})
   // console.log("project.length", projects?.[0]?.image)
   // console.log({projectData})
+
+  const { data } = useGetProjects()
+  console.log({data})
  
 const getProjects = async(projectId = null) => {
   try {
@@ -336,4 +340,4 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
   );
 };
 
-export default Project;
+export default Projects;

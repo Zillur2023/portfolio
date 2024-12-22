@@ -1,4 +1,4 @@
-import { loginUser, registerUser } from "@/services/AuthService";
+import { loginUser, registerUser } from "@/services/auth";
 import { useMutation } from "@tanstack/react-query";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";

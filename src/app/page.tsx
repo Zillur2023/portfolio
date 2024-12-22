@@ -4,7 +4,7 @@ import { Approach } from "@/components/Approach";
 import { Blog } from "@/components/Blog";
 import { Contact, ContactForm } from "@/components/Contact";
 import Hero from "@/components/Hero";
-import Project from "@/components/Project";
+import Projects from "@/components/Projects";
 import Service from "@/components/Service";
 import { Technology } from "@/components/Technology";
 
@@ -20,7 +20,7 @@ export default function Home() {
       <AboutMe />
     </section> */}
     <section>
-      <Project />
+      <Projects />
     </section>
     <section>
       <Technology />
