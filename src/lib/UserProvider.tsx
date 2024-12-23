@@ -1,5 +1,5 @@
 import { IUser } from "@/models/user";
-import { getUser } from "@/services/AuthService";
+import { getUser } from "@/services/auth";
 import {
   createContext,
   Dispatch,

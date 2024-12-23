@@ -9,13 +9,15 @@ import axios from "axios"
 import { useRouter } from 'next/navigation';
 import { FileUpload } from '@/components/ui/FileUpload';
 import { IUser } from '@/models/user';
+import { useUserSignup } from '@/hooks/auth.hooks';
 
 
 const SignupPage = () => {
   const router = useRouter()
   const [userData, setUserData] = useState<IUser>({ image: '', name: '', email: '', password: ''});
   const [files, setFiles] = useState<File[]>([]);
-
+  const { mutate: handleUserSignup, isPending } = useUserSignup()
+ 
 
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -39,24 +41,25 @@ const SignupPage = () => {
     formData.append("image", files?.[0])
     // formData.append("image", proImage)
 
-    const toastId = toast.loading("loading...")
+    // const toastId = toast.loading("loading...")
+    handleUserSignup(formData)
 
-    try {
-      const res = await axios.post("/api/dashboard/signup", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      // const res = await axios.post("/api/dashboard/signup", userData)
-      console.log("signuppage result",res)
+    // try {
+    //   const res = await axios.post("/api/dashboard/signup", formData, {
+    //     headers: {
+    //       "Content-Type": "multipart/form-data",
+    //     },
+    //   })
+    //   // const res = await axios.post("/api/dashboard/signup", userData)
+    //   console.log("signuppage result",res)
     
-      if (res?.data?.success) {
-        toast.success(res?.data?.message, {id: toastId})
-        router.push("/dashboard/login")
-      } 
-    } catch (error) {
+    //   if (res?.data?.success) {
+    //     toast.success(res?.data?.message, {id: toastId})
+    //     router.push("/dashboard/login")
+    //   } 
+    // } catch (error) {
       
-    }
+    // }
   }; 
 
   return (

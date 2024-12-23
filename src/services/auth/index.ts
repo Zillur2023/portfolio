@@ -4,9 +4,13 @@ import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";
 
-export const registerUser = async (userData: FieldValues) => {
+export const signupUser = async (userData: FieldValues) => {
   try {
-    const { data } = await axiosInstance.post("/auth/register", userData);
+    const { data } = await axiosInstance.post("/auth/register", userData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
     // if (data.success) {
     //   cookies().set("accessToken", data?.data?.accessToken);
@@ -39,7 +43,8 @@ export const logout = () => {
   cookies().delete("refreshToken");
 };
 
-export const getCurrentUser = async () => {
+// export const getCurrentUser = async () => {
+export const getUser = async () => {
   const accessToken = cookies().get("accessToken")?.value;
 
   let decodedToken = null;

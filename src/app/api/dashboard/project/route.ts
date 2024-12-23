@@ -1,11 +1,49 @@
 import { connect } from "@/dbConfig/dbConfig";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { writeFile } from "fs/promises";
 import { User } from "@/models/user";
 import { Project } from "@/models/project";
 import fs from 'fs/promises';
+import { NextApiRequest, NextApiResponse } from "next";
+import formidable from "formidable";
 
+
+import { createRouter } from 'next-connect';
+import { multerUpload } from "@/config/multer.config";
 connect();
+
+// export const config = {
+//   api: {
+//     bodyParser: false,
+//     externalResolver: true,
+//   }
+// }
+
+// const router = createRouter()
+
+// router.post(multerUpload.single('image'),(req,res) => {
+//   const image = req.image
+
+//   console.log({image})
+//   const imageBuffer = Buffer.from(image.buffer)
+// })
+
+//  router.handler({
+//   onError: (err, req, res) => {
+//     console.log(err.stack)
+//     console.log({req})
+    
+//   }
+// })
+
+
+
+
+
+// export async function POST(req) {
+//   return handler(req);
+// }
+
 
 // Function to get valid image extension
 const getValidImageExtension = async (fileName: string) => {
@@ -43,66 +81,72 @@ export async function GET(request: Request) {
     }
   }
 
-export async function POST(request: Request) {
-  try {
-    const formData = await request.formData();
-    const projectData = JSON.parse(formData.get("projectData") as string);
-    console.log({projectData})
-    const image = formData.get("image") as File;
-    const projectId = projectData?._id; // Optional ID for updating
-    let imageUrl: string | undefined;
-    let imagePath: string | undefined;
+export async function POST(request: NextRequest ) {
+  console.log({request})
+  const formData = await request.formData();
+ console.log("{formData} route,", formData)
+  // try {
+  //   // console.log({request})
+  //   const formData = await request.formData();
+  //   console.log("{formData} route,", formData)
+  //   const projectData = JSON.parse(formData.get("projectData") as string);
+  //   console.log("{projectData} route,", projectData)
+  //   const image = formData.get("image") as File;
+  //   // const projectId = projectData?._id; // Optional ID for updating
+  //   const projectId = null; 
+  //   let imageUrl: string | undefined;
+  //   let imagePath: string | undefined;
 
-    // if (image instanceof File && image.name) {
+  //   // if (image instanceof File && image.name) {
 
-    //   if (projectId) {
-    //     const project = await Project.findById( projectId).select("image -_id")
-    //     console.log({project})
-    //     if (project?.image) {
-    //       await fs.unlink(`./public${project.image}`)
-    //     }
-    //  } 
-    //   const imageName = await getValidImageExtension(image.name);
-    //   const byteData = await image.arrayBuffer();
-    //   const buffer = Buffer.from(byteData);
-    //   imageUrl = `./public/project/${imageName}`;
-    //   imagePath = `/project/${imageName}`;
-    //   await writeFile(imageUrl, buffer);
+  //   //   if (projectId) {
+  //   //     const project = await Project.findById( projectId).select("image -_id")
+  //   //     console.log({project})
+  //   //     if (project?.image) {
+  //   //       await fs.unlink(`./public${project.image}`)
+  //   //     }
+  //   //  } 
+  //   //   // const imageName = await getValidImageExtension(image.name);
+  //   //   // const byteData = await image.arrayBuffer();
+  //   //   // const buffer = Buffer.from(byteData);
+  //   //   // imageUrl = `./public/project/${imageName}`;
+  //   //   // imagePath = `/project/${imageName}`;
+  //   //   // await writeFile(imageUrl, buffer);
      
 
      
 
-    // }
+  //   // }
 
-    let result;
-    if (projectId) {
-      // Update project if ID is provided
-      result = await Project.findByIdAndUpdate(
-        projectId,
-        { 
-          ...projectData, 
-          // ...(imageUrl && { image: imagePath }), 
-          // image: imagePath ? imagePath : undefined, 
-         },
-        { new: true } // Return the updated document
-      );
-    } else {
-      // Create new project
-      result = await Project.create({
-        ...projectData,
-        // image: imagePath,
-        // ...(imageUrl && { image: imagePath }),
-      });
-    }
+  //   let result;
+  //   if (projectId) {
+  //     // Update project if ID is provided
+  //     result = await Project.findByIdAndUpdate(
+  //       projectId,
+  //       { 
+  //         ...projectData, 
+  //         // ...(imageUrl && { image: imagePath }), 
+  //         // image: imagePath ? imagePath : undefined, 
+  //        },
+  //       { new: true } // Return the updated document
+  //     );
+  //   } else {
+  //     // Create new project
+  //     result = await Project.create({
+  //       ...projectData,
+  //       // image: imagePath,
+  //       // ...(imageUrl && { image: imagePath }),
+  //     });
+  //   }
 
-    return NextResponse.json({
-      message: projectId ? "Project updated successfully" : "Project created successfully",
-      success: true,
-      data: result,
-    });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
+  //   return NextResponse.json({
+  //     message: projectId ? "Project updated successfully" : "Project created successfully",
+  //     success: true,
+  //     data: result,
+  //   });
+  // } catch (error: any) {
+  //   return NextResponse.json({ error: error.message }, { status: 500 });
+  // }
 }
 
 export async function DELETE(request: Request) {
@@ -118,7 +162,8 @@ export async function DELETE(request: Request) {
     }
 
     // Find the project to retrieve the image path
-    const project = await Project.findById(projectId).select("image");
+    // const project = await Project.findById(projectId).select("image");
+    const project = await Project.findById(projectId);
 
     if (!project) {
       return NextResponse.json(
@@ -128,23 +173,23 @@ export async function DELETE(request: Request) {
     }
 
     // Delete the associated image file if it exists
-    if (project.image) {
-      const imagePath = `./public${project.image}`;
-      try {
-        await fs.unlink(imagePath); // Delete the file
-        console.log(`Deleted image file at: ${imagePath}`);
-      } catch (error) {
-        console.error(`Error deleting image file at: ${imagePath}`, error);
-        // Continue even if the image file couldn't be deleted
-      }
-    }
+    // if (project.image) {
+    //   const imagePath = `./public${project.image}`;
+    //   try {
+    //     await fs.unlink(imagePath); // Delete the file
+    //     console.log(`Deleted image file at: ${imagePath}`);
+    //   } catch (error) {
+    //     console.error(`Error deleting image file at: ${imagePath}`, error);
+    //     // Continue even if the image file couldn't be deleted
+    //   }
+    // }
 
     // Delete the project document
     await Project.findByIdAndDelete(projectId);
 
     return NextResponse.json({
-      message: "Project deleted successfully",
       success: true,
+      message: "Project deleted successfully",
     });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });

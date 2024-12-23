@@ -12,16 +12,18 @@ import { Input } from "./ui/Input";
 import Modal from "./ui/Modal";
 import { BottomGradient, Label, LabelInputContainer } from "./ui/Label";
 import { toast } from "sonner";
-import axios from "axios";
 import { Textarea } from "./ui/Textarea";
 import { IProject } from "@/models/project";
 import { Menu } from "./ui/Menu";
 import { tecnologies } from "./Technology";
 import { FaGithub  } from 'react-icons/fa';
 import BorderMagicBtn from "./ui/BorderMagicBtn";
-import { useGetProjects } from "@/hooks/projects.hooks";
+import { useCreateProject, useDeleteProject, useGetProjects } from "@/hooks/projects.hooks";
 
 const Projects = () => {
+  const { mutate: createProject, data:updateProjectData, isPending } = useCreateProject()
+  const { mutate: deleteProject } = useDeleteProject()
+  console.log({updateProjectData})
   const { user } = useUser()
   const [projects, setProjects] = useState<IProject[]>([])
   const [active, setActive] = useState<string | null>(null);
@@ -29,28 +31,19 @@ const Projects = () => {
   const [files, setFiles] = useState<File[]>([]);
   const [isModalOpen, setModalOpen] = useState(false)
   const [selectedTecnologies, setSelectedTecnologies] = useState<string[]>([]);
+  const [projectData, setProjectData] = useState<IProject>({ image:'', title: '', description: '', tecnologies: selectedTecnologies, githubLink: '', liveLink: ''});
   console.log({active})
 
+  
+
   // console.log({selectedTecnologies})
-  const [projectData, setProjectData] = useState<IProject>({ image:'', title: '', description: '', tecnologies: selectedTecnologies, githubLink: '', liveLink: ''});
   // console.log({projects})
   // console.log("project.length", projects?.[0]?.image)
-  // console.log({projectData})
+  console.log({projectData})
 
   const { data } = useGetProjects()
   console.log({data})
  
-const getProjects = async(projectId = null) => {
-  try {
-    const url = projectId ? `/api/dashboard/project?id=${projectId}` : `/api/dashboard/project`;
-    const res = await axios.get(url)
-    console.log({res})
-    // setProjects(projectId ? [data.projectData] : data.projectData);
-    setProjects(projectId ? [res?.data?.data] : res?.data?.data);
-  } catch (error) {
-    
-  }
-}
 
 const handleEdit = (project:any) => {
   console.log("handleEdit --project", project)
@@ -58,19 +51,13 @@ const handleEdit = (project:any) => {
   setProjectData({...project})
   setSelectedTecnologies([...project?.tecnologies])
   // setFiles([...project?.image])
-  getProjects()
+  // getProjects()
+ 
 };
 
 const handleDelete = async(projectId:string) => {
+  await deleteProject(projectId)
   console.log("handle Delete projectId", projectId)
-  try {
-    const res = await axios.delete(`/api/dashboard/project?id=${projectId}`)
-    console.log('delete --res', res)
-    getProjects()
-    
-  } catch (error) {
-    
-  }
 }
 
 
@@ -94,29 +81,32 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
   // Handle form submission logic (e.g., send data to backend)
   const formData = new FormData()
   formData.append("projectData", JSON.stringify(projectData))
-  formData.append("image", files?.[0])
+  // formData.append("image", files?.[0])
   // formData.append("image", proImage)
 
-  const toastId = toast.loading("loading...")
+  // const toastId = toast.loading("loading...")
+  console.log("formData.get",typeof formData)
 
-  try {
-    const res = await axios.post("/api/dashboard/project", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    })
-    // const res = await axios.post("/api/dashboard/signup", userData)
-    // console.log("signuppage result",res)
+  await createProject(formData)
+
+  // try {
+  //   const res = await axios.post("/api/dashboard/project", formData, {
+  //     headers: {
+  //       "Content-Type": "multipart/form-data",
+  //     },
+  //   })
+  //   // const res = await axios.post("/api/dashboard/signup", userData)
+  //   // console.log("signuppage result",res)
   
-    if (res?.data?.success) {
-      toast.success(res?.data?.message, {id: toastId})
-      getProjects(); // Re-fetch projects
+  //   if (res?.data?.success) {
+  //     toast.success(res?.data?.message, {id: toastId})
+  //     getProjects(); // Re-fetch projects
 
-      // router.push("/dashboard/login")
-    } 
-  } catch (error) {
+  //     // router.push("/dashboard/login")
+  //   } 
+  // } catch (error) {
     
-  }
+  // }
 }; 
 
   // const toggleModal = () => {
@@ -131,7 +121,6 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
   };
 
   useEffect(() => {
-    getProjects()
     setProjectData((prevData) => ({
       ...prevData,
       tecnologies: selectedTecnologies, // Update tecnologies when selectedTecnologies changes
@@ -146,8 +135,10 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         Projects
       </h1>
       <div className=" grid grid-cols-1 md:grid-cols-2 place-items-center">
-     {  projects?.length ? (
-        projects?.map((item) => (
+     {/* {  projects?.length ? (
+        projects?.map((item) => ( */}
+     {/* {  projects?.length ? ( */}
+      {   data?.data?.map((item: IProject) => (
           <div
             className=" flex items-center justify-center w-80 md:w-96"
             key={item?._id}
@@ -272,7 +263,7 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
             </div>
             </PinContainer>
           </div>
-        ))) : ("") }
+        )) }
       </div>
         <div className=" text-center" onClick={() => {setModalOpen(true); setId(null); setSelectedTecnologies([]); setProjectData({ title: '', description: '', tecnologies: selectedTecnologies, githubLink: '', liveLink: ''})}} >
             {/* Create Project */}
@@ -283,11 +274,11 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         <Modal onClose={() =>setModalOpen(false)}>
           <form className="my-8" onSubmit={handleSubmit}>
 
-           <LabelInputContainer className="mb-2">
+           {/* <LabelInputContainer className="mb-2">
             <Label htmlFor="image">Image</Label>
             <Input id="image" placeholder="Enter your image" type="text" name="image" value={projectData.image} required
                 onChange={handleInputChange}  />
-          </LabelInputContainer>
+          </LabelInputContainer> */}
            <LabelInputContainer className="mb-2">
             <Label htmlFor="title">Title</Label>
             <Input id="title" placeholder="Enter your title" type="text" name="title" value={projectData.title} required
