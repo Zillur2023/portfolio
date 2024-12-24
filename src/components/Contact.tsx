@@ -24,7 +24,7 @@ export function Contact() {
       description:
         "",
       skeleton: <Skeleton />,
-      className: "col-span-1 lg:col-span-3 border-b lg:border-none",
+      className: "col-span-1 lg:col-span-3 border-b lg:border-none hidden md:block",
     },
   ];
   return (
@@ -32,12 +32,15 @@ export function Contact() {
     <h1 className="heading"> Contact me </h1>
      <div className="relative z-20 py-0 lg:py-0 max-w-7xl mx-auto ">
            <div className="relative ">
-        <div className="grid grid-cols-1 lg:grid-cols-6  xl:border rounded-md dark:border-neutral-800">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6  xl:border rounded-md dark:border-neutral-800">
           {features.map((feature) => (
             <FeatureCard key={feature.title} className={feature.className}>
               <FeatureTitle>{feature.title}</FeatureTitle>
               <FeatureDescription>{feature.description}</FeatureDescription>
-              <div className=" h-full w-full">{feature.skeleton}</div>
+              {/* <div className=" h-full w-full hidden md:block ">{feature.skeleton}</div> */}
+              <div className="h-full w-full ">
+  {feature.skeleton && feature.skeleton}
+</div>
             </FeatureCard>
           ))}
         </div>

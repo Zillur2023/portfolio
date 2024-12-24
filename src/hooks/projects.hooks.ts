@@ -13,15 +13,19 @@ type ProjectResponse = {
 export const useCreateProject = () => {
   const queryClient = useQueryClient();
 
-  return useMutation<any, Error, any>({
+  return useMutation<any, Error, FormData>({
     mutationKey: ["CREATE_PROJECT"],
-    mutationFn: async (projectData) => await createProject(projectData),
+    mutationFn: async (projectData) => {
+      toast.loading("loading...")
+      await createProject(projectData)
+    },
     onSuccess: (data) => {
+      toast.dismiss();
       // if (data?.success) {
         toast.success( data?.message || "Project created successfully.");
-        // queryClient.invalidateQueries({
-        //   queryKey: ["GET_PROJECTS"],
-        // });
+        queryClient.invalidateQueries({
+          queryKey: ["GET_PROJECTS"],
+        });
       // } else {
       //   toast.error("Failed to create project.");
       // }
@@ -34,7 +38,7 @@ export const useCreateProject = () => {
 };
 
 export const useGetProjects = () => {
-  return useQuery<ProjectResponse, Error>({
+  return useQuery<any, Error>({
     queryKey: ["GET_PROJECTS"],
     queryFn: async () => await getProjects(),
     // onError: (error) => {
@@ -47,18 +51,19 @@ export const useDeleteProject = () => {
   const queryClient = useQueryClient();
 
 
-  return useMutation<ProjectResponse, Error, string>({
+  return useMutation<any, Error, string>({
     mutationKey: ["DELETE_PROJECT"],
-    mutationFn: async (projectId) => await deleteProject(projectId),
+    mutationFn: async (projectId) => {
+      toast.loading("loading...")
+      await deleteProject(projectId)
+    },
     onSuccess: (data) => {
-      if (data?.success) {
-        toast.success(  data?.message || "Project deleted successfully.");
+      toast.dismiss()
+        toast.success(  data?.message || "Delete successfully");
         queryClient.invalidateQueries({
           queryKey: ["GET_PROJECTS"],
         });
-      } else {
-        toast.error("Failed to delete project.");
-      }
+      
     },
     onError: (error: any) => {
       toast.error(error?.message || "An error occurred while deleting the project.");

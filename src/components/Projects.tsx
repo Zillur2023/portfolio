@@ -21,7 +21,7 @@ import BorderMagicBtn from "./ui/BorderMagicBtn";
 import { useCreateProject, useDeleteProject, useGetProjects } from "@/hooks/projects.hooks";
 
 const Projects = () => {
-  const { mutate: createProject, data:updateProjectData, isPending } = useCreateProject()
+  const { mutate: createProject, data:updateProjectData } = useCreateProject()
   const { mutate: deleteProject } = useDeleteProject()
   console.log({updateProjectData})
   const { user } = useUser()
@@ -31,7 +31,7 @@ const Projects = () => {
   const [files, setFiles] = useState<File[]>([]);
   const [isModalOpen, setModalOpen] = useState(false)
   const [selectedTecnologies, setSelectedTecnologies] = useState<string[]>([]);
-  const [projectData, setProjectData] = useState<IProject>({ image:'', title: '', description: '', tecnologies: selectedTecnologies, githubLink: '', liveLink: ''});
+  const [projectData, setProjectData] = useState<IProject>({_id:"", image:'', title: '', description: '', tecnologies: selectedTecnologies, githubLink: '', liveLink: ''});
   console.log({active})
 
   
@@ -41,7 +41,7 @@ const Projects = () => {
   // console.log("project.length", projects?.[0]?.image)
   console.log({projectData})
 
-  const { data } = useGetProjects()
+  const { data, isPending } = useGetProjects()
   console.log({data})
  
 
@@ -78,13 +78,14 @@ const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
   // console.log("e.prevntDefault", userData)
-  // Handle form submission logic (e.g., send data to backend)
   const formData = new FormData()
   formData.append("projectData", JSON.stringify(projectData))
-  // formData.append("image", files?.[0])
+    
+  formData.append("image", files?.[0])
   // formData.append("image", proImage)
 
   // const toastId = toast.loading("loading...")
+  console.log("formData.get",formData.get("projectData"))
   console.log("formData.get",typeof formData)
 
   await createProject(formData)
@@ -127,7 +128,9 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     }));
   }, [selectedTecnologies ])
  
+ const isPendingClassName=" bg-gray-100 dark:bg-neutral-800 animate-pulse"
 
+ console.log({isPending})
 
   return (
     <div className="">
@@ -140,7 +143,7 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
      {/* {  projects?.length ? ( */}
       {   data?.data?.map((item: IProject) => (
           <div
-            className=" flex items-center justify-center w-80 md:w-96"
+            className=" flex items-center justify-center w-80 md:w-[360px]"
             key={item?._id}
           >
             <PinContainer
@@ -166,7 +169,7 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
                
               <div 
               // onMouseLeave={() => setActive(null)}
-              className="relative flex items-center justify-center w-80 md:w-96 overflow-hidden h-[20vh] lg:h-[30vh] mb-10">
+              className={`relative flex items-center justify-center w-80 md:w-[360px] overflow-hidden h-[20vh] lg:h-[30vh] mb-10`}>
       
                 <div
                   className="relative w-full h-full overflow-hidden lg:rounded-3xl"
@@ -174,15 +177,12 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
                 >
                   <img src="/bg.png" alt="bgimg" />
                 </div>
-                {/* <img
+                 <img
                   src={item?.image}
                   alt="cover"
                   className="z-10 absolute bottom-0"
-                /> */}
-                <div className="z-10 absolute bottom-0">
-
-                <FaGithub size={125} />
-                </div>
+                /> 
+                
               </div>
 
             <div className=" px-2">
@@ -248,6 +248,7 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
       <FaGithub size={25} />
     </button> */}
     <BorderMagicBtn btn={<FaGithub size={25} />} className=" h-8 w-12"  />
+    {/* <BorderMagicBtn btn={"Github"} className=" h-8 w-12"  /> */}
   </Link>
 )}
 {item?.liveLink && (
@@ -312,10 +313,10 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
               )) }
             </div>
           </LabelInputContainer>
-          {/* <LabelInputContainer className="mb-2">
+          <LabelInputContainer className="mb-2">
         <Label htmlFor="image">Image </Label>
         <FileUpload onChange={handleFileUpload} />
-      </LabelInputContainer> */}
+      </LabelInputContainer>
             <button
         className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
         type="submit"
