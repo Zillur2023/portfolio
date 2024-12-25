@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
-import { BottomGradient, Label, LabelInputContainer } from "./ui/Label";
-import { Input } from "./ui/Input";
-import { Textarea } from "./ui/Textarea";
+import { BottomGradient, Label, LabelInputContainer } from "./form/Label";
+import { Input } from "./form/Input";
+import { Textarea } from "./form/Textarea";
 import { cn } from "@/lib/utils";
 import createGlobe from "cobe";
 import { useEffect, useRef } from "react";

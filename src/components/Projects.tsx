@@ -8,17 +8,21 @@ import { CiMenuKebab } from "react-icons/ci";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { FileUpload } from "./ui/FileUpload";
-import { Input } from "./ui/Input";
+import { Input } from "./form/Input";
 import Modal from "./ui/Modal";
-import { BottomGradient, Label, LabelInputContainer } from "./ui/Label";
+import { BottomGradient, Label, LabelInputContainer } from "./form/Label";
 import { toast } from "sonner";
-import { Textarea } from "./ui/Textarea";
+import { Textarea } from "./form/Textarea";
 import { IProject } from "@/models/project";
 import { Menu } from "./ui/Menu";
 import { tecnologies } from "./Technology";
 import { FaGithub  } from 'react-icons/fa';
 import BorderMagicBtn from "./ui/BorderMagicBtn";
 import { useCreateProject, useDeleteProject, useGetProjects } from "@/hooks/projects.hooks";
+import Form from "./form/Form";
+import projectValidationSchema from "@/schemas/project.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 
 const Projects = () => {
   const { mutate: createProject, data:updateProjectData } = useCreateProject()
@@ -128,8 +132,6 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     }));
   }, [selectedTecnologies ])
  
- const isPendingClassName=" bg-gray-100 dark:bg-neutral-800 animate-pulse"
-
  console.log({isPending})
 
   return (
@@ -137,10 +139,40 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
       <h1 className="heading">
         Projects
       </h1>
-      <div className=" grid grid-cols-1 md:grid-cols-2 place-items-center">
-     {/* {  projects?.length ? (
-        projects?.map((item) => ( */}
-     {/* {  projects?.length ? ( */}
+      <div className=" grid grid-cols-1 md:grid-cols-2 place-items-center gap-5">
+      {
+        isPending && (
+        
+          [...new Array(2)].map((_, index) => (
+            <div
+              key={index}
+              className="flex flex-col items-center justify-center w-80 h-72  border rounded-lg  "
+            >
+              <div className="animate-pulse  flex items-center justify-center w-80   h-32 mt-[-55px] mb-5 bg-gray-100 dark:bg-neutral-800 rounded-lg">
+                {/* Skeleton Image Placeholder */}
+              </div>
+              <div className="animate-pulse w-80  space-y-4 h-20 px-2 ">
+                <div className="animate-pulse  h-4 w-3/4 bg-gray-100 dark:bg-neutral-800 rounded-md"/>
+                <div className="animate-pulse  h-6 w-full bg-gray-100 dark:bg-neutral-800 rounded-md"/>
+                <div className=" flex items-center justify-between ">
+                  <div className="flex -space-x-3">
+                  <div className=" animate-pulse  h-8 w-8 bg-gray-100 dark:bg-neutral-800 rounded-full"/>
+                  <div className=" animate-pulse  h-8 w-8 bg-gray-100 dark:bg-neutral-800 rounded-full"/>
+                  <div className=" animate-pulse  h-8 w-8 bg-gray-100 dark:bg-neutral-800 rounded-full"/>
+                  <div className=" animate-pulse  h-8 w-8 bg-gray-100 dark:bg-neutral-800 rounded-full"/>
+                  <div className=" animate-pulse  h-8 w-8 bg-gray-100 dark:bg-neutral-800 rounded-full"/>
+                  </div>
+                  <div className=" flex items-center justify-between gap-2">
+                    <div className="animate-pulse bg-gray-100 dark:bg-neutral-800  h-8 w-12 rounded-md" />
+                    <div className="animate-pulse bg-gray-100 dark:bg-neutral-800  h-8 w-12 rounded-md" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))
+        
+        )
+      }
       {   data?.data?.map((item: IProject) => (
           <div
             className=" flex items-center justify-center w-80 md:w-[360px]"
@@ -169,7 +201,7 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
                
               <div 
               // onMouseLeave={() => setActive(null)}
-              className={`relative flex items-center justify-center w-80 md:w-[360px] overflow-hidden h-[20vh] lg:h-[30vh] mb-10`}>
+              className={`relative flex items-center justify-center w-80 md:w-[360px] overflow-hidden h-[20vh] lg:h-[30vh] mb-5`}>
       
                 <div
                   className="relative w-full h-full overflow-hidden lg:rounded-3xl"
@@ -273,31 +305,35 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         {/* Modal outside MenuItem */}
         {isModalOpen && (
         <Modal onClose={() =>setModalOpen(false)}>
-          <form className="my-8" onSubmit={handleSubmit}>
+          {/* <form className="my-8" onSubmit={handleSubmit}> */}
 
-           {/* <LabelInputContainer className="mb-2">
+         <Form
+         resolver={zodResolver(projectValidationSchema)}
+         onSubmit={handleSubmit}
+         >
+            {/* <LabelInputContainer className="mb-2">
             <Label htmlFor="image">Image</Label>
             <Input id="image" placeholder="Enter your image" type="text" name="image" value={projectData.image} required
                 onChange={handleInputChange}  />
           </LabelInputContainer> */}
            <LabelInputContainer className="mb-2">
             <Label htmlFor="title">Title</Label>
-            <Input id="title" placeholder="Enter your title" type="text" name="title" value={projectData.title} required
+            <Input id="title" placeholder="Enter your title" type="text" name="title" value={projectData.title} 
                 onChange={handleInputChange}  />
           </LabelInputContainer>
            <LabelInputContainer className="mb-2">
             <Label htmlFor="githubLink">Github link</Label>
-            <Input id="githubLink" placeholder="Enter your github link" type="text" name="githubLink" value={projectData.githubLink} required
+            <Input id="githubLink" placeholder="Enter your github link" type="text" name="githubLink" value={projectData.githubLink} 
                 onChange={handleInputChange}  />
           </LabelInputContainer>
            <LabelInputContainer className="mb-2">
             <Label htmlFor="liveLink">Live link</Label>
-            <Input id="liveLink" placeholder="Enter your live link" type="text" name="liveLink" value={projectData.liveLink} required
+            <Input id="liveLink" placeholder="Enter your live link" type="text" name="liveLink" value={projectData.liveLink} 
                 onChange={handleInputChange}  />
           </LabelInputContainer>
            <LabelInputContainer className="mb-2">
             <Label htmlFor="description">Description</Label>
-            <Textarea id="description" placeholder="Enter your description" rows={3} name="description" value={projectData.description} required
+            <Textarea id="description" placeholder="Enter your description" rows={3} name="description" value={projectData.description} 
                 onChange={handleInputChange}  />
           </LabelInputContainer>
            <LabelInputContainer className="mb-2">
@@ -325,7 +361,8 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         {/* Update &rarr; */}
         <BottomGradient />
       </button>
-                </form>
+         </Form>
+                {/* </form> */}
         </Modal>
       )}
     </div>

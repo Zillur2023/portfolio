@@ -1,8 +1,8 @@
 'use client'
 import React, { useState } from 'react'
 // import { Label } from "./ui/Label";
-import { BottomGradient, Label, LabelInputContainer } from "../../../components/ui/Label";
-import { Input } from "../../../components/ui/Input";
+import { BottomGradient, Label, LabelInputContainer } from "../../../components/form/Label";
+import { Input } from "../../../components/form/Input";
 import { cn } from "@/lib/utils";
 import { toast } from 'sonner';
 import axios from "axios"

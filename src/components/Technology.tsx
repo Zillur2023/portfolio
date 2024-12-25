@@ -83,7 +83,7 @@ import { SiNextdotjs, SiVuedotjs, SiMongodb, SiCloudinary, SiFirebase, SiExpress
       className=" "
     >
       <h1 className="heading ">Technologies</h1>
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6  ">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 place-items-center  ">
           {
        tecnologies?.map(item => (
           <div key={item?.name} className="  h-32 w-32 flex justify-center items-center my-5 ">

@@ -47,7 +47,8 @@ const MyImage = () => {
             cx="253"
             cy="253"
             r="250"
-            stroke="#00ff99"
+            // stroke="#00ff99"
+            stroke="#a78bfa"
             strokeWidth="4"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -55,7 +56,8 @@ const MyImage = () => {
             animate= {{
               strokeDasharray: ["15 120 25 25", "16 25 92 72", "4 250 22 22"],
               rotate:[120, 360],
-              stroke: ["#00ff99", "#ff0099", "#0099ff"], // Color transition
+              // stroke: ["#00ff99", "#ff0099", "#0099ff"], // Color transition
+              // stroke: ["#00ff99", "#ff0099", "#0099ff"] 
             }}
             transition={{
               duration: 28,
