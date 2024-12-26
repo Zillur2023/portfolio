@@ -22,6 +22,7 @@ import { useCreateProject, useDeleteProject, useGetProjects } from "@/hooks/proj
 import Form from "./form/Form";
 import projectValidationSchema from "@/schemas/project.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { FieldValues, FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
 
 const Projects = () => {
@@ -79,11 +80,12 @@ const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   );
 };
 
-const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
+const handleSubmit: SubmitHandler<FieldValues> = async(data) => {
+  // e.preventDefault();
   // console.log("e.prevntDefault", userData)
+  console.log("Click in HandlSUbmit")
   const formData = new FormData()
-  formData.append("projectData", JSON.stringify(projectData))
+  formData.append("projectData", JSON.stringify(data))
     
   formData.append("image", files?.[0])
   // formData.append("image", proImage)
@@ -114,10 +116,6 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
   // }
 }; 
 
-  // const toggleModal = () => {
-  //   setModalOpen((prev) => !prev) // Toggle modal open/close
-  // }
-
   const handleFileUpload = (files: File[]) => {
     setFiles(files);
   
@@ -130,9 +128,15 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
       ...prevData,
       tecnologies: selectedTecnologies, // Update tecnologies when selectedTecnologies changes
     }));
-  }, [selectedTecnologies ])
+  }, [tecnologies, setSelectedTecnologies ])
  
  console.log({isPending})
+
+ const methods = useForm({resolver: zodResolver(projectValidationSchema)});
+ const { register, formState: { errors }, } = methods
+
+ console.log({errors})
+ 
 
   return (
     <div className="">
@@ -305,12 +309,13 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         {/* Modal outside MenuItem */}
         {isModalOpen && (
         <Modal onClose={() =>setModalOpen(false)}>
-          {/* <form className="my-8" onSubmit={handleSubmit}> */}
 
-         <Form
-         resolver={zodResolver(projectValidationSchema)}
-         onSubmit={handleSubmit}
-         >
+          <FormProvider {...methods} >
+          <form className="my-8" onSubmit={methods.handleSubmit(handleSubmit)}>
+
+        
+
+     
             {/* <LabelInputContainer className="mb-2">
             <Label htmlFor="image">Image</Label>
             <Input id="image" placeholder="Enter your image" type="text" name="image" value={projectData.image} required
@@ -318,23 +323,24 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
           </LabelInputContainer> */}
            <LabelInputContainer className="mb-2">
             <Label htmlFor="title">Title</Label>
-            <Input id="title" placeholder="Enter your title" type="text" name="title" value={projectData.title} 
-                onChange={handleInputChange}  />
+            <Input id="title" placeholder="Enter your title" type="text" name="title" 
+                />
           </LabelInputContainer>
            <LabelInputContainer className="mb-2">
             <Label htmlFor="githubLink">Github link</Label>
-            <Input id="githubLink" placeholder="Enter your github link" type="text" name="githubLink" value={projectData.githubLink} 
-                onChange={handleInputChange}  />
+            <Input id="githubLink" placeholder="Enter your github link" type="text" name="githubLink" 
+                />
           </LabelInputContainer>
            <LabelInputContainer className="mb-2">
             <Label htmlFor="liveLink">Live link</Label>
-            <Input id="liveLink" placeholder="Enter your live link" type="text" name="liveLink" value={projectData.liveLink} 
-                onChange={handleInputChange}  />
+            <Input id="liveLink" placeholder="Enter your live link" type="text" name="liveLink" 
+                />
           </LabelInputContainer>
            <LabelInputContainer className="mb-2">
             <Label htmlFor="description">Description</Label>
-            <Textarea id="description" placeholder="Enter your description" rows={3} name="description" value={projectData.description} 
-                onChange={handleInputChange}  />
+            <Textarea id="description" placeholder="Enter your description" rows={3} name="description"  
+                // onChange={handleInputChange}  
+                />
           </LabelInputContainer>
            <LabelInputContainer className="mb-2">
             <Label htmlFor="tecnologies">Tecnologies</Label>
@@ -342,12 +348,14 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
             { tecnologies?.map((tec) => (
               
               <div key={tec.name} >
-                <input type="checkbox" name="tecnologies" value={tec.name} checked={selectedTecnologies.includes(tec.name)} 
+                <input {...register('tecnologies')} type="checkbox" name="tecnologies" value={tec.name} checked={selectedTecnologies.includes(tec.name)} 
                   onChange={handleCheckboxChange}  />
               <label className=" text-sm font-normal"> {tec.name} </label>
               </div>
               )) }
             </div>
+              {/* {errors?.['tecnologies']?.message && <p className="text-xs text-red-500">{errors?.['tecnologies']?.message as string}</p>} */}
+              {selectedTecnologies.length === 0 && <p className="text-xs text-red-500">{errors?.['tecnologies']?.message as string}</p>}
           </LabelInputContainer>
           <LabelInputContainer className="mb-2">
         <Label htmlFor="image">Image </Label>
@@ -361,8 +369,8 @@ const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         {/* Update &rarr; */}
         <BottomGradient />
       </button>
-         </Form>
-                {/* </form> */}
+                </form>
+      </FormProvider>
         </Modal>
       )}
     </div>

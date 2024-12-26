@@ -10,21 +10,25 @@ import { useRouter } from 'next/navigation';
 import { FileUpload } from '@/components/ui/FileUpload';
 import { IUser } from '@/models/user';
 import { useUserSignup } from '@/hooks/auth.hooks';
+import Form from '@/components/form/Form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import signupValidationSchema from '@/schemas/signup.schema';
+import { FieldValues, SubmitHandler } from 'react-hook-form';
 
 
 const SignupPage = () => {
   const router = useRouter()
-  const [userData, setUserData] = useState<IUser>({ image: '', name: '', email: '', password: ''});
+  // const [userData, setUserData] = useState<IUser>({ image: '', name: '', email: '', password: ''});
   const [files, setFiles] = useState<File[]>([]);
   const { mutate: handleUserSignup, isPending } = useUserSignup()
  
 
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setUserData({ ...userData, [name]: value });
-  };
-
+  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  //   const { name, value } = e.target;
+  //   setUserData({ ...userData, [name]: value });
+  // };
+  
   const handleFileUpload = (files: File[]) => {
     setFiles(files);
   
@@ -32,12 +36,14 @@ const SignupPage = () => {
     
   };
   
-  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  // const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit: SubmitHandler<FieldValues> = async(data) => {
+    // e.preventDefault();
     // console.log("e.prevntDefault", userData)
     // Handle form submission logic (e.g., send data to backend)
+    console.log("click in SignUP button")
     const formData = new FormData()
-    formData.append("userData", JSON.stringify(userData))
+    formData.append("userData", JSON.stringify(data))
     formData.append("image", files?.[0])
     // formData.append("image", proImage)
 
@@ -71,33 +77,41 @@ const SignupPage = () => {
     If you&apos;d like to work with me, let&apos;s discuss, and feel free to message me!
     </p>
 
-    <form className="my-8" onSubmit={handleSubmit}>
-        <LabelInputContainer>
+    {/* <form className="my-8" onSubmit={handleSubmit}> */}
+    <Form
+    resolver={zodResolver(signupValidationSchema)}
+    onSubmit={handleSubmit}
+    >
+    {/* <LabelInputContainer>
           <Label htmlFor="image">Image</Label>
-          <Input id="image" placeholder="Enter your image" type="text" name="image" value={userData.image} required
-              onChange={handleInputChange}  />
-        </LabelInputContainer>
+          <Input id="image" placeholder="Enter your image" type="text" name="image" 
+              // onChange={handleInputChange}  
+              />
+        </LabelInputContainer> */}
         <LabelInputContainer>
           <Label htmlFor="name">Name</Label>
-          <Input id="name" placeholder="Enter your name" type="text" name="name" value={userData.name} required
-              onChange={handleInputChange}  />
+          <Input id="name" placeholder="Enter your name" type="text" name="name" 
+              // onChange={handleInputChange}  
+              />
         </LabelInputContainer>
        
       <LabelInputContainer className="mb-4">
         <Label htmlFor="email">Email </Label>
-        <Input id="email" placeholder="Enter your email" type="email" name="email" value={userData.email} required
-              onChange={handleInputChange}/>
+        <Input id="email" placeholder="Enter your email" type="email" name="email" 
+              // onChange={handleInputChange}
+              />
       </LabelInputContainer>
       <LabelInputContainer className="mb-4">
         <Label htmlFor="password">Passsword </Label>
-        <Input id="password" placeholder="Enter your password" type="text" name="password" value={userData.password} required
-              onChange={handleInputChange}/>
+        <Input id="password" placeholder="Enter your password" type="text" name="password" 
+              // onChange={handleInputChange}
+              />
       </LabelInputContainer>
-      {/* <LabelInputContainer className="mb-4">
+       <LabelInputContainer className="mb-4">
         <Label htmlFor="image">Image </Label>
         <FileUpload onChange={handleFileUpload} />
-      </LabelInputContainer> */}
-            <button
+      </LabelInputContainer> 
+            <button 
         className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
         type="submit"
       >
@@ -106,9 +120,10 @@ const SignupPage = () => {
       </button>
 
       <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
+    </Form>
 
   
-    </form>
+    {/* </form> */}
   </div>
   )
 }

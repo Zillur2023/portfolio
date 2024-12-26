@@ -6,6 +6,10 @@ import { Textarea } from "./form/Textarea";
 import { cn } from "@/lib/utils";
 import createGlobe from "cobe";
 import { useEffect, useRef } from "react";
+import Form from "./form/Form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import contactValidationSchema from "@/schemas/contact.schema";
+import { FieldValues, SubmitHandler } from "react-hook-form";
 
 
 export function Contact() {
@@ -102,9 +106,10 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaE
   setFormData({ ...formData, [name]: value });
 };
 
-const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-  console.log("e.prevntDefault", formData)
+// const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit: SubmitHandler<FieldValues> = (data) => {
+  // e.preventDefault();
+  console.log("contact formData  ", data)
   // Handle form submission logic (e.g., send data to backend)
 };
   return (
@@ -116,29 +121,36 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       If you&apos;d like to work with me, let&apos;s discuss, and feel free to message me!
       </p>
 
-      <form className="my-8" onSubmit={handleSubmit}>
-          <LabelInputContainer>
+      {/* <form className="my-8" onSubmit={handleSubmit}> */}
+  <Form
+  resolver={zodResolver(contactValidationSchema)}
+  onSubmit={handleSubmit}
+  >
+  <LabelInputContainer>
             <Label htmlFor="name">Name</Label>
-            <Input id="name" placeholder="Enter your name" type="text" name="name" value={formData.name} required
-                onChange={handleInputChange}  />
+            <Input id="name" placeholder="Enter your name" type="text" name="name" 
+                // onChange={handleInputChange} 
+                 />
           </LabelInputContainer>
          
         <LabelInputContainer className="mb-4">
           <Label htmlFor="email">Email </Label>
-          <Input id="email" placeholder="Enter your email" type="email" name="email" value={formData.email} required
-                onChange={handleInputChange}/>
+          <Input id="email" placeholder="Enter your email" type="email" name="email" 
+                // onChange={handleInputChange}
+                />
         </LabelInputContainer>
         <LabelInputContainer className="mb-4">
           <Label htmlFor="message">Message</Label>
           {/* <Input */}
           <Textarea
+          id="message"
+          type="text"
   placeholder="Enter your message here..." 
 //   className="custom-class" 
    rows={4}  
   name="message"
-   value={formData.message}
-   required
-                onChange={handleInputChange}
+   
+                // onChange={handleInputChange}
 />
         </LabelInputContainer>
               <button
@@ -150,9 +162,10 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         </button>
 
         <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
+  </Form>
 
     
-      </form>
+      {/* </form> */}
     </div>
   );
 }

@@ -25,11 +25,11 @@ export default function Form({
     formConfig["defaultValues"] = defaultValues;
   }
 
-  if (!!resolver) {
-    formConfig["resolver"] = resolver;
-  }
+//   if (!!resolver) {
+//     formConfig["resolver"] = resolver;
+//   }
 
-  const methods = useForm(formConfig);
+  const methods = useForm({resolver: resolver});
 
   const submitHandler = methods.handleSubmit;
 
