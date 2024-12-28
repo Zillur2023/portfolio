@@ -5,11 +5,9 @@ import { User } from "@/models/user";
 import { Project } from "@/models/project";
 import fs from 'fs/promises';
 import { NextApiRequest, NextApiResponse } from "next";
-import formidable from "formidable";
 
-import multer from "multer";
+// import multer from "multer";
 import { NextRequest, NextResponse } from "next/server";
-import { multerUpload } from "@/config/multer.config";
 
 connect();
 

@@ -10,6 +10,7 @@ import Form from "./form/Form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import contactValidationSchema from "@/schemas/contact.schema";
 import { FieldValues, SubmitHandler } from "react-hook-form";
+import { useUserMessage } from "@/hooks/message.hooks";
 
 
 export function Contact() {
@@ -98,18 +99,20 @@ export function ContactForm() {
 //     console.log("e.prevntDefault",e.target.value)
 //     console.log("Form submitted");
 //   };
-const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+// const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+const { mutate: createMessage } = useUserMessage()
 
 
-const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-  const { name, value } = e.target;
-  setFormData({ ...formData, [name]: value });
-};
+// const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+//   const { name, value } = e.target;
+//   setFormData({ ...formData, [name]: value });
+// };
 
 // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
   const handleSubmit: SubmitHandler<FieldValues> = (data) => {
   // e.preventDefault();
   console.log("contact formData  ", data)
+  createMessage(data)
   // Handle form submission logic (e.g., send data to backend)
 };
   return (

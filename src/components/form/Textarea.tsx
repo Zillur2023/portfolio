@@ -4,21 +4,6 @@ import { cn } from "@/lib/utils";
 import { useMotionTemplate, useMotionValue, motion } from "framer-motion";
 import { useFormContext } from "react-hook-form";
 
-//  export function Textarea({id, name, rows=3, placeholder}:any) {
-//   const { register , formState:{errors}} = useFormContext(); // Retrieve all hook methods
-
-//   return (
-//     <div>
-//       <textarea {...register(name)} name={name} rows={rows} id={name} placeholder={placeholder} />;
-//       {errors[name!] && (
-//           <span className="text-xs text-red-500">
-//            {(errors[name!]?.message as string) || "This field is required."}
-//           </span>
-//         )}
-
-//     </div>
-//   )
-// }
 
 // export interface TextareaProps
 //   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
