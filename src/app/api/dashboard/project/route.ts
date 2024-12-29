@@ -1,18 +1,13 @@
 import { connect } from "@/dbConfig/dbConfig";
-// import { NextRequest, NextResponse } from "next/server";
 import { writeFile } from "fs/promises";
 import { User } from "@/models/user";
 import { Project } from "@/models/project";
 import fs from 'fs/promises';
-import { NextApiRequest, NextApiResponse } from "next";
 
 // import multer from "multer";
 import { NextRequest, NextResponse } from "next/server";
 
 connect();
-
-
-
 
 // export async function POST(req) {
 //   return handler(req);
@@ -48,6 +43,7 @@ export async function GET(request: Request) {
   
       return NextResponse.json({
         success: true,
+        message: "Projects get successfully",
         data:result,
       });
     } catch (error: any) {
@@ -78,7 +74,7 @@ export async function POST(request: NextRequest ) {
 
       if (projectId) {
         const project = await Project.findById( projectId).select("image -_id")
-        console.log({project})
+        // console.log({project})
         if (project?.image === `./public${project.image}`) {
           await fs.unlink(`./public${project.image}`)
         }
@@ -89,16 +85,13 @@ export async function POST(request: NextRequest ) {
       imageUrl = `./public/project/${imageName}`;
       imagePath = `/project/${imageName}`;
       await writeFile(imageUrl, buffer);
-     
-
-     
-
+ 
     }
 
     let result;
     if (projectId) {
       // Update project if ID is provided
-      console.log("project id home")
+      // console.log("project id home")
       result = await Project.findByIdAndUpdate(
         projectId,
         { 
@@ -110,7 +103,7 @@ export async function POST(request: NextRequest ) {
       );
     } else {
       // Create new project
-      console.log("without project id home")
+      // console.log("without project id home")
       result = await Project.create({
         ...projectData,
         // image: imagePath,
@@ -120,6 +113,7 @@ export async function POST(request: NextRequest ) {
 
     return NextResponse.json({
       success: true,
+      // message: "Project created successfully",
       message: projectId ? "Project updated successfully" : "Project created successfully",
       data: result,
     });
@@ -156,7 +150,7 @@ export async function DELETE(request: Request) {
       const imagePath = `./public${project.image}`;
       try {
         await fs.unlink(imagePath); // Delete the file
-        console.log(`Deleted image file at: ${imagePath}`);
+        // console.log(`Deleted image file at: ${imagePath}`);
       } catch (error) {
         console.error(`Error deleting image file at: ${imagePath}`, error);
         // Continue even if the image file couldn't be deleted

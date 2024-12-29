@@ -17,20 +17,21 @@ export const useCreateProject = () => {
     mutationKey: ["CREATE_PROJECT"],
     mutationFn: async (projectData) => {
       toast.loading("loading...")
-      await createProject(projectData)
+      return await createProject(projectData)
     },
     onSuccess: (data) => {
+      console.log("hooks create data", data)
       toast.dismiss();
-      // if (data?.success) {
-        toast.success( data?.message || "Project created successfully.");
-        queryClient.invalidateQueries({
-          queryKey: ["GET_PROJECTS"],
-        });
-      // } else {
-      //   toast.error("Failed to create project.");
-      // }
+      if (data?.success) {
+        toast.success(data.message || "Project created successfully.");
+        queryClient.invalidateQueries({ queryKey: ["GET_PROJECTS"] });
+      } else {
+        toast.error(data.message || "Failed to create project.");
+      }
     },
     onError: (error: any) => {
+      // toast.dismiss();
+      console.log("hooks create project error", error)
       toast.error(error?.message || "An error occurred while creating the project.");
     },
    
@@ -42,7 +43,7 @@ export const useGetProjects = () => {
     queryKey: ["GET_PROJECTS"],
     queryFn: async () => await getProjects(),
     // onError: (error) => {
-    //   toast.error(error?.message || "Failed to fetch projects.");
+    //   toast.error(error.message || "Failed to fetch projects.");
     // },
   });
 };
@@ -55,17 +56,19 @@ export const useDeleteProject = () => {
     mutationKey: ["DELETE_PROJECT"],
     mutationFn: async (projectId) => {
       toast.loading("loading...")
-      await deleteProject(projectId)
+      return await deleteProject(projectId)
     },
     onSuccess: (data) => {
-      toast.dismiss()
-        toast.success(  data?.message || "Delete successfully");
-        queryClient.invalidateQueries({
-          queryKey: ["GET_PROJECTS"],
-        });
-      
+      toast.dismiss();
+      if (data?.success) {
+        toast.success(data.message || "Project deleted successfully.");
+        queryClient.invalidateQueries({ queryKey: ["GET_PROJECTS"] });
+      } else {
+        toast.error(data.message || "Failed to delete project.");
+      }
     },
     onError: (error: any) => {
+      toast.dismiss();
       toast.error(error?.message || "An error occurred while deleting the project.");
     },
   });

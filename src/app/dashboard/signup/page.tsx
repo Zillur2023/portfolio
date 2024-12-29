@@ -3,9 +3,6 @@ import React, { useState } from 'react'
 // import { Label } from "./ui/Label";
 import { BottomGradient, Label, LabelInputContainer } from "../../../components/form/Label";
 import { Input } from "../../../components/form/Input";
-import { cn } from "@/lib/utils";
-import { toast } from 'sonner';
-import axios from "axios"
 import { useRouter } from 'next/navigation';
 import { FileUpload } from '@/components/ui/FileUpload';
 import { IUser } from '@/models/user';
@@ -20,9 +17,7 @@ const SignupPage = () => {
   const router = useRouter()
   // const [userData, setUserData] = useState<IUser>({ image: '', name: '', email: '', password: ''});
   const [files, setFiles] = useState<File[]>([]);
-  const { mutate: handleUserSignup, isPending } = useUserSignup()
- 
-
+  const { mutate: handleUserSignup } = useUserSignup()
 
   // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
   //   const { name, value } = e.target;
@@ -37,7 +32,7 @@ const SignupPage = () => {
   };
   
   // const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
-    const handleSubmit: SubmitHandler<FieldValues> = async(data) => {
+    const handleSubmit: SubmitHandler<FormData> = async(data) => {
     // e.preventDefault();
     // console.log("e.prevntDefault", userData)
     // Handle form submission logic (e.g., send data to backend)
@@ -107,10 +102,10 @@ const SignupPage = () => {
               // onChange={handleInputChange}
               />
       </LabelInputContainer>
-       <LabelInputContainer className="mb-4">
+       {/* <LabelInputContainer className="mb-4">
         <Label htmlFor="image">Image </Label>
         <FileUpload onChange={handleFileUpload} />
-      </LabelInputContainer> 
+      </LabelInputContainer>  */}
             <button 
         className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
         type="submit"

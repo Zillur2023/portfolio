@@ -4,7 +4,8 @@ import axios from "axios";
 import { cookies } from "next/headers";
 
 const axiosInstance = axios.create({
-  baseURL: config.base_api,
+  // baseURL: config.base_api,
+  baseURL: 'http://localhost:3000/api',
 });
 
 // axiosInstance.interceptors.request.use(

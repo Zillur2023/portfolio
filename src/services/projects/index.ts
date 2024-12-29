@@ -5,24 +5,21 @@ import axios from "axios";
 import { FieldValues } from "react-hook-form";
 
 
-export const createProject = async (projectData: FormData): Promise<any> => {
+export const createProject = async (projectData: FormData) => {
   console.log("{projectData}) client", projectData)
   // console.log(projectData)
   try {
-    // const res = await axios.post("http://localhost:3000/api/dashboard/project", projectData, {
-    // const { data } = await axiosInstance.post("/dashboard/project", projectData, {
-    //   headers: {
-    //     'Content-Type': 'multipart/form-data'
-    //   }
-    // });
+    // const result = await axios.post("http://localhost:3000/api/dashboard/project", projectData)
+  
     const data = await fetch("http://localhost:3000/api/dashboard/project",{
       method: "POST",
       body: projectData
     })
+    const result = await data.json();
 
-  // console.log("create Project data",data)
+  console.log("create Project data", result?.data)
 
-    // return data;
+    return result;
   } catch (error: any) {
     // throw new Error(error);
     // console.log({error})
@@ -45,7 +42,7 @@ export const deleteProject = async (projectId: string) => {
   // console.log({projectId})
   try {
     const { data } = await axios.delete(`http://localhost:3000/api/dashboard/project?id=${projectId}`)
-    console.log("{data} delete", data)
+    // console.log("{data} delete", data)
 
     return data
   } catch (error: any) {

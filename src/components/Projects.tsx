@@ -1,6 +1,4 @@
 "use client";
-
-import { FaLocationArrow } from "react-icons/fa6";
 import { FloatingDock } from "./FloatingDock";
 import { useUser } from "@/lib/UserProvider";
 import { PinContainer } from "./ui/PinContainer";
@@ -11,7 +9,6 @@ import { FileUpload } from "./ui/FileUpload";
 import { Input } from "./form/Input";
 import Modal from "./ui/Modal";
 import { BottomGradient, Label, LabelInputContainer } from "./form/Label";
-import { toast } from "sonner";
 import { Textarea } from "./form/Textarea";
 import { IProject } from "@/models/project";
 import { Menu } from "./ui/Menu";
@@ -19,58 +16,58 @@ import { tecnologies } from "./Technology";
 import { FaGithub  } from 'react-icons/fa';
 import BorderMagicBtn from "./ui/BorderMagicBtn";
 import { useCreateProject, useDeleteProject, useGetProjects } from "@/hooks/projects.hooks";
-import Form from "./form/Form";
 import projectValidationSchema from "@/schemas/project.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldValues, FormProvider, SubmitHandler, useForm } from "react-hook-form";
+import LoadingProject from "./ui/LoadingProject";
 
 
 const Projects = () => {
-  const { mutate: createProject, data:updateProjectData } = useCreateProject()
+  const { mutate: createProject } = useCreateProject()
   const { mutate: deleteProject } = useDeleteProject()
-  console.log({updateProjectData})
   const { user } = useUser()
+  const { data, isPending } = useGetProjects()
   const [projects, setProjects] = useState<IProject[]>([])
   const [active, setActive] = useState<string | null>(null);
-  const [id, setId] = useState<string | null>(null);
+  const [projectId, setProjectId] = useState<string | null>(null);
   const [files, setFiles] = useState<File[]>([]);
   const [isModalOpen, setModalOpen] = useState(false)
   const [selectedTecnologies, setSelectedTecnologies] = useState<string[]>([]);
-  const [projectData, setProjectData] = useState<IProject>({_id:"", image:'', title: '', description: '', tecnologies: selectedTecnologies, githubLink: '', liveLink: ''});
-  console.log({active})
 
-  
+  const methods = useForm({resolver: zodResolver(projectValidationSchema)});
+  const { register, formState: { errors }, setValue, reset } = methods
 
-  // console.log({selectedTecnologies})
-  // console.log({projects})
-  // console.log("project.length", projects?.[0]?.image)
-  console.log({projectData})
+  useEffect(() => {
+    if (data?.data && Array.isArray(data.data)) {
+      setProjects(data.data); // Update projects when data changes
+    }
+    }, [data?.data ])
 
-  const { data, isPending } = useGetProjects()
-  console.log({data})
+const handleCreateProject = () => {
+  setModalOpen(true)
+  setProjectId(null)
+  reset()
+  setSelectedTecnologies([])
+  }    
  
-
 const handleEdit = (project:any) => {
-  console.log("handleEdit --project", project)
-  // setProjectData({_id: project?._id, title: project?.title, description: project?.description , tecnologies: project?.tecnologies, image:project?.image});
-  setProjectData({...project})
+  if (project) {
+    setValue("_id", project._id);
+    setValue("title", project.title);
+    setValue("description", project.description);
+    // setValue("tecnologies", project.tecnologies);
+    setValue("image", project.image);
+    setValue("githubLink", project.githubLink);
+    setValue("liveLink", project.liveLink); 
+  }
   setSelectedTecnologies([...project?.tecnologies])
-  // setFiles([...project?.image])
-  // getProjects()
- 
 };
 
 const handleDelete = async(projectId:string) => {
-  await deleteProject(projectId)
-  console.log("handle Delete projectId", projectId)
+   deleteProject(projectId)
+  // console.log("handle Delete projectId", projectId)
 }
 
-
-
-const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-  const { name, value } = e.target;
-  setProjectData({ ...projectData, [name]: value });
-};
 const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   const value = e.target.value;
   setSelectedTecnologies((prevSelectedTecnologies) =>
@@ -81,103 +78,28 @@ const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 };
 
 const handleSubmit: SubmitHandler<FieldValues> = async(data) => {
-  // e.preventDefault();
-  // console.log("e.prevntDefault", userData)
-  console.log("Click in HandlSUbmit")
+
   const formData = new FormData()
-  formData.append("projectData", JSON.stringify(data))
-    
+  formData.append("projectData", JSON.stringify({...data, _id: projectId, tecnologies: selectedTecnologies}))
   formData.append("image", files?.[0])
-  // formData.append("image", proImage)
-
-  // const toastId = toast.loading("loading...")
   console.log("formData.get",formData.get("projectData"))
-  console.log("formData.get",typeof formData)
 
-  await createProject(formData)
-
-  // try {
-  //   const res = await axios.post("/api/dashboard/project", formData, {
-  //     headers: {
-  //       "Content-Type": "multipart/form-data",
-  //     },
-  //   })
-  //   // const res = await axios.post("/api/dashboard/signup", userData)
-  //   // console.log("signuppage result",res)
-  
-  //   if (res?.data?.success) {
-  //     toast.success(res?.data?.message, {id: toastId})
-  //     getProjects(); // Re-fetch projects
-
-  //     // router.push("/dashboard/login")
-  //   } 
-  // } catch (error) {
-    
-  // }
+   createProject(formData)
+ 
 }; 
 
   const handleFileUpload = (files: File[]) => {
     setFiles(files);
-  
-    // console.log(files);
-    
   };
-
-  useEffect(() => {
-    setProjectData((prevData) => ({
-      ...prevData,
-      tecnologies: selectedTecnologies, // Update tecnologies when selectedTecnologies changes
-    }));
-  }, [tecnologies, setSelectedTecnologies ])
  
- console.log({isPending})
-
- const methods = useForm({resolver: zodResolver(projectValidationSchema)});
- const { register, formState: { errors }, } = methods
-
- console.log({errors})
- 
-
   return (
     <div className="">
       <h1 className="heading">
         Projects
       </h1>
       <div className=" grid grid-cols-1 md:grid-cols-2 place-items-center gap-5">
-      {
-        isPending && (
-        
-          [...new Array(2)].map((_, index) => (
-            <div
-              key={index}
-              className="flex flex-col items-center justify-center w-80 h-72  border rounded-lg  "
-            >
-              <div className="animate-pulse  flex items-center justify-center w-80   h-32 mt-[-55px] mb-5 bg-gray-100 dark:bg-neutral-800 rounded-lg">
-                {/* Skeleton Image Placeholder */}
-              </div>
-              <div className="animate-pulse w-80  space-y-4 h-20 px-2 ">
-                <div className="animate-pulse  h-4 w-3/4 bg-gray-100 dark:bg-neutral-800 rounded-md"/>
-                <div className="animate-pulse  h-6 w-full bg-gray-100 dark:bg-neutral-800 rounded-md"/>
-                <div className=" flex items-center justify-between ">
-                  <div className="flex -space-x-3">
-                  <div className=" animate-pulse  h-8 w-8 bg-gray-100 dark:bg-neutral-800 rounded-full"/>
-                  <div className=" animate-pulse  h-8 w-8 bg-gray-100 dark:bg-neutral-800 rounded-full"/>
-                  <div className=" animate-pulse  h-8 w-8 bg-gray-100 dark:bg-neutral-800 rounded-full"/>
-                  <div className=" animate-pulse  h-8 w-8 bg-gray-100 dark:bg-neutral-800 rounded-full"/>
-                  <div className=" animate-pulse  h-8 w-8 bg-gray-100 dark:bg-neutral-800 rounded-full"/>
-                  </div>
-                  <div className=" flex items-center justify-between gap-2">
-                    <div className="animate-pulse bg-gray-100 dark:bg-neutral-800  h-8 w-12 rounded-md" />
-                    <div className="animate-pulse bg-gray-100 dark:bg-neutral-800  h-8 w-12 rounded-md" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))
-        
-        )
-      }
-      {   data?.data?.map((item: IProject) => (
+      {isPending && <LoadingProject/> }
+      {   projects.map((item: IProject) => (
           <div
             className=" flex items-center justify-center w-80 md:w-[360px]"
             key={item?._id}
@@ -192,7 +114,7 @@ const handleSubmit: SubmitHandler<FieldValues> = async(data) => {
       className=" ">
      <Menu active={active} setActive={setActive} item={String(item?._id)} title={<CiMenuKebab />}>
         <div className="flex flex-col space-y-1 text-sm">
-         <div onClick={() => {setModalOpen(true); handleEdit(item); setId(String(item?._id))}} >
+         <div onClick={() => {setModalOpen(true); handleEdit(item); setProjectId(String(item?._id))}} >
            
            <BorderMagicBtn btn={"Edit"} className=" h-8 w-12"  />
          </div>
@@ -239,21 +161,6 @@ const handleSubmit: SubmitHandler<FieldValues> = async(data) => {
                  
               <div className="flex items-center justify-between mt-7 mb-3">
                 <div className="flex -space-x-3">
-                  {/* {item.iconLists.map((icon, index) => ( */}
-                  {/* {item?.tecnologies?.map((icon, index) => (
-                    <div
-                      key={index}
-                      className="flex justify-center items-center"
-                      // style={{
-                      //   transform: `translateX(-${5 * index + 2}px)`,
-                      // }}
-                    >
-                      {/* <img src={icon} alt="icon5" className="p-2" /> */}
-                      {/* <FloatingDock icon={<img src={icon} alt="icon5" className=" w-full h-full  " />} /> */}
-                   
-    
-                    {/* </div> */}
-                  {/* ))} */} 
                     {item?.tecnologies?.map((tecName, index) => {
     // Find the matching technology from the `tecnologies` array
     const tech = tecnologies.find(tec => tec.name === tecName);
@@ -268,15 +175,8 @@ const handleSubmit: SubmitHandler<FieldValues> = async(data) => {
       )
     );
   })}
-                     
                 </div>
 
-                {/* <div className="flex justify-center items-center">
-                  <p className="flex lg:text-xl md:text-xs text-sm text-purple">
-                    Check Live Site
-                  </p>
-                  <FaLocationArrow className="ms-3" color="#CBACF9" />
-                </div> */}
               <div className="flex items-center justify-between gap-2">
               {item?.githubLink && (
   <Link href={item.githubLink}>
@@ -302,7 +202,7 @@ const handleSubmit: SubmitHandler<FieldValues> = async(data) => {
           </div>
         )) }
       </div>
-        <div className=" text-center" onClick={() => {setModalOpen(true); setId(null); setSelectedTecnologies([]); setProjectData({ title: '', description: '', tecnologies: selectedTecnologies, githubLink: '', liveLink: ''})}} >
+        <div className=" text-center" onClick={handleCreateProject} >
             {/* Create Project */}
             <BorderMagicBtn btn={"Create Project"} className=" h-8 w-36"  />
           </div>
@@ -313,9 +213,6 @@ const handleSubmit: SubmitHandler<FieldValues> = async(data) => {
           <FormProvider {...methods} >
           <form className="my-8" onSubmit={methods.handleSubmit(handleSubmit)}>
 
-        
-
-     
             {/* <LabelInputContainer className="mb-2">
             <Label htmlFor="image">Image</Label>
             <Input id="image" placeholder="Enter your image" type="text" name="image" value={projectData.image} required
@@ -338,24 +235,22 @@ const handleSubmit: SubmitHandler<FieldValues> = async(data) => {
           </LabelInputContainer>
            <LabelInputContainer className="mb-2">
             <Label htmlFor="description">Description</Label>
-            <Textarea id="description" placeholder="Enter your description" rows={3} name="description"  
-                // onChange={handleInputChange}  
-                />
+            <Textarea id="description" placeholder="Enter your description" rows={3} name="description" />
           </LabelInputContainer>
            <LabelInputContainer className="mb-2">
             <Label htmlFor="tecnologies">Tecnologies</Label>
             <div className=" grid grid-cols-3">
-            { tecnologies?.map((tec) => (
+            { tecnologies?.map((tec, index) => (
               
-              <div key={tec.name} >
-                <input {...register('tecnologies')} type="checkbox" name="tecnologies" value={tec.name} checked={selectedTecnologies.includes(tec.name)} 
+              <div key={index} >
+                <input {...register('tecnologies')} type="checkbox" name="tecnologies" value={tec?.name} checked={selectedTecnologies?.includes(tec.name)} 
                   onChange={handleCheckboxChange}  />
               <label className=" text-sm font-normal"> {tec.name} </label>
               </div>
               )) }
             </div>
               {/* {errors?.['tecnologies']?.message && <p className="text-xs text-red-500">{errors?.['tecnologies']?.message as string}</p>} */}
-              {selectedTecnologies.length === 0 && <p className="text-xs text-red-500">{errors?.['tecnologies']?.message as string}</p>}
+              {/* {selectedTecnologies.length === 0 && <p className="text-xs text-red-500">{errors?.['tecnologies']?.message as string}</p>} */}
           </LabelInputContainer>
           <LabelInputContainer className="mb-2">
         <Label htmlFor="image">Image </Label>
@@ -365,7 +260,7 @@ const handleSubmit: SubmitHandler<FieldValues> = async(data) => {
         className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
         type="submit"
       >
-        {id ? <>Update &rarr;</> : <>Create &rarr;</>}
+        {projectId ? <>Update &rarr;</> : <>Create &rarr;</>}
         {/* Update &rarr; */}
         <BottomGradient />
       </button>

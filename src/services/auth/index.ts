@@ -4,18 +4,26 @@ import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";
 
-export const signupUser = async (userData: FieldValues) => {
+export const signupUser = async (userData: FormData) => {
   try {
-    const { data } = await axiosInstance.post("/auth/register", userData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    // const { data } = await axiosInstance.post("/dashboard/signup", userData, {
+    //   headers: {
+    //     "Content-Type": "multipart/form-data",
+    //   },
+    // });
+
+    const result = await fetch("http://localhost:3000/api/dashboard/signup",{
+      method: "POST",
+      body: userData
+    })
 
     // if (data.success) {
     //   cookies().set("accessToken", data?.data?.accessToken);
     //   cookies().set("refreshToken", data?.data?.refreshToken);
     // }
+    console.log("signup data")
+
+    const data = await result.json()
 
     return data;
   } catch (error: any) {

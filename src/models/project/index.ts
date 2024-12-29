@@ -8,8 +8,6 @@ export interface IProject {
     image?: string;
     githubLink:string;
     liveLink:string;
-    createdAt?: Date;
-    updatedAt?: Date;
   }
 
   export const projectSchema = new Schema<IProject>(

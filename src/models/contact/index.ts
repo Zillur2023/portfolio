@@ -1,7 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 
 
-export interface IMessage {
+export interface IContact {
     _id?: string;
     name: string;
     email: string;
@@ -10,14 +10,14 @@ export interface IMessage {
     updatedAt?: Date;
   }
 
-  export const messageSchema = new Schema<IMessage>(
+  export const contactSchema = new Schema<IContact>(
     {
         name: { type: String, required: true },
         email: { type: String, required: true,},
-        message: { type: String  },
+        message: { type: String, required: true  },
       },
       { timestamps: true }
   )
 
-  export const Message = (mongoose.models.Project ) || mongoose.model<IMessage>("Project", messageSchema);
+  export const Contact = (mongoose.models.Contact ) || mongoose.model<IContact>("Contact", contactSchema);
   
