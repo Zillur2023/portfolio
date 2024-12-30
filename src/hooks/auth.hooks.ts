@@ -6,7 +6,7 @@ import { toast } from "sonner";
 // import { loginUser, registerUser } from "../services/AuthService";
 
 export const useUserSignup = () => {
-  return useMutation<any, Error, FieldValues>({
+  return useMutation<any, Error, FormData>({
     mutationKey: ["USER_REGISTRATION"],
     mutationFn: async (userData) => await signupUser(userData),
     onSuccess: () => {

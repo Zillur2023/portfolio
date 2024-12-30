@@ -2,12 +2,12 @@ import { createProject, deleteProject, getProjects } from "@/services/projects";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-type ProjectData = FormData;
-type ProjectResponse = {
-  success: boolean;
-  message: string;
-  data?: any; // Replace `any` with the appropriate type for your API response data
-};
+// type ProjectData = FormData;
+// type ProjectResponse = {
+//   success: boolean;
+//   message: string;
+//   data?: any; // Replace `any` with the appropriate type for your API response data
+// };
 
 
 export const useCreateProject = () => {

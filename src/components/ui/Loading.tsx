@@ -1,6 +1,6 @@
 import React from 'react'
 
-const LoadingProject = () => {
+export const LoadingProject = () => {
   return (
     <>
         {
@@ -35,5 +35,29 @@ const LoadingProject = () => {
     </>
   )
 }
+ 
+ export const  LoadingContact = () => {
 
-export default LoadingProject
+
+  return (
+  <>
+    {
+      [...new Array(4)].map((_, index) => (
+         <div
+           key={index}
+           className=" animate-pulse w-44 h-40 p-3 rounded-2xl bg-white dark:bg-black border-2 "
+         >
+       
+       <p className=" animate-pulse  h-5 w-full bg-gray-100 dark:bg-neutral-800 rounded-md">
+       </p>
+       <p className=" animate-pulse  h-5 w-full bg-gray-100 dark:bg-neutral-800 rounded-md mt-2">
+       </p>
+       <p className=" animate-pulse  h-16 w-full bg-gray-100 dark:bg-neutral-800 rounded-md mt-3">
+       </p>
+           
+         </div>
+       ))
+ }
+  </>
+  )
+ }

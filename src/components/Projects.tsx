@@ -19,7 +19,7 @@ import { useCreateProject, useDeleteProject, useGetProjects } from "@/hooks/proj
 import projectValidationSchema from "@/schemas/project.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldValues, FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import LoadingProject from "./ui/LoadingProject";
+import { LoadingProject } from "./ui/Loading";
 
 
 const Projects = () => {

@@ -1,7 +1,4 @@
-import config from "@/config";
-import { getNewAccessToken } from "@/services/auth";
 import axios from "axios";
-import { cookies } from "next/headers";
 
 const axiosInstance = axios.create({
   // baseURL: config.base_api,
