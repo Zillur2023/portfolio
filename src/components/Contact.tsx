@@ -14,10 +14,13 @@ import { useCreateContact, useGetContacts } from "@/hooks/contact.hooks";
 import { LoadingContact } from "./ui/Loading";
 import { IProject } from "@/models/project";
 import { IContact } from "@/models/contact";
+import { useUser } from "@/lib/UserProvider";
 // import { IContact } from "@/models/contact"
 
 
 export function Contact() {
+  const { user } = useUser()
+  // const user = true
   const { data, isPending } = useGetContacts()
 
   console.log("contact data", data)
@@ -39,7 +42,7 @@ export function Contact() {
       className: "col-span-1 lg:col-span-3 border-b lg:border-none hidden md:block",
     },
   ];
-  const user = true
+ 
   return (
     <div>
       <h1 className="heading ">Contact me</h1>

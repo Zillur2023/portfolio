@@ -109,7 +109,7 @@ const handleSubmit: SubmitHandler<FieldValues> = async(data) => {
               href={item?.liveLink}
             >
                         
-     <div 
+     {user && <div 
      onMouseLeave={() => setActive(null)}
       className=" ">
      <Menu active={active} setActive={setActive} item={String(item?._id)} title={<CiMenuKebab />}>
@@ -123,7 +123,7 @@ const handleSubmit: SubmitHandler<FieldValues> = async(data) => {
           </div>
         </div>
      </Menu>
-     </div>
+     </div>}
                
               <div 
               // onMouseLeave={() => setActive(null)}
