@@ -1,5 +1,5 @@
 import { loginUser, signupUser } from "@/services/auth";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -19,13 +19,30 @@ export const useUserSignup = () => {
 };
 
 export const useUserLogin = () => {
+  const queryClient = useQueryClient();
+
+
   return useMutation<any, Error, FieldValues>({
     mutationKey: ["USER_LOGIN"],
-    mutationFn: async (userData) => await loginUser(userData),
-    onSuccess: () => {
-      toast.success("User login successful.");
+    mutationFn: async (userData) => {
+       toast.loading("loading")
+       return await loginUser(userData)
+    },
+    
+    onSuccess: (data) => {
+      console.log("auth hooks data", data)
+      toast.dismiss()
+      // toast.success("User login successful.");
+      toast.success(data.message);
+      if (data?.success) {
+        toast.success(data.message );
+        // queryClient.invalidateQueries({ queryKey: ["GET_PROJECTS"] });
+      } else {
+        toast.error(data.message );
+      }
     },
     onError: (error) => {
+      toast.dismiss()
       toast.error(error.message);
     },
   });

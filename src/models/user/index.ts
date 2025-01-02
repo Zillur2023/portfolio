@@ -48,7 +48,7 @@ export interface IUser {
     _id?: string;
     name: string;
     email: string;
-    password: string;
+    password?: string;
     passwordChangedAt?: Date;
     image: string;
     role?: 'admin';
@@ -76,7 +76,7 @@ export interface IUser {
     {
       name: { type: String, required: true },
       email: { type: String, required: true, unique: true },
-      password: { type: String, required: true },
+      password: { type: String },
       passwordChangedAt: {
         type: Date,
       },

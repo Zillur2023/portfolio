@@ -1,14 +1,16 @@
 'use client'
-import AboutMe from "@/components/AboutMe";
 import { Approach } from "@/components/Approach";
-import { Blog } from "@/components/Blog";
 import { Contact, ContactForm } from "@/components/Contact";
 import Hero from "@/components/Hero";
 import Projects from "@/components/Projects";
 import Service from "@/components/Service";
 import { Technology } from "@/components/Technology";
+import { useUser } from "@/lib/UserProvider";
 
 export default function Home() {
+   const { user } = useUser()
+    console.log('root user', user)
+
   return (
     // <main className="relative bg-black-100 flex justify-center items-center flex-col overflow-hidden mx-auto sm:px-10 px-5 my-20">
    <main className="flex flex-col items-center">
@@ -16,9 +18,6 @@ export default function Home() {
     <section>
       <Hero />
     </section>
-    {/* <section>
-      <AboutMe />
-    </section> */}
     <section>
       <Projects />
     </section>
@@ -31,9 +30,6 @@ export default function Home() {
     <section>
       <Approach />
     </section>
-    {/* <section>
-      <Blog />
-    </section> */}
     <section>
       <Contact />
     </section>

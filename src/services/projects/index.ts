@@ -4,7 +4,7 @@ import axios from "axios";
 
 
 export const createProject = async (projectData: FormData) => {
-  console.log("{projectData}) client", projectData)
+  // console.log("{projectData}) client", projectData)
   // console.log(projectData)
   try {
     // const result = await axios.post("http://localhost:3000/api/dashboard/project", projectData)
@@ -15,7 +15,7 @@ export const createProject = async (projectData: FormData) => {
     })
     const result = await data.json();
 
-  console.log("create Project data", result?.data)
+  // console.log("create Project data", result?.data)
 
     return result;
   } catch (error: any) {

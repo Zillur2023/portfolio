@@ -1,5 +1,4 @@
 import { IUser } from "@/models/user";
-import { getUser } from "@/services/auth";
 import {
   createContext,
   Dispatch,
@@ -9,6 +8,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { getUser } from ".";
 
 // import { IUser } from "../types";
 // import { getCurrentUser } from "../services/AuthService";
@@ -25,13 +25,14 @@ interface IUserProviderValues {
 const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<IUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  console.log("userProvider user--->", user)
 
   const handleUser = async () => {
     const user = await getUser();
 
-    // console.log("context User", user)
+    console.log("context User", user)
 
-    setUser(user);
+    // setUser(user);
     setIsLoading(false);
   };
 

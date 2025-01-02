@@ -14,15 +14,17 @@ import bcrypt from "bcrypt"
 connect()
 
 export async function POST(request: NextRequest){
+    
     try {
-
+        
         const reqBody = await request.json()
         const {email, password} = reqBody;
+        console.log('logIn request email password', email , password)
         // console.log(reqBody);
 
         //check if user exists
         const user = await User.findOne({email})
-        console.log({user})
+        // console.log({user})
         if(!user){
             return NextResponse.json({error: "User does not exist"}, {status: 400})
         }
@@ -33,7 +35,7 @@ export async function POST(request: NextRequest){
         // const validPassword = password === user.password
         // const validPassword = await bcrypt.compare(password, user.password)
         // const validPassword = await User.isPasswordMatched(password, user.password)
-        const validPassword = await User.isPasswordMatched(password, user.password)
+        const validPassword = await User.isPasswordMatched(password, user.password as string)
 
         // console.log({validPassword})
         if(!validPassword){
@@ -52,12 +54,12 @@ export async function POST(request: NextRequest){
         }
         //create token
         // const token = await jwt.sign(tokenData, process.env.NEXT_JWT_TOKEN_SECRET!, {expiresIn: "1d"})
-        const accessToken = await jwt.sign(jwtPayload, config.jwt_access_secret!, {expiresIn: config.jwt_access_expires_in})
-        const refreshToken = await jwt.sign(jwtPayload, config.jwt_refresh_secret!, {expiresIn: config.jwt_refresh_expires_in})
+        const accessToken =  jwt.sign(jwtPayload, config.jwt_access_secret!, {expiresIn: config.jwt_access_expires_in})
+        const refreshToken =  jwt.sign(jwtPayload, config.jwt_refresh_secret!, {expiresIn: config.jwt_refresh_expires_in})
 
         const response = NextResponse.json({
-            message: "Login successful",
             success: true,
+            message: "Login successful",
         })
 
         const secureCookie = config.NODE_ENV === "production";
@@ -65,6 +67,8 @@ export async function POST(request: NextRequest){
             httpOnly: true,
             secure: secureCookie,
             sameSite: "strict",
+            // secure: true,
+            // sameSite: true,
             path: "/",
             maxAge: 60 * 60, // 1 hour
           });

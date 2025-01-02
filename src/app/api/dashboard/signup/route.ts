@@ -1,7 +1,7 @@
 
 
 import { connect } from "@/dbConfig/dbConfig";
-import {  NextResponse } from "next/server";
+import {  NextRequest, NextResponse } from "next/server";
 import { writeFile } from "fs/promises";
 import { User } from "@/models/user";
 import fs from 'fs/promises';
@@ -18,7 +18,7 @@ const  getValidImageExtension = async(fileName:string) => {
   return fileName.replace(ext, '.jpeg'); // Default to .jpeg if invalid
 }
 
-export async function POST(request: Request){
+export async function POST(request: NextRequest){
   try {
       // const reqBody = await request.json()
       // const {username, email, password} = reqBody

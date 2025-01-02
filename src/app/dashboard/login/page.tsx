@@ -1,26 +1,25 @@
 'use client'
-import React, { useState } from 'react'
+import React from 'react'
 // import { Label } from "./ui/Label";
 import { BottomGradient, Label, LabelInputContainer } from "../../../components/form/Label";
 import { Input } from "../../../components/form/Input";
-import { cn } from "@/lib/utils";
-import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
 import { useUser } from '@/lib/UserProvider';
 import Form from '@/components/form/Form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import loginValidationSchema from '@/schemas/login.schema';
 import { FieldValues, SubmitHandler } from 'react-hook-form';
+import { useUserLogin } from '@/hooks/auth.hooks';
 
 const LoginPage = () => {
   const router = useRouter()
   const {setIsLoading: userLoading} = useUser()
+  const { mutate: loginUser } = useUserLogin()
     
     const handleSubmit: SubmitHandler<FieldValues> = async(userdata) => {
+      loginUser(userdata)
       // e.preventDefault();
       // console.log("e.prevntDefault", userdata)
-      const toastId = toast.loading("loading...")
     //  try {
     //   const res = await axios.post("/api/dashboard/login", userdata)
     //   console.log({res})
