@@ -16,28 +16,33 @@ import { getUser } from ".";
 const UserContext = createContext<IUserProviderValues | undefined>(undefined);
 
 interface IUserProviderValues {
-  user: IUser | null;
+  user: any | null;
   isLoading: boolean;
-  setUser: (user: IUser | null) => void;
+  setUser: (user: any | null) => void;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<IUser | null>(null);
+  const [user, setUser] = useState<any | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   console.log("userProvider user--->", user)
+  console.log("userProvider isLoading--->", isLoading)
 
+  console.log("context User", user)
   const handleUser = async () => {
-    const user = await getUser();
+    const fetchedUser = await getUser();
 
-    console.log("context User", user)
-
-    // setUser(user);
-    setIsLoading(false);
+    if(fetchedUser) {
+      setUser(fetchedUser);
+      setIsLoading(false);
+    }
+    
   };
 
   useEffect(() => {
-    handleUser();
+    if(isLoading) {
+      handleUser();
+    }
   }, [isLoading]);
 
   return (

@@ -1,10 +1,11 @@
 import axios from "axios";
 
+// baseURL: config.base_api,
 const axiosInstance = axios.create({
-  // baseURL: config.base_api,
   baseURL: 'http://localhost:3000/api',
 });
 
+export default axiosInstance;
 // axiosInstance.interceptors.request.use(
 //   function (config) {
 //     const cookieStore = cookies();
@@ -43,4 +44,3 @@ const axiosInstance = axios.create({
 //   }
 // );
 
-export default axiosInstance;

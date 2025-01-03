@@ -1,49 +1,59 @@
+import { useUser } from "@/lib/UserProvider";
 import { loginUser, signupUser } from "@/services/auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 
-// import { loginUser, registerUser } from "../services/AuthService";
 
 export const useUserSignup = () => {
-  return useMutation<any, Error, FormData>({
+
+  return useMutation<any, Error, FormData,any>({
     mutationKey: ["USER_REGISTRATION"],
     mutationFn: async (userData) => await signupUser(userData),
-    onSuccess: () => {
-      toast.success("User registration successful.");
+    onMutate: () => {
+      const toastId = toast.loading("Createing user...");
+      return { toastId };
     },
-    onError: (error) => {
-      toast.error(error.message);
+    onSuccess: (data, _, context) => {
+      const { toastId  } = context || {};
+     
+      if (data?.success) {
+        toast.success(data.message, { id: toastId } )
+      } else {
+        toast.error(data.message, { id: toastId } )
+      }
+    },
+    onError: (error, _, context) => {
+      const { toastId } = context || {};
+      toast.error(error.message, { id: toastId } )
+
     },
   });
 };
 
 export const useUserLogin = () => {
-  const queryClient = useQueryClient();
+  const { setIsLoading } = useUser()
 
-
-  return useMutation<any, Error, FieldValues>({
+  return useMutation<any, Error, FieldValues,any>({
     mutationKey: ["USER_LOGIN"],
-    mutationFn: async (userData) => {
-       toast.loading("loading")
-       return await loginUser(userData)
+    mutationFn: async (userData) =>  await loginUser(userData),
+    onMutate: () => {
+      const toastId = toast.loading("Logging you in, please wait...");
+      return { toastId };
     },
-    
-    onSuccess: (data) => {
-      console.log("auth hooks data", data)
-      toast.dismiss()
-      // toast.success("User login successful.");
-      toast.success(data.message);
+    onSuccess: (data, _, context) => {
+      const { toastId  } = context || {};
+     
       if (data?.success) {
-        toast.success(data.message );
-        // queryClient.invalidateQueries({ queryKey: ["GET_PROJECTS"] });
+        toast.success(data.message, { id: toastId } )
       } else {
-        toast.error(data.message );
+        toast.error(data.message, { id: toastId } )
       }
     },
-    onError: (error) => {
-      toast.dismiss()
-      toast.error(error.message);
-    },
+    onError: (error, _, context) => {
+      const { toastId } = context || {};
+      toast.error(error.message, { id: toastId } )
+
+    },   
   });
 };

@@ -6,6 +6,7 @@ import Projects from '@/components/Projects'
 import Service from '@/components/Service'
 import { Sidebar } from '@/components/Sidebar'
 import { Technology } from '@/components/Technology'
+import { logout } from '@/lib'
 import { useUser } from '@/lib/UserProvider'
 import React from 'react'
 
@@ -18,6 +19,9 @@ const page = () => {
     // </div>
     <div className="flex flex-col items-center">
     <div className="space-y-10 max-w-5xl w-full">
+      <section>
+        <button className=' border-2 bg-blue-500 py-1 px-2 text-center' onClick={() =>logout()}>logout</button>
+      </section>
       <section>
         <Hero />
       </section>

@@ -26,7 +26,9 @@ const Projects = () => {
   const { mutate: createProject } = useCreateProject()
   const { mutate: deleteProject } = useDeleteProject()
   const { user } = useUser()
-  const { data, isPending } = useGetProjects()
+  const { data, isPending, isError } = useGetProjects()
+  console.log("project error", isError)
+  console.log("project data", data)
   const [projects, setProjects] = useState<IProject[]>([])
   const [active, setActive] = useState<string | null>(null);
   const [projectId, setProjectId] = useState<string | null>(null);

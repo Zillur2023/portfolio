@@ -15,3 +15,8 @@ export const getUser = async() => {
     console.log("{accessToken} lib acccc i am zillur rahman" , )
     return decodedToken
 }
+
+export const logout = () => {
+     cookies().delete("accessToken");
+     cookies().delete("refreshToken");
+   };

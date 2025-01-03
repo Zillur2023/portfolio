@@ -1,63 +1,46 @@
 // "use server"
-import axios from "axios";
 import axiosInstance from "@/lib/AxiosInstance";
-import { jwtDecode } from "jwt-decode";
+import axios from "axios";
 import { FieldValues } from "react-hook-form";
-import { NextRequest } from "next/server";
+
 
 
 export const signupUser = async (userData: FormData) => {
   try {
-    // const { data } = await axiosInstance.post("/dashboard/signup", userData, {
-    //   headers: {
-    //     "Content-Type": "multipart/form-data",
-    //   },
-    // });
-
-    const result = await fetch("http://localhost:3000/api/dashboard/signup",{
-      method: "POST",
-      body: userData
-    })
-
-    // if (data.success) {
-    //   cookies().set("accessToken", data?.data?.accessToken);
-    //   cookies().set("refreshToken", data?.data?.refreshToken);
-    // }
-    
-    const data = await result.json()
-    console.log("signup data",data)
+    const { data } = await axiosInstance.post("/dashboard/signup", userData);
 
     return data;
   } catch (error: any) {
-    throw new Error(error);
+    
+    return error
   }
 };
 
-export const loginUser = async (userData: FieldValues) => {
+export const loginUser = async (userData: { email: string; password: string }) => {
   try {
-    const { data } = await axios.post("http://localhost:3000/api/dashboard/login", userData, {withCredentials:true});
+    // const { data } = await axios.post("http://localhost:3000/api/dashboard/login", userData, {withCredentials:true});
+    const { data } = await axiosInstance.post("/dashboard/login", userData);
   //   const response = await fetch('http://localhost:3000/api/dashboard/login', {
   //     method: 'POST',
   //     headers: { 'Content-Type': 'application/json' },
   //     body: JSON.stringify(userData),
-  //     credentials: 'include', // Include cookies in requests
+  //     credentials: 'include', // Include cookies in requestss
   // });
 
   // const data = await response.json()
 
- 
-    console.log('login Data--', data)
 
     return data;
   } catch (error: any) {
-    throw new Error(error);
+    console.log("login error", error)
+    return error
   }
 };
 
-export const logout = () => {
-  // cookies().delete("accessToken");
-  // cookies().delete("refreshToken");
-};
+// export const logout = () => {
+//   cookies().delete("accessToken");
+//   cookies().delete("refreshToken");
+// };
 
 // export const getCurrentUser = async () => {
 // export const getUser = async (request: NextRequest) => {
