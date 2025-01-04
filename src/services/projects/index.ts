@@ -1,7 +1,5 @@
 "use server";
 import axiosInstance from "@/lib/AxiosInstance";
-import axios from "axios";
-
 
 
 export const createProject = async (projectData: FormData) => {
@@ -17,36 +15,37 @@ export const createProject = async (projectData: FormData) => {
     return data;
   } catch (error: any) {
 
-    return error
+    throw new Error(error?.message)
   }
 };
 
 export const getProjects = async () => {
-  //  const url = projectId ? `/api/dashboard/project?id=${projectId}` : `/api/dashboard/project`;
-  //     const res = await axios.get(url)
+  
   try {
-    // const { data } = await axiosInstance.get("/dashboard/project");
-    const { data } = await axios.get("http://localhost:3000/api/dashboard/project");
+    const { data } = await axiosInstance.get("/dashboard/project");
 
-   console.log("getProjects index data", data)
+  //  console.log("getProjects index data", data)
 
     return data;
   } catch (error: any) {
+    console.log("getProject error", error)
 
-    return error
+    throw new Error(error?.message)
   }
 };
 
 export const deleteProject = async (projectId: string) => {
   // console.log({projectId})
   try {
-    const { data } = await axios.delete(`http://localhost:3000/aapi/dashboard/project?id=${projectId}`)
+    // const { data } = await axios.delete(`http://localhost:3000/api/dashboard/project?id=${projectId}`)
+    const { data } = await axiosInstance.delete(`/dashboard/project?id=${projectId}`)
+    
     // console.log("{data} delete", data)
 
  
     return data
   } catch (error: any) {
 
-    return error
+    throw new Error(error?.message)
   }
 }

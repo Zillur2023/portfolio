@@ -1,6 +1,5 @@
 // "use server"
 import axiosInstance from "@/lib/AxiosInstance";
-import axios from "axios";
 import { FieldValues } from "react-hook-form";
 
 
@@ -12,28 +11,21 @@ export const signupUser = async (userData: FormData) => {
     return data;
   } catch (error: any) {
     
-    return error
+    throw new Error(error?.message)
   }
 };
 
-export const loginUser = async (userData: { email: string; password: string }) => {
+export const loginUser = async (userData: FieldValues) => {
   try {
-    // const { data } = await axios.post("http://localhost:3000/api/dashboard/login", userData, {withCredentials:true});
     const { data } = await axiosInstance.post("/dashboard/login", userData);
-  //   const response = await fetch('http://localhost:3000/api/dashboard/login', {
-  //     method: 'POST',
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify(userData),
-  //     credentials: 'include', // Include cookies in requestss
-  // });
 
-  // const data = await response.json()
+  console.log("Login data", data)
 
 
     return data;
   } catch (error: any) {
     console.log("login error", error)
-    return error
+    throw new Error(error?.response?.data?.message || error?.message)
   }
 };
 
@@ -67,6 +59,16 @@ export const loginUser = async (userData: { email: string; password: string }) =
 //   // return decodedToken;
 // };
 
+export const getNewAccessToken = async () => {
+  try {
+    const { data } = await axiosInstance.post("/dashboard/refreshToken")
+
+    return data
+  } catch (error) {
+    console.log("getNewAccessToken error", error)
+  }
+}
+
 
 
 // export const getNewAccessToken = async () => {
@@ -90,23 +92,3 @@ export const loginUser = async (userData: { email: string; password: string }) =
 
 
 
-// import { cookies } from "next/headers";
-
-// export const getUser = async () => {
-//     const accessToken = cookies().get("accessToken")?.value;
-  
-//     console.log("get accessToken from cookies ", accessToken);
-  
-//     let decodedToken = null;
-  
-//     if (accessToken) {
-//       decodedToken = await jwtDecode(accessToken);
-//     }
-  
-//     return decodedToken;
-//   };
-
-//   export const logout = async () => {
-//     cookies().delete("accessToken");
-//     cookies().delete("refreshToken");
-//   };

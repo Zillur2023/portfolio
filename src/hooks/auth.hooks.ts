@@ -1,6 +1,6 @@
 import { useUser } from "@/lib/UserProvider";
 import { loginUser, signupUser } from "@/services/auth";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -19,9 +19,7 @@ export const useUserSignup = () => {
      
       if (data?.success) {
         toast.success(data.message, { id: toastId } )
-      } else {
-        toast.error(data.message, { id: toastId } )
-      }
+      } 
     },
     onError: (error, _, context) => {
       const { toastId } = context || {};
@@ -43,14 +41,16 @@ export const useUserLogin = () => {
     },
     onSuccess: (data, _, context) => {
       const { toastId  } = context || {};
-     
+
+      console.log("login error useQuery data", data)
+
       if (data?.success) {
         toast.success(data.message, { id: toastId } )
-      } else {
-        toast.error(data.message, { id: toastId } )
-      }
+      } 
     },
     onError: (error, _, context) => {
+      console.log("login error useQuery", error)
+
       const { toastId } = context || {};
       toast.error(error.message, { id: toastId } )
 

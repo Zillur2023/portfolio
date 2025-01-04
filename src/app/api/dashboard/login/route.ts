@@ -8,7 +8,6 @@ import { User } from "@/models/user";
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import config from "@/config";
-import bcrypt from "bcrypt"
 
 
 connect()
@@ -26,7 +25,7 @@ export async function POST(request: NextRequest){
         const user = await User.findOne({email})
         // console.log({user})
         if(!user){
-            return NextResponse.json({error: "User does not exist"}, {status: 400})
+            return NextResponse.json({message: "User does not exist"}, {status: 400})
         }
         // console.log("user exists");
         
@@ -39,23 +38,18 @@ export async function POST(request: NextRequest){
 
         // console.log({validPassword})
         if(!validPassword){
-            return NextResponse.json({error: "Invalid password"}, {status: 400})
+            return NextResponse.json({message: "Invalid password"}, {status: 400})
         }
-      
-        // console.log(user);
-        
+              
         // create token data
         const jwtPayload = {
-            // id: user._id,
-            // username: user.username,
-            // email: user.email
             id: user._id,
+            name: user.name,
             email: user.email,
         }
         //create token
-        // const token = await jwt.sign(tokenData, process.env.NEXT_JWT_TOKEN_SECRET!, {expiresIn: "1d"})
-        const accessToken =  jwt.sign(jwtPayload, config.jwt_access_secret!, {expiresIn: config.jwt_access_expires_in})
-        const refreshToken =  jwt.sign(jwtPayload, config.jwt_refresh_secret!, {expiresIn: config.jwt_refresh_expires_in})
+        const accessToken =  jwt.sign(jwtPayload, config.jwt_access_secret!, {expiresIn: Number(config.jwt_access_expires_in) || 900})
+        const refreshToken =  jwt.sign(jwtPayload, config.jwt_refresh_secret!, {expiresIn: Number(config.jwt_refresh_expires_in) || 86400})
 
         const response = NextResponse.json({
             success: true,
@@ -70,7 +64,7 @@ export async function POST(request: NextRequest){
             // secure: true,
             // sameSite: true,
             path: "/",
-            maxAge: 60 * 60, // 1 hour
+            maxAge: Number(config.jwt_access_expires_in) || 900, 
           });
       
           response.cookies.set("refreshToken", refreshToken, {
@@ -78,11 +72,11 @@ export async function POST(request: NextRequest){
             secure: secureCookie,
             sameSite: "strict",
             path: "/",
-            maxAge: 60 * 60 * 24 * 7, // 7 days
+            maxAge: Number(config.jwt_refresh_expires_in) || 86400, 
           });
         return response;
 
     } catch (error: any) {
-        return NextResponse.json({error: error.message}, {status: 500})
+        return NextResponse.json({ message: "Internal Server Error", error: error.message }, { status: 500 });
     }
 }

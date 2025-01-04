@@ -20,14 +20,16 @@ import projectValidationSchema from "@/schemas/project.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldValues, FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { LoadingProject } from "./ui/Loading";
+import { toast } from "sonner";
 
 
 const Projects = () => {
   const { mutate: createProject } = useCreateProject()
   const { mutate: deleteProject } = useDeleteProject()
   const { user } = useUser()
-  const { data, isPending, isError } = useGetProjects()
-  console.log("project error", isError)
+  const { data, isPending, error } = useGetProjects()
+  console.log("project error", error)
+  
   console.log("project data", data)
   const [projects, setProjects] = useState<IProject[]>([])
   const [active, setActive] = useState<string | null>(null);

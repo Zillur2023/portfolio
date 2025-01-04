@@ -30,9 +30,7 @@ export const useCreateProject = () => {
       if (data?.success) {
         queryClient.invalidateQueries({ queryKey: ["GET_PROJECTS"] });
         toast.success(data.message, { id: toastId } )
-      } else {
-        toast.error(data.message, { id: toastId } )
-      }
+      } 
     },
     onError: (error, _, context) => {
       const { toastId } = context || {};
@@ -45,7 +43,7 @@ export const useCreateProject = () => {
 };
 
 export const useGetProjects = (): UseQueryResult<any, Error> => {
-  return useQuery<any,any>({
+  return useQuery<any,Error>({
     queryKey: ["GET_PROJECTS"],
     queryFn: async () => await getProjects(),
   });
@@ -68,9 +66,7 @@ export const useDeleteProject = () => {
       if (data?.success) {
         queryClient.invalidateQueries({ queryKey: ["GET_PROJECTS"] });
         toast.success(data.message, { id: toastId } )
-      } else {
-        toast.error(data.message, { id: toastId } )
-      }
+      } 
     },
     onError: (error, _, context) => {
       const { toastId } = context || {};
