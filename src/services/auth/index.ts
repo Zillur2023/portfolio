@@ -61,13 +61,15 @@ export const loginUser = async (userData: FieldValues) => {
 
 export const getNewAccessToken = async () => {
   try {
-    const { data } = await axiosInstance.post("/dashboard/refreshToken")
+    // const { data } = await axiosInstance.post("/dashboard/refreshToken")
+     await axiosInstance.post("/dashboard/refreshToken")
 
-    return data
   } catch (error) {
     console.log("getNewAccessToken error", error)
   }
 }
+// console.log("getNewAccessToken()--getNewAccessToken()",getNewAccessToken())
+
 
 
 

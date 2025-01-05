@@ -64,7 +64,7 @@ export async function POST(request: NextRequest){
             // secure: true,
             // sameSite: true,
             path: "/",
-            maxAge: Number(config.jwt_access_expires_in) || 900, 
+            // maxAge: Number(config.jwt_access_expires_in) || 900, 
           });
       
           response.cookies.set("refreshToken", refreshToken, {
@@ -72,8 +72,10 @@ export async function POST(request: NextRequest){
             secure: secureCookie,
             sameSite: "strict",
             path: "/",
-            maxAge: Number(config.jwt_refresh_expires_in) || 86400, 
+            // maxAge: Number(config.jwt_refresh_expires_in) || 86400, 
           });
+
+          console.log("Login responsE", response)
         return response;
 
     } catch (error: any) {
