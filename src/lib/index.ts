@@ -2,23 +2,39 @@
 import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers"
 import axiosInstance from "./AxiosInstance";
-import { getNewAccessToken } from "@/services/auth";
-import envConfig from "@/config";
-import jwt, { JwtPayload } from "jsonwebtoken";
 
 
-// console.log("getNewAccessToken()",getNewAccessToken())
+ 
 
-
+const isTokenExpired = (token: string) => {
+   const { exp } = jwtDecode<{ exp: number }>(token);
+   console.log({exp})
+   console.log("{Date.now()}",Date.now())
+   return Date.now() >= exp * 1000; // Convert to milliseconds
+ };
 
 axiosInstance.interceptors.request.use(
-   function (config) {
+   async function (config) {
+      console.log("config1111", config)
      const cookieStore = cookies();
      const accessToken = cookieStore.get("accessToken")?.value;
- 
-     if (accessToken) {
-       config.headers.Authorization = accessToken;
+     const refreshToken = cookieStore.get("refreshToken")?.value;
+     console.log({accessToken })
+     console.log({refreshToken })
+
+     if(accessToken) {
+      config.headers["Authorization"] = accessToken
      }
+    
+      if (accessToken && isTokenExpired(accessToken)) {
+    
+         // config.headers.Authorization = refreshToken;
+         config.headers["Authorization"] = refreshToken
+      }
+      
+
+      console.log({config})
+
  
      return config;
    },
@@ -27,29 +43,31 @@ axiosInstance.interceptors.request.use(
    }
  );
  
- axiosInstance.interceptors.response.use(
-   function (response) {
-     return response;
-   },
-   async function (error) {
-     const config = error.config;
+//  axiosInstance.interceptors.response.use(
+//    function (response) {
+//      return response;
+//    },
+//    async function (error) {
+//      const config = error.config;
+//      console.log(" async function (error) {111", error)
+//      console.log(" async function (error) {222", error.config)
  
-     if (error?.response?.status === 401 && !config?.sent) {
-       config.sent = true;
-       const res = await getNewAccessToken();
-      //  const accessToken = res.data.accessToken;
+//    //   if (error?.response?.status === 401 && !config?.sent) {
+//      if (error) {
+//       //  config.sent = true;
+//        const res = await getNewAccessToken();
+//        const accessToken = res;
 
-      console.log("const res = await getNewAccessToken();", res)
  
-      //  config.headers["Authorization"] = accessToken;
-      //  cookies().set("accessToken", accessToken);
+//        config.headers["Authorization"] = accessToken;
+//        cookies().set("accessToken", accessToken);
  
-       return axiosInstance(config);
-     } else {
-       return Promise.reject(error);
-     }
-   }
- );
+//        return axiosInstance(config);
+//      } else {
+//        return Promise.reject(error);
+//      }
+//    }
+//  );
 
 
 
@@ -60,6 +78,7 @@ axiosInstance.interceptors.request.use(
 //    };
    
 //    console.log(' getAccessToken() Access Token:', {accessToken: getAccessToken()});
+
 
 
 export const getUser = async() => {

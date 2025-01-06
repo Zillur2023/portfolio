@@ -2,7 +2,13 @@
 import axiosInstance from "@/lib/AxiosInstance";
 import { FieldValues } from "react-hook-form";
 
+export const getNewAccessToken = async(token: string) => {
+  const data = await fetch("/dashboard/refreshToken", {method:"POST",body:JSON.stringify(token)})
 
+  console.log("const data = await axiosInstance.post(/dashboard/refreshToken, token)",data)
+
+  return data
+}
 
 export const signupUser = async (userData: FormData) => {
   try {
@@ -59,15 +65,7 @@ export const loginUser = async (userData: FieldValues) => {
 //   // return decodedToken;
 // };
 
-export const getNewAccessToken = async () => {
-  try {
-    // const { data } = await axiosInstance.post("/dashboard/refreshToken")
-     await axiosInstance.post("/dashboard/refreshToken")
 
-  } catch (error) {
-    console.log("getNewAccessToken error", error)
-  }
-}
 // console.log("getNewAccessToken()--getNewAccessToken()",getNewAccessToken())
 
 
