@@ -8,19 +8,17 @@ import axiosInstance from "./AxiosInstance";
 
 const isTokenExpired = (token: string) => {
    const { exp } = jwtDecode<{ exp: number }>(token);
-   console.log({exp})
-   console.log("{Date.now()}",Date.now())
    return Date.now() >= exp * 1000; // Convert to milliseconds
  };
 
 axiosInstance.interceptors.request.use(
    async function (config) {
-      console.log("config1111", config)
+      // console.log("config1111", config)
      const cookieStore = cookies();
      const accessToken = cookieStore.get("accessToken")?.value;
      const refreshToken = cookieStore.get("refreshToken")?.value;
-     console.log({accessToken })
-     console.log({refreshToken })
+   //   console.log({accessToken })
+   //   console.log({refreshToken })
 
      if(accessToken) {
       config.headers["Authorization"] = accessToken
@@ -33,7 +31,7 @@ axiosInstance.interceptors.request.use(
       }
       
 
-      console.log({config})
+      // console.log({config})
 
  
      return config;

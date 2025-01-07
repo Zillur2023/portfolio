@@ -10,39 +10,40 @@ import { logout } from '@/lib'
 import { useUser } from '@/lib/UserProvider'
 import React from 'react'
 
-const page = () => {
-  const { user } = useUser()
-  console.log('dashboard user', user)
+const DashboardPage = () => {
+  
   return (
-    // <div>
-    //     <Sidebar/>
-    // </div>
-    <div className="flex flex-col items-center">
-    <div className="space-y-10 max-w-5xl w-full">
-      <section>
-        <button className=' border-2 bg-blue-500 py-1 px-2 text-center' onClick={() =>logout()}>logout</button>
-      </section>
-      <section>
-        <Hero />
-      </section>
-      <section>
-        <Projects />
-      </section>
-      <section>
-        <Technology />
-      </section>
-      <section>
-        <Service />
-      </section>
-      <section>
-        <Approach />
-      </section>
-      <section>
-        <Contact />
-      </section>
+    <div>
+        <Sidebar>
+        <div className="flex flex-1">
+      <div className="p-2 md:p-2 rounded-tl-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 flex flex-col gap-2 flex-1 w-full h-full">
+          <div className="flex flex-col items-center">
+   <div className="space-y-10 max-w-5xl w-full">
+    <section>
+      <Hero />
+    </section>
+    <section>
+      <Projects />
+    </section>
+    <section>
+      <Technology />
+    </section>
+    <section>
+      <Service />
+    </section>
+    <section>
+      <Approach />
+    </section>
+    <section>
+      <Contact />
+    </section>
+   </div>
+ </div>
+      </div>
     </div>
-  </div>
+        </Sidebar>
+    </div>
   )
 }
 
-export default page
+export default DashboardPage

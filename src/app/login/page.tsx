@@ -1,8 +1,8 @@
 'use client'
 import React from 'react'
 // import { Label } from "./ui/Label";
-import { BottomGradient, Label, LabelInputContainer } from "../../../components/form/Label";
-import { Input } from "../../../components/form/Input";
+import { BottomGradient, Label, LabelInputContainer } from "../../components/form/Label";
+import { Input } from "../../components/form/Input";
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/lib/UserProvider';
 import Form from '@/components/form/Form';

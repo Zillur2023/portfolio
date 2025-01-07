@@ -1,8 +1,8 @@
 'use client'
 import React, { useState } from 'react'
 // import { Label } from "./ui/Label";
-import { BottomGradient, Label, LabelInputContainer } from "../../../components/form/Label";
-import { Input } from "../../../components/form/Input";
+import { BottomGradient, Label, LabelInputContainer } from "../../components/form/Label";
+import { Input } from "../../components/form/Input";
 import { useRouter } from 'next/navigation';
 import { FileUpload } from '@/components/ui/FileUpload';
 import { IUser } from '@/models/user';
