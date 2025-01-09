@@ -42,14 +42,11 @@ export const useUserLogin = () => {
     onSuccess: (data, _, context) => {
       const { toastId  } = context || {};
 
-      console.log("login error useQuery data", data)
-
       if (data?.success) {
         toast.success(data.message, { id: toastId } )
       } 
     },
     onError: (error, _, context) => {
-      console.log("login error useQuery", error)
 
       const { toastId } = context || {};
       toast.error(error.message, { id: toastId } )

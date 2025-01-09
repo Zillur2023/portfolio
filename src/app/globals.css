@@ -80,7 +80,7 @@
 
 @layer utilities {
   .heading {
-    @apply font-bold text-3xl md:text-4xl text-center my-10 text-violet-400;
+    @apply font-bold text-3xl md:text-4xl text-center mb-6 text-violet-400;
   }
   .title{
     @apply font-semibold lg:text-2xl md:text-xl text-lg

@@ -9,7 +9,8 @@ export const createContact = async (contactData:FieldValues) => {
       return data;
     } catch (error: any) {
      
-      console.error('Error submitting message:', error.response?.data || error.message)
+      throw new Error(error?.message || error?.response?.data?.message)
+
     }
   };
 

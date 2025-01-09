@@ -1,20 +1,11 @@
 import { connect } from "@/dbConfig/dbConfig";
 import { writeFile } from "fs/promises";
-import { User } from "@/models/user";
 import { Project } from "@/models/project";
 import fs from 'fs/promises';
-
-// import multer from "multer";
 import { NextRequest, NextResponse } from "next/server";
 
 connect();
 
-// export async function POST(req) {
-//   return handler(req);
-// }
-
-
-// Function to get valid image extension
 const getValidImageExtension = async (fileName: string) => {
   const validExtensions = [".jpeg", ".jpg", ".png", ".webp", ".avif"];
   const ext = fileName.substring(fileName.lastIndexOf(".")).toLowerCase();
@@ -24,7 +15,7 @@ const getValidImageExtension = async (fileName: string) => {
   return fileName.replace(ext, ".jpeg"); // Default to .jpeg if invalid
 };
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
     try {
       const { searchParams } = new URL(request.url);
       const projectId = searchParams.get("id"); // Extract projectId from query params
@@ -51,12 +42,13 @@ export async function GET(request: Request) {
     }
   }
 
+  
+
 export async function POST(request: NextRequest ) {
- 
+
   try {
-    // console.log({request})
     const formData = await request.formData();
-    // console.log("{formData} route,", formData)
+    console.log("{formData} route,", formData)
     // const projectData = JSON.parse(formData.get("projectData") as string);
     const projectDataStr = formData.get('projectData') as string;
     const projectData = projectDataStr ? JSON.parse(projectDataStr) : null;
@@ -65,7 +57,7 @@ export async function POST(request: NextRequest ) {
     // const imageUpload = multerUpload.single(`${image}`)
     // console.log({imageUpload})
     const projectId = projectData?._id; 
-    console.log({projectId})
+    // console.log({projectId})
     // const projectId = null; 
     let imageUrl: string | undefined;
     let imagePath: string | undefined;

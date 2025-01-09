@@ -8,7 +8,6 @@ import { useForm, useFormContext } from "react-hook-form";
 
 // export function Input({ id, placeholder, name, type = 'text' }:any) {
 //   const { register, formState: { errors } } = useFormContext(); 
-//   console.log({errors})
 
 //   return (
 //     <>
@@ -50,8 +49,7 @@ export interface InputProps
       register,
       formState: { errors },
     } = useFormContext(); 
-    // console.log({name})
-    // console.log({errors})
+
 
     return (
       <div className="flex flex-col gap-1">

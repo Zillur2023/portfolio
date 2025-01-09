@@ -13,12 +13,10 @@ const isTokenExpired = (token: string) => {
 
 axiosInstance.interceptors.request.use(
    async function (config) {
-      // console.log("config1111", config)
      const cookieStore = cookies();
      const accessToken = cookieStore.get("accessToken")?.value;
      const refreshToken = cookieStore.get("refreshToken")?.value;
-   //   console.log({accessToken })
-   //   console.log({refreshToken })
+ 
 
      if(accessToken) {
       config.headers["Authorization"] = accessToken
@@ -31,7 +29,6 @@ axiosInstance.interceptors.request.use(
       }
       
 
-      // console.log({config})
 
  
      return config;
@@ -47,8 +44,7 @@ axiosInstance.interceptors.request.use(
 //    },
 //    async function (error) {
 //      const config = error.config;
-//      console.log(" async function (error) {111", error)
-//      console.log(" async function (error) {222", error.config)
+
  
 //    //   if (error?.response?.status === 401 && !config?.sent) {
 //      if (error) {
@@ -71,18 +67,15 @@ axiosInstance.interceptors.request.use(
 
 // export const getAccessToken = () => {
 //      const accessToken = cookies().get('accessToken')?.value;
-//      console.log({accessToken})
 //      return accessToken;
 //    };
    
-//    console.log(' getAccessToken() Access Token:', {accessToken: getAccessToken()});
 
 
 
 export const getUser = async() => {
    const accessToken = await cookies().get("accessToken")?.value
 //    const accessToken = getAccessToken()
-//    console.log("getUser accessToken", accessToken)
    let decodedToken;
    if(accessToken) {
 

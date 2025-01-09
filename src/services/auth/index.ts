@@ -5,8 +5,6 @@ import { FieldValues } from "react-hook-form";
 export const getNewAccessToken = async(token: string) => {
   const data = await fetch("/dashboard/refreshToken", {method:"POST",body:JSON.stringify(token)})
 
-  console.log("const data = await axiosInstance.post(/dashboard/refreshToken, token)",data)
-
   return data
 }
 
@@ -17,7 +15,8 @@ export const signupUser = async (userData: FormData) => {
     return data;
   } catch (error: any) {
     
-    throw new Error(error?.message)
+    throw new Error(error?.message || error?.response?.data?.message)
+
   }
 };
 
@@ -25,13 +24,10 @@ export const loginUser = async (userData: FieldValues) => {
   try {
     const { data } = await axiosInstance.post("/dashboard/login", userData);
 
-  console.log("Login data", data)
-
-
     return data;
   } catch (error: any) {
-    console.log("login error", error)
-    throw new Error(error?.response?.data?.message || error?.message)
+    throw new Error(error?.message || error?.response?.data?.message)
+
   }
 };
 
@@ -43,12 +39,10 @@ export const loginUser = async (userData: FieldValues) => {
 // export const getCurrentUser = async () => {
 // export const getUser = async (request: NextRequest) => {
 //   const accessToken = request.cookies.get("accessToken")?.value || ""
-//   console.log(" Server-client side accessToken 1", accessToken)
-//   console.log(" Server-client side accessToken 2")
+
 
 //   // let decodedToken = null;
 //   // const zillur = await jwtDecode(accessToken);
-//   // console.log({zillur})
 
 //   // if (accessToken) {
 //   //   decodedToken = await jwtDecode(accessToken);
@@ -64,9 +58,6 @@ export const loginUser = async (userData: FieldValues) => {
 
 //   // return decodedToken;
 // };
-
-
-// console.log("getNewAccessToken()--getNewAccessToken()",getNewAccessToken())
 
 
 

@@ -1,3 +1,4 @@
+'use client'
 import { IUser } from "@/models/user";
 import {
   createContext,
@@ -25,10 +26,7 @@ interface IUserProviderValues {
 const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<any | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  console.log("userProvider user--->", user)
-  console.log("userProvider isLoading--->", isLoading)
 
-  console.log("context User", user)
   const handleUser = async () => {
     const fetchedUser = await getUser();
 

@@ -7,7 +7,6 @@ import { NextRequest, NextResponse } from "next/server";
 connect ()
 
 export async function POST(request: NextRequest) {
-    // console.log("message request", request)
     try {
         // Parse the request body
         const userData = await request.json();
@@ -22,18 +21,16 @@ export async function POST(request: NextRequest) {
         }
 
         // Log the input for debugging
-        console.log('Received data:', { name, email, message });
 
         // Save the message to the database
         const result = await Contact.create({ name, email, message });
 
         // const buyerEmail = await sendEmail(userData);
 
-        // console.log({buyerEmail})
 
 
         // Return a success response
-        return NextResponse.json({ success: true, data: result }, { status: 201 });
+        return NextResponse.json({ success: true, message: "Contact create successfully", data: result }, { status: 201 });
     } catch (error) {
         // Log the error for debugging
         console.error('Error occurred:', error);

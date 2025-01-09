@@ -12,7 +12,7 @@ import { BottomGradient, Label, LabelInputContainer } from "./form/Label";
 import { Textarea } from "./form/Textarea";
 import { IProject } from "@/models/project";
 import { Menu } from "./ui/Menu";
-import { tecnologies } from "./Technology";
+import { technologies } from "./Technology";
 import { FaGithub  } from 'react-icons/fa';
 import BorderMagicBtn from "./ui/BorderMagicBtn";
 import { useCreateProject, useDeleteProject, useGetProjects } from "@/hooks/projects.hooks";
@@ -20,17 +20,14 @@ import projectValidationSchema from "@/schemas/project.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldValues, FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { LoadingProject } from "./ui/Loading";
-import { toast } from "sonner";
 
 
-const Projects = () => {
+
+const Projects = ({user}:{user?: React.ReactNode}) => {
   const { mutate: createProject } = useCreateProject()
   const { mutate: deleteProject } = useDeleteProject()
-  const { user } = useUser()
   const { data, isPending, error } = useGetProjects()
-  console.log("project error", error)
   
-  console.log("project data", data)
   const [projects, setProjects] = useState<IProject[]>([])
   const [active, setActive] = useState<string | null>(null);
   const [projectId, setProjectId] = useState<string | null>(null);
@@ -53,8 +50,8 @@ const handleCreateProject = () => {
   reset()
   setSelectedTecnologies([])
   }    
- 
-const handleEdit = (project:any) => {
+  // {setModalOpen(true); handleEdit(item); setProjectId(String(item?._id))}
+const handleEditProject = (project:any) => {
   if (project) {
     setValue("_id", project._id);
     setValue("title", project.title);
@@ -63,13 +60,14 @@ const handleEdit = (project:any) => {
     setValue("image", project.image);
     setValue("githubLink", project.githubLink);
     setValue("liveLink", project.liveLink); 
+    setSelectedTecnologies([...project?.tecnologies])
+    setModalOpen(true);
+     setProjectId(String(project?._id));
   }
-  setSelectedTecnologies([...project?.tecnologies])
 };
 
-const handleDelete = async(projectId:string) => {
+const handleDeleteProject = async(projectId:string) => {
    deleteProject(projectId)
-  // console.log("handle Delete projectId", projectId)
 }
 
 const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -86,7 +84,6 @@ const handleSubmit: SubmitHandler<FieldValues> = async(data) => {
   const formData = new FormData()
   formData.append("projectData", JSON.stringify({...data, _id: projectId, tecnologies: selectedTecnologies}))
   formData.append("image", files?.[0])
-  console.log("formData.get",formData.get("projectData"))
 
    createProject(formData)
  
@@ -101,6 +98,10 @@ const handleSubmit: SubmitHandler<FieldValues> = async(data) => {
       <h1 className="heading">
         Projects
       </h1>
+      { user &&  <div className=" text-center mb-3" onClick={handleCreateProject} >
+            {/* Create Project */}
+            <BorderMagicBtn btn={"Create Project"} className=" h-8 w-36"  />
+          </div> }
       <div className=" grid grid-cols-1 md:grid-cols-2 place-items-center gap-5">
       {isPending && <LoadingProject/> }
       {   projects.map((item: IProject) => (
@@ -118,11 +119,11 @@ const handleSubmit: SubmitHandler<FieldValues> = async(data) => {
       className=" ">
      <Menu active={active} setActive={setActive} item={String(item?._id)} title={<CiMenuKebab />}>
         <div className="flex flex-col space-y-1 text-sm">
-         <div onClick={() => {setModalOpen(true); handleEdit(item); setProjectId(String(item?._id))}} >
+         <div onClick={() => handleEditProject(item)} >
            
            <BorderMagicBtn btn={"Edit"} className=" h-8 w-12"  />
          </div>
-        <div onClick={() => handleDelete(String(item?._id))}   >
+        <div onClick={() => handleDeleteProject(String(item?._id))}   >
         <BorderMagicBtn btn={"Delete"} className=" h-8 w-12 hover:bg-red-500"  />
           </div>
         </div>
@@ -167,10 +168,8 @@ const handleSubmit: SubmitHandler<FieldValues> = async(data) => {
                 <div className="flex -space-x-3">
                     {item?.tecnologies?.map((tecName, index) => {
     // Find the matching technology from the `tecnologies` array
-    const tech = tecnologies.find(tec => tec.name === tecName);
-    // console.log({tech})
-    // console.log("tech.icon",tech?.icon)
-
+    const tech = technologies.find(tec => tec.name === tecName);
+   
     return (
       tech && (
         <div key={index} className="flex justify-center items-center">
@@ -206,10 +205,6 @@ const handleSubmit: SubmitHandler<FieldValues> = async(data) => {
           </div>
         )) }
       </div>
-        <div className=" text-center" onClick={handleCreateProject} >
-            {/* Create Project */}
-            <BorderMagicBtn btn={"Create Project"} className=" h-8 w-36"  />
-          </div>
         {/* Modal outside MenuItem */}
         {isModalOpen && (
         <Modal onClose={() =>setModalOpen(false)}>
@@ -244,7 +239,7 @@ const handleSubmit: SubmitHandler<FieldValues> = async(data) => {
            <LabelInputContainer className="mb-2">
             <Label htmlFor="tecnologies">Tecnologies</Label>
             <div className=" grid grid-cols-3">
-            { tecnologies?.map((tec, index) => (
+            { technologies?.map((tec, index) => (
               
               <div key={index} >
                 <input {...register('tecnologies')} type="checkbox" name="tecnologies" value={tec?.name} checked={selectedTecnologies?.includes(tec.name)} 

@@ -2,7 +2,6 @@ import config from '@/config';
 import mongoose from 'mongoose';
 
 export async function connect() {
-    console.log("config.database_url",config.database_url)
     try {
         // mongoose.connect(process.env.NEXT_PUBLIC_MONGODB_URL!);
         mongoose.connect(config.database_url!);

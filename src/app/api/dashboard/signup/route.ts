@@ -25,7 +25,6 @@ export async function POST(request: NextRequest){
       const formData = await request.formData()
       const userData = JSON.parse(formData.get("userData") as string);
       const image = formData.get("image");
-      // console.log({image})
          const userId = userData?._id; // Optional ID for updating
           let imageUrl: string | undefined;
           let imagePath: string | undefined;
@@ -34,7 +33,6 @@ export async function POST(request: NextRequest){
       
           //   if (userId) {
           //     const user = await User.findById( userId).select("image -_id")
-          //     console.log({project: user})
           //     if (user?.image) {
           //       await fs.unlink(`./public${user.image}`)
           //     }
@@ -67,7 +65,6 @@ export async function POST(request: NextRequest){
     const result = await User.create({...userData, ...(imageUrl && { image: imagePath })})
     // const result = await User.create(userData)
 
-    console.log({result})
 
       return NextResponse.json({
           message: "User created successfully",

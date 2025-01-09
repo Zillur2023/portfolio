@@ -34,8 +34,8 @@ export function Sidebar({children}: {children: React.ReactNode}) {
       ),
     },
     {
-      label: "Tecnology",
-      href: "/dashboard/tecnology",
+      label: "Technology",
+      href: "/dashboard/technology",
       icon: (
         <IconTopologyStarRing2 className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),

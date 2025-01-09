@@ -18,21 +18,6 @@ const LoginPage = () => {
     
     const handleSubmit: SubmitHandler<FieldValues> = async(userdata) => {
       loginUser(userdata)
-      // e.preventDefault();
-      // console.log("e.prevntDefault", userdata)
-    //  try {
-    //   const res = await axios.post("/api/dashboard/login", userdata)
-    //   console.log({res})
-    //   if(res?.data?.success) {
-    //     userLoading(true);
-    //      toast.success(res?.data?.message, {id: toastId});
-    //     // router.push("/dashboard");
-    //   }
-    //  } catch (error :any) {
-    //   console.log({error})
-    //   toast.error(error?.response?.data?.error, {id: toastId})
-    //  }
-      // Handle form submission logic (e.g., send data to backend)
     }; 
   
     return (

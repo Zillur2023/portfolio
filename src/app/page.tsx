@@ -9,7 +9,6 @@ import { useUser } from "@/lib/UserProvider";
 
 export default function Home() {
    const { user } = useUser()
-    console.log('root user', user)
 
   return (
     // <main className="relative bg-black-100 flex justify-center items-center flex-col overflow-hidden mx-auto sm:px-10 px-5 my-20">

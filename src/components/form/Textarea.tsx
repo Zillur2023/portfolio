@@ -19,8 +19,7 @@ import { useFormContext } from "react-hook-form";
           register,
           formState: { errors },
         } = useFormContext(); 
-        // console.log("textArea name", name)
-        // console.log("textArea errors", errors)
+    
     
 
     let mouseX = useMotionValue(0);

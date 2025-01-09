@@ -15,15 +15,10 @@ import { LoadingContact } from "./ui/Loading";
 import { IProject } from "@/models/project";
 import { IContact } from "@/models/contact";
 import { useUser } from "@/lib/UserProvider";
-// import { IContact } from "@/models/contact"
 
 
-export function Contact() {
-  const { user } = useUser()
-  // const user = true
+export function Contact({user}:{user?: React.ReactNode}) {
   const { data, isPending } = useGetContacts()
-
-  console.log("contact data", data)
 
   const features = [
     {
@@ -138,12 +133,9 @@ const FeatureDescription = ({ children }: { children?: React.ReactNode }) => {
 
 export function ContactForm() {
 const { mutate: createContact } = useCreateContact()
-// console.log('get contact data', data)
 
   const handleSubmit: SubmitHandler<FieldValues> = (data) => {
-  // console.log("contact formData  ", data)
   createContact(data)
-  // Handle form submission logic (e.g., send data to backend)
 };
   return (
     <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl px-4 md:px-8 shadow-input bg-white dark:bg-black">

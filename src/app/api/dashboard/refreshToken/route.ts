@@ -7,25 +7,18 @@ import { cookies } from "next/headers";
 
 
 export async function POST(request: NextRequest){
-  console.log("reQUest",request)
-  // console.log("cookies()",cookies())
+
     
     try {
       const refreshToken = await request.json()
-      console.log("const refreshToken = await request.json()", refreshToken)
-      //   // const refreshToken = request.cookies.get("refreshToken")?.value
-      //   // const refreshToken2 = cookies().get("refreshToken")?.value
-      //   // const accessTokenToken = cookies().get("accessTokenToken")?.value
-      //   // console.log("accessTokenToken route", accessTokenToken)
-      //   // console.log("refreshTOKEN route", refreshToken)
-      //   // console.log("refreshTOKEN route2", refreshToken2)
+  
+    
         const { email , iat } = jwt.verify(
           refreshToken as string,
           config.jwt_refresh_secret as string
         ) as JwtPayload
 
         const user = await User.findOne({email})
-        // console.log({user})
         if(!user){
             return NextResponse.json({message: "User does not exist"}, {status: 400})
         }
@@ -62,9 +55,7 @@ export async function POST(request: NextRequest){
         //     path: "/",
         //     // maxAge: Number(config.jwt_access_expires_in) || 900, // 1 hour
         //   });
-          console.log("Number(config.jwt_access_expires_in)1111",Number(config.jwt_access_expires_in))
-          console.log("Number(config.jwt_access_expires_in)2222",config.jwt_access_expires_in)
-          // console.log("refreshTOken route response", response)
+      
       
         // return response;
         return accessToken;

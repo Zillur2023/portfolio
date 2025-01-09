@@ -1,4 +1,5 @@
 import React from 'react'
+import { Technology } from '../Technology'
 
 export const LoadingProject = () => {
   return (
@@ -48,12 +49,9 @@ export const LoadingProject = () => {
            className=" animate-pulse w-44 h-40 p-3 rounded-2xl bg-white dark:bg-black border-2 "
          >
        
-       <p className=" animate-pulse  h-5 w-full bg-gray-100 dark:bg-neutral-800 rounded-md">
-       </p>
-       <p className=" animate-pulse  h-5 w-full bg-gray-100 dark:bg-neutral-800 rounded-md mt-2">
-       </p>
-       <p className=" animate-pulse  h-16 w-full bg-gray-100 dark:bg-neutral-800 rounded-md mt-3">
-       </p>
+       <p className=" animate-pulse  h-5 w-full bg-gray-100 dark:bg-neutral-800 rounded-md"/>
+       <p className=" animate-pulse  h-5 w-full bg-gray-100 dark:bg-neutral-800 rounded-md mt-2"/>
+       <p className=" animate-pulse  h-16 w-full bg-gray-100 dark:bg-neutral-800 rounded-md mt-3"/>
            
          </div>
        ))
@@ -61,3 +59,27 @@ export const LoadingProject = () => {
   </>
   )
  }
+ export const  LoadingTechnology = () => {
+
+
+  return (
+  <>
+    {
+      [...new Array(6)].map((_, index) => (
+         <div
+           key={index}
+           className=" animate-pulse w-32 h-23 p-2 rounded-2xl bg-white dark:bg-black border-2 "
+         >
+       <p className=" animate-pulse h-24 w-full bg-gray-100 dark:bg-neutral-800 rounded-md "/>
+       
+       {/* <p className=" animate-pulse  h-5 w-full bg-gray-100 dark:bg-neutral-800 rounded-md"/> */}
+       <p className=" animate-pulse  h-5 w-full bg-gray-100 dark:bg-neutral-800 rounded-md mt-4"/>
+           
+         </div>
+       ))
+ }
+  </>
+  )
+ }
+
+ 

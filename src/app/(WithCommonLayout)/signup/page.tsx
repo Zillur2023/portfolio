@@ -15,52 +15,27 @@ import { FieldValues, SubmitHandler } from 'react-hook-form';
 
 const SignupPage = () => {
   const router = useRouter()
-  // const [userData, setUserData] = useState<IUser>({ image: '', name: '', email: '', password: ''});
   const [files, setFiles] = useState<File[]>([]);
   const { mutate: handleUserSignup } = useUserSignup()
 
-  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-  //   const { name, value } = e.target;
-  //   setUserData({ ...userData, [name]: value });
-  // };
+  
   
   const handleFileUpload = (files: File[]) => {
     setFiles(files);
   
-    // console.log(files);
     
   };
   
-  // const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     const handleSubmit: SubmitHandler<FormData> = async(data) => {
-    // e.preventDefault();
-    // console.log("e.prevntDefault", userData)
-    // Handle form submission logic (e.g., send data to backend)
-    console.log("click in SignUP button")
+  
     const formData = new FormData()
     formData.append("userData", JSON.stringify(data))
     formData.append("image", files?.[0])
     // formData.append("image", proImage)
 
-    // const toastId = toast.loading("loading...")
     handleUserSignup(formData)
 
-    // try {
-    //   const res = await axios.post("/api/dashboard/signup", formData, {
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //     },
-    //   })
-    //   // const res = await axios.post("/api/dashboard/signup", userData)
-    //   console.log("signuppage result",res)
-    
-    //   if (res?.data?.success) {
-    //     toast.success(res?.data?.message, {id: toastId})
-    //     router.push("/dashboard/login")
-    //   } 
-    // } catch (error) {
-      
-    // }
+  
   }; 
 
   return (
