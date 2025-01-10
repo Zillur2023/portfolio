@@ -8,6 +8,8 @@ import { Contact } from "./Contact";
 export const ProjectsWrapper = () => {
   
     const { user } = useUser();
+
+    console.log("ProjectsWrapper user", user)
   
     return <Projects user={user} />;
   };

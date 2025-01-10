@@ -3,21 +3,21 @@
 import React, { useState } from "react";
 import {
   IconApps,
-  IconArrowLeft,
   IconBrandTabler,
   IconContract,
-  IconSettings,
   IconTopologyStarRing2,
-  IconUserBolt,
 } from "@tabler/icons-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { SidebarBody, SidebarLink, SidebarUi } from "./ui/SidebarUi";
+import { useUser } from "@/lib/UserProvider";
 
 
 export function Sidebar({children}: {children: React.ReactNode}) {
+  const { user } = useUser()
+
   const links = [
     {
       label: "Dashboard",
@@ -83,11 +83,12 @@ export function Sidebar({children}: {children: React.ReactNode}) {
           <div>
             <SidebarLink
               link={{
-                label: "Manu Arora",
+                label: "Zillur Rahman",
                 href: "#",
                 icon: (
                   <Image
-                    src="https://assets.aceternity.com/manu.png"
+                    // src="https://assets.aceternity.com/manu.png"
+                    src={user?.image as string}
                     className="h-7 w-7 flex-shrink-0 rounded-full"
                     width={50}
                     height={50}

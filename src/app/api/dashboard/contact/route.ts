@@ -1,6 +1,5 @@
 import { connect } from "@/dbConfig/dbConfig";
 import { Contact } from "@/models/contact";
-import { sendEmail } from "@/utils/sendEmail";
 import { NextRequest, NextResponse } from "next/server";
 
 

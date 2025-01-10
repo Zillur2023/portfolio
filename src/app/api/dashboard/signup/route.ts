@@ -4,7 +4,6 @@ import { connect } from "@/dbConfig/dbConfig";
 import {  NextRequest, NextResponse } from "next/server";
 import { writeFile } from "fs/promises";
 import { User } from "@/models/user";
-import fs from 'fs/promises';
 
 connect()
 
@@ -25,7 +24,7 @@ export async function POST(request: NextRequest){
       const formData = await request.formData()
       const userData = JSON.parse(formData.get("userData") as string);
       const image = formData.get("image");
-         const userId = userData?._id; // Optional ID for updating
+        //  const userId = userData?._id; 
           let imageUrl: string | undefined;
           let imagePath: string | undefined;
       

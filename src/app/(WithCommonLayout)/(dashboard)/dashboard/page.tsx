@@ -2,9 +2,7 @@ import { Approach } from '@/components/Approach'
 import { Contact } from '@/components/Contact'
 import Hero from '@/components/Hero'
 import Service from '@/components/Service'
-import { Sidebar } from '@/components/Sidebar'
 import { ProjectsWrapper, TechnologyWrapper } from '@/components/WrapperByUser'
-import { logout } from '@/lib'
 import React from 'react'
 
 const DashboardPage = () => {

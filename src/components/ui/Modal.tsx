@@ -1,5 +1,4 @@
 'use client'
-import React, { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { CgClose } from "react-icons/cg";
 
@@ -9,7 +8,7 @@ type ModalProps = {
   onClose?: () => void
 }
 
-const Modal: React.FC<ModalProps> = ({ children, trigger, onClose }) => {
+const Modal: React.FC<ModalProps> = ({ children, onClose }) => {
   //  const [isModalOpen, setModalOpen] = useState(false)
 
   // const toggleModal = () => {

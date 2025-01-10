@@ -1,9 +1,8 @@
 'use client'
-import React from 'react'
-// import { Label } from "./ui/Label";
-import { BottomGradient, Label, LabelInputContainer } from "../../components/form/Label";
-import { Input } from "../../components/form/Input";
-import { useRouter } from 'next/navigation';
+import React, { Suspense, useEffect } from 'react'
+import { BottomGradient, Label, LabelInputContainer } from "../../../components/form/Label";
+import { Input } from "../../../components/form/Input";
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useUser } from '@/lib/UserProvider';
 import Form from '@/components/form/Form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -12,13 +11,27 @@ import { FieldValues, SubmitHandler } from 'react-hook-form';
 import { useUserLogin } from '@/hooks/auth.hooks';
 
 const LoginPage = () => {
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect");
+  console.log({redirect})
   const router = useRouter()
-  const {setIsLoading: userLoading} = useUser()
-  const { mutate: loginUser } = useUserLogin()
-    
-    const handleSubmit: SubmitHandler<FieldValues> = async(userdata) => {
-      loginUser(userdata)
-    }; 
+  const { setIsLoading } = useUser()
+  const { mutate: loginUser,  isPending, isSuccess } = useUserLogin()
+  
+  const handleSubmit: SubmitHandler<FieldValues> = async(userdata) => {
+   loginUser(userdata)
+  }; 
+  
+  useEffect(() => {
+    if (!isPending && isSuccess) {
+      setIsLoading(true)
+      if (redirect) {
+        router.push(redirect);
+      } else {
+        router.push("/dashboard");
+      }
+    }
+  }, [isPending, isSuccess , router, setIsLoading, redirect]);
   
     return (
       <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
@@ -29,7 +42,6 @@ const LoginPage = () => {
       If you'd like to work with me, let's discuss, and feel free to message me!
       </p> */}
   
-      {/* <form className="my-8" onSubmit={handleSubmit}> */}
          
      <Form
      resolver={zodResolver(loginValidationSchema)}
@@ -38,13 +50,11 @@ const LoginPage = () => {
      <LabelInputContainer className="mb-4">
           <Label htmlFor="email">Email </Label>
           <Input id="email" placeholder="Enter your email" type="email" name="email" 
-                // onChange={handleInputChange}
                 />
         </LabelInputContainer>
         <LabelInputContainer>
             <Label htmlFor="password">Password</Label>
             <Input id="password" placeholder="Enter your password" type="text" name="password" 
-                // onChange={handleInputChange} 
                  />
           </LabelInputContainer>
               <button
@@ -59,10 +69,17 @@ const LoginPage = () => {
      </Form>
   
     
-      {/* </form> */}
     </div>
     )
   }
   
-  export default LoginPage
+  // export default LoginPage
+
+  const SuspendedLoginPage = () => (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LoginPage />
+    </Suspense>
+  );
+  
+  export default SuspendedLoginPage;
   

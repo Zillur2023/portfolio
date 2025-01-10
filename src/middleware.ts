@@ -1,16 +1,45 @@
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextRequest } from "next/server";
+import { getUser } from "./lib";
 
-export function middleware(request: NextRequest) {
-    // const accessToken = cookies().get("accessToken")?.value
-    // const accessToken1 = cookies()
-    const accessToken2 = cookies().get("accessToken")?.value
- 
-   
+const AuthRoutes = ["/login", "/signup"];
+
+type Role = keyof typeof roleBasedRoutes;
+
+const roleBasedRoutes = {
+//   USER: [/^\/profile/],
+  admin: [/^\/dashboard/],
+};
+
+// This function can be marked `async` if using `await` inside
+export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
+  const user = await getUser();
+  console.log("middle user", user)
+
+  if (!user) {
+    if (AuthRoutes.includes(pathname)) {
+      return NextResponse.next();
+    } else {
+      return NextResponse.redirect(
+        new URL(`/login?redirect=${pathname}`, request.url),
+      );
+    }
+  }
+
+  if (user?.role && roleBasedRoutes[user?.role as Role]) {
+    const routes = roleBasedRoutes[user?.role as Role];
+
+    if (routes.some((route) => pathname.match(route))) {
+      return NextResponse.next();
+    }
+  }
+
+  return NextResponse.redirect(new URL("/", request.url));
 }
 
-// Apply middleware only to API routes
+// See "Matching Paths" below to learn more
 export const config = {
-    matcher: "/:path*",
+  matcher: ["/dashboard", "/dashboard/:page*", "/admin", "/login", "/signup"],
 };

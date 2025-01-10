@@ -3,7 +3,6 @@ import { IUser } from "@/models/user";
 import {
   createContext,
   Dispatch,
-  ReactNode,
   SetStateAction,
   useContext,
   useEffect,
@@ -11,37 +10,44 @@ import {
 } from "react";
 import { getUser } from ".";
 
+export interface IExtendedIUser extends IUser {
+  exp: number;
+  iat: number;
+}
+
 // import { IUser } from "../types";
 // import { getCurrentUser } from "../services/AuthService";
 
 const UserContext = createContext<IUserProviderValues | undefined>(undefined);
 
 interface IUserProviderValues {
-  user: any | null;
+  user: IExtendedIUser | null;
   isLoading: boolean;
-  setUser: (user: any | null) => void;
+  setUser: (user: IExtendedIUser | null) => void;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
-const UserProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<any | null>(null);
+const UserProvider = ({ children }: { children: React.ReactNode }) => {
+  const [user, setUser] = useState<IExtendedIUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  console.log({user})
 
-  const handleUser = async () => {
-    const fetchedUser = await getUser();
-
-    if(fetchedUser) {
+  const handleUser = async () => {   
+    try {
+      const fetchedUser = await getUser();
       setUser(fetchedUser);
-      setIsLoading(false);
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      setUser(null); // Handle errors gracefully
+    } finally {
+      setIsLoading(false); // Stop loading after fetching
     }
-    
   };
 
   useEffect(() => {
-    if(isLoading) {
+    if (isLoading) {
       handleUser();
-    }
-  }, [isLoading]);
+    }  }, [isLoading]);
 
   return (
     <UserContext.Provider value={{ user, setUser, isLoading, setIsLoading }}>

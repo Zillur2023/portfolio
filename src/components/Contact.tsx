@@ -1,5 +1,4 @@
 "use client";
-import React, { useState } from "react";
 import { BottomGradient, Label, LabelInputContainer } from "./form/Label";
 import { Input } from "./form/Input";
 import { Textarea } from "./form/Textarea";
@@ -12,12 +11,11 @@ import contactValidationSchema from "@/schemas/contact.schema";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { useCreateContact, useGetContacts } from "@/hooks/contact.hooks";
 import { LoadingContact } from "./ui/Loading";
-import { IProject } from "@/models/project";
 import { IContact } from "@/models/contact";
-import { useUser } from "@/lib/UserProvider";
+import { IExtendedIUser } from "@/lib/UserProvider";
 
 
-export function Contact({user}:{user?: React.ReactNode}) {
+export function Contact({user}:{user?: IExtendedIUser | null}) {
   const { data, isPending } = useGetContacts()
 
   const features = [

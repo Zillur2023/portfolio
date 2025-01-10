@@ -1,20 +1,17 @@
 'use client'
 import React, { useState } from 'react'
 // import { Label } from "./ui/Label";
-import { BottomGradient, Label, LabelInputContainer } from "../../components/form/Label";
-import { Input } from "../../components/form/Input";
-import { useRouter } from 'next/navigation';
+import { BottomGradient, Label, LabelInputContainer } from "../../../components/form/Label";
+import { Input } from "../../../components/form/Input";
 import { FileUpload } from '@/components/ui/FileUpload';
-import { IUser } from '@/models/user';
 import { useUserSignup } from '@/hooks/auth.hooks';
 import Form from '@/components/form/Form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import signupValidationSchema from '@/schemas/signup.schema';
-import { FieldValues, SubmitHandler } from 'react-hook-form';
+import { SubmitHandler } from 'react-hook-form';
 
 
 const SignupPage = () => {
-  const router = useRouter()
   const [files, setFiles] = useState<File[]>([]);
   const { mutate: handleUserSignup } = useUserSignup()
 

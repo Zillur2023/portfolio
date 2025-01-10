@@ -4,7 +4,7 @@
 
 import config from "@/config";
 import bcrypt from "bcrypt";
-import mongoose, { model, Model, Schema } from "mongoose";
+import mongoose, { Model, Schema } from "mongoose";
 
 // import mongoose from "mongoose";
 

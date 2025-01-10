@@ -1,5 +1,4 @@
 import React from 'react'
-import { Technology } from '../Technology'
 
 export const LoadingProject = () => {
   return (

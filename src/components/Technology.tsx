@@ -2,19 +2,19 @@
 
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { FaReact, FaNodeJs, FaGithub  } from 'react-icons/fa';
+import { FaReact, FaNodeJs  } from 'react-icons/fa';
 import { SiVuedotjs, SiMongodb, SiCloudinary, SiFirebase, SiExpress, SiTsnode } from 'react-icons/si';
 import { FieldValues, FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import Modal from "./ui/Modal";
 import { BottomGradient, Label, LabelInputContainer } from "./form/Label";
 import { zodResolver } from "@hookform/resolvers/zod";
 import BorderMagicBtn from "./ui/BorderMagicBtn";
-import { useUser } from "@/lib/UserProvider";
 import { useCreateTechnology, useGetTechnology } from "@/hooks/technology.hooks";
 import { ITechnology } from "@/models/technology";
 import technologyValidationSchema from "@/schemas/technology.schema";
 import { TbBrandJavascript, TbBrandNextjs, TbBrandTypescript } from "react-icons/tb";
 import { LoadingTechnology } from "./ui/Loading";
+import { IExtendedIUser } from "@/lib/UserProvider";
 
 
 
@@ -28,16 +28,16 @@ import { LoadingTechnology } from "./ui/Loading";
       rotate: 0,
     },
   };
-  const second = {
-    initial: {
-      x: -20,
-      rotate: 5,
-    },
-    hover: {
-      x: 0,
-      rotate: 0,
-    },
-  };
+  // const second = {
+  //   initial: {
+  //     x: -20,
+  //     rotate: 5,
+  //   },
+  //   hover: {
+  //     x: 0,
+  //     rotate: 0,
+  //   },
+  // };
   // const images = ["/re.svg", "/tail.svg", "/ts.svg", "/three.svg", "/fm.svg"]
   // const items = [
   //    {
@@ -72,7 +72,7 @@ import { LoadingTechnology } from "./ui/Loading";
     { name: "Firebase", variants: first, icon: <SiFirebase className="w-full h-full" /> },
     { name: "Cloudinary", variants: first, icon: <SiCloudinary className="w-full h-full" /> },
   ];
-  export const Technology = ({user}:{user?: React.ReactNode}) => {
+  export const Technology = ({user}:{user?: IExtendedIUser | null}) => {
     const { data, isPending } = useGetTechnology()
     const { mutate: createTechnology } = useCreateTechnology()
       const [technology, setTechnology] = useState<ITechnology[] >([]);
@@ -160,7 +160,7 @@ import { LoadingTechnology } from "./ui/Loading";
             width="100"
             className="rounded-full h-10 w-10"
           /> */}
-          <div className=" h-24 w-24">
+          <div className=" h-20 w-20">
   
           {/* <img src={item?.src} alt="icon5" className="rounded-full h-full w-full " /> */}
           {selectItem?.icon}

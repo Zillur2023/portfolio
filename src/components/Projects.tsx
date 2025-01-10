@@ -1,6 +1,5 @@
 "use client";
 import { FloatingDock } from "./FloatingDock";
-import { useUser } from "@/lib/UserProvider";
 import { PinContainer } from "./ui/PinContainer";
 import { CiMenuKebab } from "react-icons/ci";
 import { useEffect, useState } from "react";
@@ -20,13 +19,14 @@ import projectValidationSchema from "@/schemas/project.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldValues, FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { LoadingProject } from "./ui/Loading";
+import { IExtendedIUser } from "@/lib/UserProvider";
 
 
 
-const Projects = ({user}:{user?: React.ReactNode}) => {
+const Projects = ({user}:{user?: IExtendedIUser | null}) => {
   const { mutate: createProject } = useCreateProject()
   const { mutate: deleteProject } = useDeleteProject()
-  const { data, isPending, error } = useGetProjects()
+  const { data, isPending } = useGetProjects()
   
   const [projects, setProjects] = useState<IProject[]>([])
   const [active, setActive] = useState<string | null>(null);

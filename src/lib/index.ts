@@ -76,7 +76,7 @@ axiosInstance.interceptors.request.use(
 export const getUser = async() => {
    const accessToken = await cookies().get("accessToken")?.value
 //    const accessToken = getAccessToken()
-   let decodedToken;
+   let decodedToken = null;
    if(accessToken) {
 
         decodedToken = await jwtDecode(accessToken as string);

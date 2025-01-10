@@ -2,11 +2,11 @@
 import axiosInstance from "@/lib/AxiosInstance";
 import { FieldValues } from "react-hook-form";
 
-export const getNewAccessToken = async(token: string) => {
-  const data = await fetch("/dashboard/refreshToken", {method:"POST",body:JSON.stringify(token)})
+// export const getNewAccessToken = async(token: string) => {
+//   const data = await fetch("/dashboard/refreshToken", {method:"POST",body:JSON.stringify(token)})
 
-  return data
-}
+//   return data
+// }
 
 export const signupUser = async (userData: FormData) => {
   try {

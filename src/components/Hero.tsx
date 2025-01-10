@@ -1,13 +1,16 @@
+'use client'
 import React from "react";
 import { TypewriterEffectSmooth } from "./ui/TypewriterEffectSmooth ";
 import { TextGenerateEffect } from "./ui/TextGenerateEffect";
 import BorderMagicBtn from "./ui/BorderMagicBtn";
 import { FaLocationDot } from "react-icons/fa6";
 import { MdOutlineMailOutline } from "react-icons/md";
-import { FaGithub ,FaLinkedinIn, FaPhone   } from 'react-icons/fa';
-import { TbBrandLinkedinFilled } from "react-icons/tb";
+import { FaGithub , FaPhone   } from 'react-icons/fa';
+import { TiSocialLinkedinCircular } from "react-icons/ti";
+
 import { MovingBorder } from "./ui/MovingBorder";
 import MyImage from "./ui/MyImage";
+import Link from "next/link";
 
 
 const Hero = () => {
@@ -54,8 +57,10 @@ const Hero = () => {
            <div className="flex items-center flex-col md:flex-row gap-5">
            <BorderMagicBtn btn="Download Resume" className=" h-8 w-36" />
            <div className=" flex items-center justify-center md:justify-start gap-4 md:ml-7 mt-3">
-             <BorderMagicBtn btn={<FaGithub size={25} />} className=" h-8 w-8" />
-             <BorderMagicBtn btn={<TbBrandLinkedinFilled   size={25} />} className=" h-8 w-8" />
+             <Link href={"https://github.com/zillur2023"}>
+             <BorderMagicBtn btn={<FaGithub size={23} />} className=" h-8 w-8" />
+             </Link>
+             <BorderMagicBtn btn={<TiSocialLinkedinCircular size={30} />} className=" h-8 w-8" />
            </div>
            </div>
         </div>
@@ -90,7 +95,7 @@ const Hero = () => {
                 <p className="font-semibold lg:text-2xl md:text-lg  text-base">Years Experiences</p>
                 </div>
                 <div className=" p-5">
-                <p className="font-semibold lg:text-2xl md:text-lg  text-base"> 20+ </p>
+                <p className="font-semibold lg:text-2xl md:text-lg  text-base"> 10+ </p>
                 <p className="font-semibold lg:text-2xl md:text-lg  text-base">Projects completed</p>
                 </div>
                </div>
