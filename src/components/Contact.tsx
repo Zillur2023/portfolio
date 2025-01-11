@@ -137,10 +137,13 @@ const { mutate: createContact } = useCreateContact()
 };
   return (
     <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl px-4 md:px-8 shadow-input bg-white dark:bg-black">
-      <h2 className="title text-center text-neutral-800 dark:text-neutral-200">
+      <h2 className="title text-center">
         Message me
       </h2>
       <p className="text-neutral-600 paragraph max-w-sm mt-2 dark:text-neutral-300">
+      If you&apos;d like to work with me, let&apos;s discuss, and feel free to message me!
+      </p>
+      <p className="paragraph">
       If you&apos;d like to work with me, let&apos;s discuss, and feel free to message me!
       </p>
   <Form

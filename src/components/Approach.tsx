@@ -17,7 +17,7 @@ export function Approach() {
       <Card
         title="Planning & Strategy"
         description="We'll work together to define your project's goals, audience, and key features. Topics like design preferences, functionality, and timelines will shape a clear roadmap."
-        icon={<BorderMagicBtn btn={"Stage  1"} className=" h-10 w-48" />}
+        icon={<BorderMagicBtn btn={"Phase  1"} className=" h-10 w-48" />}
       >
         <CanvasRevealEffect
           animationSpeed={5.1}
@@ -27,7 +27,7 @@ export function Approach() {
       <Card
         title="Development & Progress Updates"
         description="Once aligned, I’ll begin building the foundation. Through frequent updates, I’ll showcase progress from wireframes to working features ensuring we stay on track."
-        icon={<BorderMagicBtn btn={"Stage 2"} className=" h-10 w-48"/>}
+        icon={<BorderMagicBtn btn={"Phase 2"} className=" h-10 w-48"/>}
       >
         <CanvasRevealEffect
           animationSpeed={3}
@@ -44,7 +44,7 @@ export function Approach() {
       <Card
         title="Launch & Ongoing Support"
         description="With everything finalized, your project goes live! Post-launch, I’ll provide support, addressing any updates, optimizations, or future needs to keep things running smoothly."
-        icon={<BorderMagicBtn btn={"Stage  3"} className=" h-10 w-48"/>}
+        icon={<BorderMagicBtn btn={"Phase  3"} className=" h-10 w-48"/>}
       >
         <CanvasRevealEffect
           animationSpeed={3}
@@ -113,8 +113,11 @@ const Card = ({
           </div>
           <h2
             // change text-3xl, add text-center
-            className="dark:text-white text-center title opacity-0 group-hover/canvas-card:opacity-100
-           relative z-10 text-black mt-4  group-hover/canvas-card:text-white 
+          //   className="dark:text-white text-center title opacity-0 group-hover/canvas-card:opacity-100
+          //  relative z-10 text-black mt-4  group-hover/canvas-card:text-white 
+          //  group-hover/canvas-card:-translate-y-2 transition duration-200"
+            className=" text-center title opacity-0 group-hover/canvas-card:opacity-100
+           relative z-10  mt-4   
            group-hover/canvas-card:-translate-y-2 transition duration-200"
           >
             {title}
@@ -122,9 +125,9 @@ const Card = ({
           {/* add this one for the description */}
           <p
             className=" paragraph opacity-0 group-hover/canvas-card:opacity-100
-           relative z-10 mt-4 group-hover/canvas-card:text-white text-center
+           relative z-10 mt-4  text-center
            group-hover/canvas-card:-translate-y-2 transition duration-200"
-            style={{ color: "#E4ECFF" }}
+            // style={{ color: "#E4ECFF" }}
           >
             {description}
           </p>

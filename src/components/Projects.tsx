@@ -22,7 +22,6 @@ import { LoadingProject } from "./ui/Loading";
 import { IExtendedIUser } from "@/lib/UserProvider";
 
 
-
 const Projects = ({user}:{user?: IExtendedIUser | null}) => {
   const { mutate: createProject } = useCreateProject()
   const { mutate: deleteProject } = useDeleteProject()
@@ -156,7 +155,7 @@ const handleSubmit: SubmitHandler<FieldValues> = async(data) => {
               <p
                 className=" paragraph line-clamp-2"
                 style={{
-                  color: "#BEC1DD",
+                  // color: "#BEC1DD",
                   margin: "1vh 0",
                 }}
               >
