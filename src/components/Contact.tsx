@@ -140,17 +140,15 @@ const { mutate: createContact } = useCreateContact()
       <h2 className="title text-center">
         Message me
       </h2>
-      <p className="text-neutral-600 paragraph max-w-sm mt-2 dark:text-neutral-300">
+      {/* <p className="text-neutral-600 paragraph max-w-sm mt-2 dark:text-neutral-300"> */}
+      <p className="paragraph ">
       If you&apos;d like to work with me, let&apos;s discuss, and feel free to message me!
       </p>
-      <p className="paragraph">
-      If you&apos;d like to work with me, let&apos;s discuss, and feel free to message me!
-      </p>
+     
   <Form
   resolver={zodResolver(contactValidationSchema)}
-  onSubmit={handleSubmit}
-  >
-  <LabelInputContainer>
+  onSubmit={handleSubmit}>
+  <LabelInputContainer className="my-4">
             <Label htmlFor="name">Name</Label>
             <Input id="name" placeholder="Enter your name" type="text" name="name" />
           </LabelInputContainer>

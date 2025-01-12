@@ -38,7 +38,7 @@ const Hero = () => {
            {/* <h2 className=" text-3xl font-semibold">Zillur Rahman</h2> */}
            <div className=" flex items-center justify-center md:justify-start"><TypewriterEffectSmooth words={name} /></div>
            <TextGenerateEffect words={aboutMe} />
-           <div className="my-3 space-y-2 text-xs font-thin">
+           <div className="my-3 space-y-2 text-xs font-thin text-neutral-600 dark:text-neutral-300">
   <div className="flex justify-center md:justify-start items-center gap-2">
     <FaLocationDot />
     <span>Mymensingh, Bangladesh</span>
@@ -91,14 +91,13 @@ const Hero = () => {
               >
                <div className=" flex  items-center justify-evenly ">
                 <div className=" p-5">
-                <p className="font-semibold lg:text-2xl md:text-lg  text-base"> 1+ </p>
+                {/* <p className="font-semibold lg:text-2xl md:text-lg  text-base"> 1+ </p> */}
+                <p className="title"> 1+ </p>
                 <p className="title">Years Experiences</p>
-                <p className="font-semibold lg:text-2xl md:text-lg  text-base">Years Experiences</p>
                 </div>
                 <div className=" p-5">
-                <p className="font-semibold lg:text-2xl md:text-lg  text-base"> 10+ </p>
+                <p className="title"> 10+ </p>
                 <p className="title">Projects completed</p>
-                <p className="font-semibold lg:text-2xl md:text-lg  text-base">Projects completed</p>
                 </div>
                </div>
               </MovingBorder>

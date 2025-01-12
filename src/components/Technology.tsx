@@ -54,23 +54,23 @@ import { IExtendedIUser } from "@/lib/UserProvider";
 
   export const technologies = [
     // Frontend Frameworks
-    { name: "Next.js", variants: first, icon: <TbBrandNextjs className="w-full h-full" /> },
-    { name: "React.js", variants: first, icon: <FaReact className="w-full h-full" /> },
-    { name: "Vue.js", variants: first, icon: <SiVuedotjs className="w-full h-full" /> },
+    { name: "Next.js", variants: first, icon: <TbBrandNextjs className="w-full h-full text-neutral-600 dark:text-neutral-300" /> },
+    { name: "React.js", variants: first, icon: <FaReact className="w-full h-full text-neutral-600 dark:text-neutral-300" /> },
+    { name: "Vue.js", variants: first, icon: <SiVuedotjs className="w-full h-full text-neutral-600 dark:text-neutral-300" /> },
   
     // Programming Languages
-    { name: "JavaScript", variants: first, icon: <TbBrandJavascript className="w-full h-full" /> },
-    { name: "TypeScript", variants: first, icon: <TbBrandTypescript className="w-full h-full" /> },
+    { name: "JavaScript", variants: first, icon: <TbBrandJavascript className="w-full h-full text-neutral-600 dark:text-neutral-300" /> },
+    { name: "TypeScript", variants: first, icon: <TbBrandTypescript className="w-full h-full text-neutral-600 dark:text-neutral-300" /> },
   
     // Backend Frameworks
-    { name: "Node.js", variants: first, icon: <FaNodeJs className="w-full h-full" /> },
-    { name: "Express.js", variants: first, icon: <SiExpress className="w-full h-full" /> },
-    { name: "Node.ts", variants: first, icon: <SiTsnode className="w-full h-full" /> },
+    { name: "Node.js", variants: first, icon: <FaNodeJs className="w-full h-full text-neutral-600 dark:text-neutral-300" /> },
+    { name: "Express.js", variants: first, icon: <SiExpress className="w-full h-full text-neutral-600 dark:text-neutral-300" /> },
+    { name: "Node.ts", variants: first, icon: <SiTsnode className="w-full h-full text-neutral-600 dark:text-neutral-300" /> },
   
     // Databases & Cloud
-    { name: "MongoDB", variants: first, icon: <SiMongodb className="w-full h-full" /> },
-    { name: "Firebase", variants: first, icon: <SiFirebase className="w-full h-full" /> },
-    { name: "Cloudinary", variants: first, icon: <SiCloudinary className="w-full h-full" /> },
+    { name: "MongoDB", variants: first, icon: <SiMongodb className="w-full h-full text-neutral-600 dark:text-neutral-300" /> },
+    { name: "Firebase", variants: first, icon: <SiFirebase className="w-full h-full text-neutral-600 dark:text-neutral-300" /> },
+    { name: "Cloudinary", variants: first, icon: <SiCloudinary className="w-full h-full text-neutral-600 dark:text-neutral-300" /> },
   ];
   export const Technology = ({user}:{user?: IExtendedIUser | null}) => {
     const { data, isPending } = useGetTechnology()
